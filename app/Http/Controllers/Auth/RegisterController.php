@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Planet;
+use App\Models\BuildingPlanet;
+use App\Models\Usergame;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -45,6 +48,10 @@ class RegisterController extends Controller
                 'email' => $validator->validated()['email'],
                 'password' => Hash::make($validator->validated()['password']),
             ]);
+            $planet = Planet::createDefault($user->id);
+            $buildingPlanet = BuildingPlanet::createDefault($planet->id);
+            $Usergame = Usergame::createDefault($user->id);
+
 
             return redirect()->route('login.index');
         } catch(\Exception $e) {
