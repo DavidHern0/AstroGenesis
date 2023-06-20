@@ -1,0 +1,18 @@
+{
+    "login.title": "Iniciar sesión",
+    "login.email": "Correo electrónico",
+    "login.password": "Contraseña",
+    "login.button": "Ingresar",
+    "register.title": "Registro",
+    "register.name": "Nombre",
+    "register.email": "Correo electrónico",
+    "register.password": "Contraseña",
+    "register.confirm_password": "Confirmar contraseña",
+    "register.button": "Registrarse",
+    "errors.required": "El campo :attribute es obligatorio.",
+    "errors.email": "El campo :attribute debe ser una dirección de correo válida.",
+    "errors.unique": "El campo :attribute ya ha sido tomado.",
+    "errors.min.string": "El campo :attribute debe tener al menos :min caracteres.",
+    "errors.same": "Los campos :attribute y :other deben coincidir.",
+    "landing.title": "AstroGenesis"
+}

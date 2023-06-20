@@ -1,0 +1,17 @@
+{
+    "login.title": "Log In",
+    "login.email": "Email",
+    "login.password": "Password",
+    "login.button": "Log In",
+    "register.title": "Register",
+    "register.name": "Name",
+    "register.email": "Email",
+    "register.password": "Password",
+    "register.confirm_password": "Confirm Password",
+    "register.button": "Register",
+    "errors.required": "The :attribute field is required.",
+    "errors.email": "The :attribute must be a valid email address.",
+    "errors.unique": "The :attribute has already been taken.",
+    "errors.min.string": "The :attribute must be at least :min characters.",
+    "errors.same": "The :attribute and :other fields must match."
+}

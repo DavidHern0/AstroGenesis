@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class LandingController extends Controller
+{
+    public function index()
+    {  
+        try {
+            return view('landing.index');
+        } catch(\Exception $e) {
+            Log::info('The landing page failed to load.', ["error" => $e->getMessage()]);
+        }
+    }
+}
