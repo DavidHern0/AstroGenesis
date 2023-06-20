@@ -10,20 +10,10 @@
     <header>
         <nav>
             <ul>
-                <li>
+                <ul>
                     <a href="{{ route('locale', 'en') }}">EN</a>
-                </li>
-                <li>
                     <a href="{{ route('locale', 'es') }}">ES</a>
-                </li>
-            </ul>
-            <ul>
-                <li>
-                    <a href="{{ route('login') }}">{{__('Log In')}}</a>
-                </li>
-                <li>
-                    <a href="{{ route('register') }}">{{__('Register')}}</a>
-                </li>
+                </ul>
             </ul>
         </nav>
     </header>
