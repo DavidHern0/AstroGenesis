@@ -1,6 +1,6 @@
 @extends('layouts.game')
 
-@section('title', __('home.title'))
+@section('title', __('web.title'))
 
 @section('content')
     <h1>{{__('home.title')}}</h1>
