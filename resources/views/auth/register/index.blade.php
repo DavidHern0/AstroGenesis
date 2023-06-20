@@ -5,7 +5,7 @@
 @section('content')
     <h1>{{ __('register.title') }}</h1>
 
-    <form method="POST" action="{{ route('register.register') }}">
+    <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <div>
