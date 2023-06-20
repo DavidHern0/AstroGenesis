@@ -16,111 +16,111 @@ class BuildingSeeder extends Seeder
     {
         $buildings = [
             [
-                'en' => [
-                    'name' => 'METAL MINE',
-                    'description' => 'Produces metal from the planet\'s crust.'
+                'name' => [
+                    'en' => 'METAL MINE',
+                    'es' => 'MINA DE METAL'
                 ],
-                'es' => [
-                    'name' => 'MINA DE METAL',
-                    'description' => 'Produce metal a partir de la corteza del planeta.'
+                'description' => [
+                    'en' => 'Produces metal from the planet\'s crust.',
+                    'es' => 'Produce metal a partir de la corteza del planeta.'
                 ]
             ],
             [
-                'en' => [
-                    'name' => 'CRYSTAL MINE',
-                    'description' => 'Produces crystal from crystal deposits.'
+                'name' => [
+                    'en' => 'CRYSTAL MINE',
+                    'es' => 'MINA DE CRISTAL'
                 ],
-                'es' => [
-                    'name' => 'MINA DE CRISTAL',
-                    'description' => 'Produce cristal a partir de los depósitos de cristal.'
+                'description' => [
+                    'en' => 'Produces crystal from crystal deposits.',
+                    'es' => 'Produce cristal a partir de los depósitos de cristal.'
                 ]
             ],
             [
-                'en' => [
-                    'name' => 'DEUTERIUM SYNTHESIZER',
-                    'description' => 'Produces deuterium by fusing hydrogen from the planet\'s atmosphere.'
+                'name' => [
+                    'en' => 'DEUTERIUM SYNTHESIZER',
+                    'es' => 'SINTETIZADOR DE DEUTERIO'
                 ],
-                'es' => [
-                    'name' => 'SINTETIZADOR DE DEUTERIO',
-                    'description' => 'Produce deuterio fusionando hidrógeno de la atmósfera del planeta.'
+                'description' => [
+                    'en' => 'Produces deuterium by fusing hydrogen from the planet\'s atmosphere.',
+                    'es' => 'Produce deuterio fusionando hidrógeno de la atmósfera del planeta.'
                 ]
             ],
             [
-                'en' => [
-                    'name' => 'METAL STORAGE',
-                    'description' => 'Stores metal.'
+                'name' => [
+                    'en' => 'METAL STORAGE',
+                    'es' => 'ALMACÉN DE METAL'
                 ],
-                'es' => [
-                    'name' => 'ALMACÉN DE METAL',
-                    'description' => 'Almacena metal.'
+                'description' => [
+                    'en' => 'Stores metal.',
+                    'es' => 'Almacena metal.'
                 ]
             ],
             [
-                'en' => [
-                    'name' => 'CRYSTAL STORAGE',
-                    'description' => 'Stores crystal.'
+                'name' => [
+                    'en' => 'CRYSTAL STORAGE',
+                    'es' => 'ALMACÉN DE CRISTAL'
                 ],
-                'es' => [
-                    'name' => 'ALMACÉN DE CRISTAL',
-                    'description' => 'Almacena cristal.'
+                'description' => [
+                    'en' => 'Stores crystal.',
+                    'es' => 'Almacena cristal.'
                 ]
             ],
             [
-                'en' => [
-                    'name' => 'DEUTERIUM STORAGE',
-                    'description' => 'Stores deuterium.'
+                'name' => [
+                    'en' => 'DEUTERIUM STORAGE',
+                    'es' => 'ALMACÉN DE DEUTERIO'
                 ],
-                'es' => [
-                    'name' => 'ALMACÉN DE DEUTERIO',
-                    'description' => 'Almacena deuterio.'
+                'description' => [
+                    'en' => 'Stores deuterium.',
+                    'es' => 'Almacena deuterio.'
                 ]
             ],
             [
-                'en' => [
-                    'name' => 'SOLAR PANEL',
-                    'description' => 'Generates energy by converting solar radiation.'
+                'name' => [
+                    'en' => 'SOLAR PANEL',
+                    'es' => 'PANEL SOLAR'
                 ],
-                'es' => [
-                    'name' => 'PANEL SOLAR',
-                    'description' => 'Genera energía convirtiendo la radiación solar.'
+                'description' => [
+                    'en' => 'Generates energy by converting solar radiation.',
+                    'es' => 'Genera energía convirtiendo la radiación solar.'
                 ]
             ],
             [
-                'en' => [
-                    'name' => 'ROBOTICS FACTORY',
-                    'description' => 'Produces and maintains robotic units.'
+                'name' => [
+                    'en' => 'ROBOTICS FACTORY',
+                    'es' => 'FÁBRICA DE ROBOTS'
                 ],
-                'es' => [
-                    'name' => 'FÁBRICA DE ROBOTS',
-                    'description' => 'Produce y mantiene unidades robóticas.'
+                'description' => [
+                    'en' => 'Produces and maintains robotic units.',
+                    'es' => 'Produce y mantiene unidades robóticas.'
                 ]
             ],
             [
-                'en' => [
-                    'name' => 'SHIPYARD',
-                    'description' => 'Stores and maintains fleet units.'
+                'name' => [
+                    'en' => 'SHIPYARD',
+                    'es' => 'ASTILLERO'
                 ],
-                'es' => [
-                    'name' => 'ASTILLERO',
-                    'description' => 'Almacena y mantiene unidades de la flota.'
+                'description' => [
+                    'en' => 'Stores and maintains fleet units.',
+                    'es' => 'Almacena y mantiene unidades de la flota.'
                 ]
             ],
             [
-                'en' => [
-                    'name' => 'RESEARCH LAB',
-                    'description' => 'Allows for advanced technological research.'
+                'name' => [
+                    'en' => 'RESEARCH LAB',
+                    'es' => 'LABORATORIO DE INVESTIGACIÓN'
                 ],
-                'es' => [
-                    'name' => 'LABORATORIO DE INVESTIGACIÓN',
-                    'description' => 'Permite la investigación tecnológica avanzada.'
+                'description' => [
+                    'en' => 'Allows for advanced technological research.',
+                    'es' => 'Permite la investigación tecnológica avanzada.'
                 ]
             ]
         ];
 
         foreach ($buildings as $building) {
             $newBuilding = new Building();
-            $newBuilding->setTranslations('name', $building);
-            $newBuilding->setTranslations('description', $building);
+            $newBuilding->setTranslations('name', $building['name']);
+            $newBuilding->setTranslations('description', $building['description']);
             $newBuilding->save();
         }
     }

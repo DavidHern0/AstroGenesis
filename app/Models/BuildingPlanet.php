@@ -27,9 +27,9 @@ class BuildingPlanet extends Model
         }
     }
 
-    public function user()
+    public function building()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Building::class);
     }
     
     public function planet()
