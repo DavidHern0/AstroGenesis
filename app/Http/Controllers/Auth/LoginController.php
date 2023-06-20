@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -10,12 +11,11 @@ class LoginController extends Controller
     public function index()
     {  
         try {
-            // if(auth()->user()) {
-            //     return redirect()->route('user.edit');
-            // }else{
-            //     return view('register.index');
-            // }
-            return view('auth.login.index');
+            if(auth()->user()) {
+                return redirect()->route('home.index');
+            }else{
+                return view('auth.login.index');
+            }
         } catch(\Exception $e) {
             Log::info('The login page failed to load.', ["error" => $e->getMessage()]);
         }
@@ -30,7 +30,7 @@ class LoginController extends Controller
             ]);
 
             if (Auth::attempt($credentials)) {
-                return redirect()->route('landing.index');
+                return redirect()->route('home.index');
             }
             return back()->withErrors([
                 'email' => 'The email or password are wrong.',

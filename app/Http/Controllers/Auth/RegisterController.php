@@ -14,12 +14,11 @@ class RegisterController extends Controller
     public function index()
     {  
         try {
-            // if(auth()->user()) {
-            //     return redirect()->route('user.edit');
-            // }else{
-            //     return view('register.index');
-            // }
-            return view('auth.register.index');
+            if(auth()->user()) {
+                return redirect()->route('home.index');
+            }else{
+                return view('auth.register.index');
+            }
         } catch(\Exception $e) {
             Log::info('The register page failed to load.', ["error" => $e->getMessage()]);
         }
