@@ -15,7 +15,7 @@ class CreateBuildingLevelTable extends Migration
     {
         Schema::create('building_levels', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('building_planet_id');
+            $table->unsignedBigInteger('building_id');
             $table->integer('level');
             $table->integer('metal_cost');
             $table->integer('crystal_cost');

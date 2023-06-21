@@ -7,6 +7,10 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\BuildingSeeder;
 use Database\Seeders\BuildingLevelSeeder;
 
+use App\Models\User;
+use App\Models\Planet;
+use App\Models\BuildingPlanet;
+use App\Models\Usergame;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -18,9 +22,14 @@ class DatabaseSeeder extends Seeder
         $this->call(BuildingLevelSeeder::class);
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => '12345678'
+        ]);
+        
+        $planet = Planet::createDefault($user->id);
+        $buildingPlanet = BuildingPlanet::createDefault($planet->id);
+        $Usergame = Usergame::createDefault($user->id);
     }
 }
