@@ -23,7 +23,8 @@ class BuildingSeeder extends Seeder
                 'description' => [
                     'en' => 'Produces metal from the planet\'s crust.',
                     'es' => 'Produce metal a partir de la corteza del planeta.'
-                ]
+                ],
+                'image' => '/images/buildings/metal_mine.jpg'
             ],
             [
                 'name' => [
@@ -33,7 +34,8 @@ class BuildingSeeder extends Seeder
                 'description' => [
                     'en' => 'Produces crystal from crystal deposits.',
                     'es' => 'Produce cristal a partir de los depósitos de cristal.'
-                ]
+                ],
+                'image' => '/images/buildings/crystal_mine.jpg'
             ],
             [
                 'name' => [
@@ -43,37 +45,8 @@ class BuildingSeeder extends Seeder
                 'description' => [
                     'en' => 'Produces deuterium by fusing hydrogen from the planet\'s atmosphere.',
                     'es' => 'Produce deuterio fusionando hidrógeno de la atmósfera del planeta.'
-                ]
-            ],
-            [
-                'name' => [
-                    'en' => 'METAL STORAGE',
-                    'es' => 'ALMACÉN DE METAL'
                 ],
-                'description' => [
-                    'en' => 'Stores metal.',
-                    'es' => 'Almacena metal.'
-                ]
-            ],
-            [
-                'name' => [
-                    'en' => 'CRYSTAL STORAGE',
-                    'es' => 'ALMACÉN DE CRISTAL'
-                ],
-                'description' => [
-                    'en' => 'Stores crystal.',
-                    'es' => 'Almacena cristal.'
-                ]
-            ],
-            [
-                'name' => [
-                    'en' => 'DEUTERIUM STORAGE',
-                    'es' => 'ALMACÉN DE DEUTERIO'
-                ],
-                'description' => [
-                    'en' => 'Stores deuterium.',
-                    'es' => 'Almacena deuterio.'
-                ]
+                'image' => '/images/buildings/deuterium_mine.jpg'
             ],
             [
                 'name' => [
@@ -83,7 +56,41 @@ class BuildingSeeder extends Seeder
                 'description' => [
                     'en' => 'Generates energy by converting solar radiation.',
                     'es' => 'Genera energía convirtiendo la radiación solar.'
-                ]
+                ],
+                'image' => '/images/buildings/solar_panel.jpg'
+            ],
+            [
+                'name' => [
+                    'en' => 'METAL STORAGE',
+                    'es' => 'ALMACÉN DE METAL'
+                ],
+                'description' => [
+                    'en' => 'Stores metal.',
+                    'es' => 'Almacena metal.'
+                ],
+                'image' => '/images/buildings/metal_mine.jpg'
+            ],
+            [
+                'name' => [
+                    'en' => 'CRYSTAL STORAGE',
+                    'es' => 'ALMACÉN DE CRISTAL'
+                ],
+                'description' => [
+                    'en' => 'Stores crystal.',
+                    'es' => 'Almacena cristal.'
+                ],
+                'image' => '/images/buildings/metal_mine.jpg'
+            ],
+            [
+                'name' => [
+                    'en' => 'DEUTERIUM STORAGE',
+                    'es' => 'ALMACÉN DE DEUTERIO'
+                ],
+                'description' => [
+                    'en' => 'Stores deuterium.',
+                    'es' => 'Almacena deuterio.'
+                ],
+                'image' => '/images/buildings/metal_mine.jpg'
             ],
             [
                 'name' => [
@@ -93,7 +100,8 @@ class BuildingSeeder extends Seeder
                 'description' => [
                     'en' => 'Produces and maintains robotic units.',
                     'es' => 'Produce y mantiene unidades robóticas.'
-                ]
+                ],
+                'image' => '/images/buildings/metal_mine.jpg'
             ],
             [
                 'name' => [
@@ -103,7 +111,8 @@ class BuildingSeeder extends Seeder
                 'description' => [
                     'en' => 'Stores and maintains fleet units.',
                     'es' => 'Almacena y mantiene unidades de la flota.'
-                ]
+                ],
+                'image' => '/images/buildings/metal_mine.jpg'
             ],
             [
                 'name' => [
@@ -113,7 +122,8 @@ class BuildingSeeder extends Seeder
                 'description' => [
                     'en' => 'Allows for advanced technological research.',
                     'es' => 'Permite la investigación tecnológica avanzada.'
-                ]
+                ],
+                'image' => '/images/buildings/metal_mine.jpg'
             ]
         ];
 
@@ -121,6 +131,7 @@ class BuildingSeeder extends Seeder
             $newBuilding = new Building();
             $newBuilding->setTranslations('name', $building['name']);
             $newBuilding->setTranslations('description', $building['description']);
+            $newBuilding->image = $building['image'];
             $newBuilding->save();
         }
     }
