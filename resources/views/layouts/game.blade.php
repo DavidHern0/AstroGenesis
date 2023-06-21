@@ -16,6 +16,10 @@
                 </ul>
             </ul>
         </nav>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit">{{__('Log Out')}}</button>
+        </form>
     </header>
 
     <main>
@@ -25,6 +29,7 @@
     <footer>
         <p>David Hernández Larrea &copy; {{ date('Y') }}</p>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

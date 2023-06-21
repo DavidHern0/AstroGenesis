@@ -3,11 +3,16 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "compile:sass": "node-sass resources/css/sass/main.scss resources/css/style.css"
     },
     "devDependencies": {
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.7.5",
+        "node-sass": "^9.0.0",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "sass": "^1.63.5"
     }
 }

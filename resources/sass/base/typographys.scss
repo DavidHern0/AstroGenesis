@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap'); //h1
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@400;700&display=swap'); //h2,h3,h4,h5,h6
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap'); //p
+
+$font-orbitron: 'Orbitron', sans-serif;
+$font-exo: 'Exo', sans-serif;
+$font-titillium: 'Titillium Web', sans-serif;
+
+h1 {
+  font-family: $font-orbitron;
+}
+
+h2, h3, h4, h5, h6 {
+    font-family: $font-exo;
+}
+
+p {
+    font-family: $font-titillium;
+}
