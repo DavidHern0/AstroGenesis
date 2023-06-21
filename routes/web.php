@@ -25,4 +25,6 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         
+    Route::get('/update-resources', [HomeController::class, 'updateResources'])->name('home.update');
+
 });

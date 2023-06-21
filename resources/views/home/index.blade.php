@@ -5,9 +5,11 @@
 @section('content')
     <h1>{{__('home.title')}}</h1>
     <h2>{{$planet->name}}</h2>
-    <h2>{{__('metal')}}: {{$Usergame->metal}}</h2>
-    <h2>{{__('crystal')}}: {{$Usergame->crystal}}</h2>
-    <h2>{{__('deuterium')}}: {{$Usergame->deuterium}}</h2>
+    <div id="resources">
+        <h2>{{__('metal')}}: <span id="metal">{{intval($Usergame->metal)}}</span></h2>
+        <h2>{{__('crystal')}}: <span id="crystal">{{intval($Usergame->crystal)}}</span></h2>
+        <h2>{{__('deuterium')}}: <span id="deuterium">{{intval($Usergame->deuterium)}}</span></h2>
+    </div>
 
     <hr>
     @foreach ($buildingPlanets as $buildingPlanet)

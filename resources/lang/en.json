@@ -7,6 +7,9 @@
     "crystal_cost": "Crystal cost",
     "deuterium_cost": "Deuterium cost",
     "update_building": "Update",
+    "metal": "Metal",
+    "crystal": "Crystal",
+    "deuterium": "Deuterium",
 
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",
