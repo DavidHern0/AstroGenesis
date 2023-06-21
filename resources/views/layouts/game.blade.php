@@ -16,6 +16,10 @@
                 </ul>
             </ul>
         </nav>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit">{{__('Log Out')}}</button>
+        </form>
     </header>
 
     <main>
