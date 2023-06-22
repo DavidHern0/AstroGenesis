@@ -51,17 +51,28 @@
                     <div class="building-item">
                         <h4 class="building-name">{{ $buildingPlanet->building->getTranslation('name', config('app.locale')) }}</h4>
                         {{-- <h4 class="building-description">{{ $buildingPlanet->building->getTranslation('description', config('app.locale')) }}</h4> --}}
-                        <img class="building-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$planet->name}}">
-
+                        
                         @foreach ($buildingLevels as $buildingLevel)
-                            @if ($buildingLevel->building_id === $buildingPlanet->building->id && $buildingLevel->level === $buildingPlanet->level)
-                                <p class="building-level">{{__('level')}}: {{ $buildingLevel->level}}</p>
-                                {{-- <p class="building-cost">{{__('metal_cost')}}: {{ $buildingLevel->metal_cost }}</p>
-                                <p class="building-cost">{{__('crystal_cost')}}: {{ $buildingLevel->crystal_cost }}</p>
-                                <p class="building-cost">{{__('deuterium_cost')}}: {{ $buildingLevel->deuterium_cost }}</p>
-                                <p class="building-energy-cost">{{__('Energy Cost')}}: {{ $buildingLevel->energy_cost }}</p>
-                                <p class="building-production-rate">{{__('Production Rate')}}: {{ $buildingLevel->production_rate }}</p>
-                                <p class="building-resource-type">{{__('Resource Type')}}: {{ $buildingLevel->resource_type }}</p> --}}
+                        @if ($buildingLevel->building_id === $buildingPlanet->building->id && $buildingLevel->level === $buildingPlanet->level)
+                            <p class="building-cost">{{__('level')}}: {{ $buildingLevel->level }}</p>
+                            <img class="building-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$planet->name}}">
+                            <div class="update-container">
+                                <p>{{__('update_level')}} {{$buildingLevel->level+1}}:</p>                    
+                                <div class="cost-container">
+                                    <span>
+                                        <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">
+                                        <p class="building-cost">{{ $buildingLevel->metal_cost }}</p>
+                                    </span>
+                                    <span>
+                                        <img src="{{ asset('images/resources/crystal.gif') }}" alt="{{__('crystal')}}">
+                                        <p class="building-cost">{{ $buildingLevel->crystal_cost }}</p>
+                                    </span>
+                                    <span>
+                                        <img src="{{ asset('images/resources/deuterium.gif') }}" alt="{{__('deuterium')}}">
+                                        <p class="building-cost">{{ $buildingLevel->deuterium_cost }}</p>
+                                    </span>
+                                </div>
+                            </div>
                             @endif
                         @endforeach
                         <button class="update-building-button">{{__('update_building')}}</button>

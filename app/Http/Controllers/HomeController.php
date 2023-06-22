@@ -49,12 +49,12 @@ class HomeController extends Controller
         ->pluck('production_rate')
         ->first();
 
-        $crystal_production = BuildingLevel::where('building_id', 1)
+        $crystal_production = BuildingLevel::where('building_id', 2)
         ->where('level', $crystal_mine->level)
         ->pluck('production_rate')
         ->first();
 
-        $deuterium_production = BuildingLevel::where('building_id', 1)
+        $deuterium_production = BuildingLevel::where('building_id', 3)
         ->where('level', $deuterium_mine->level)
         ->pluck('production_rate')
         ->first();

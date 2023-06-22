@@ -17,6 +17,7 @@
     "overview": "Overview",
     "resources": "Resources",
     "installations": "Installations",
+    "update_level": "Required to level",
 
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",
