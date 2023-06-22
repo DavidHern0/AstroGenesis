@@ -85,6 +85,7 @@ body {
 }
 
 .sidebar {
+  margin-top: 150px;
   text-align: center;
 }
 .sidebar ul {
@@ -113,6 +114,13 @@ body {
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px; /* Espacio entre los elementos */
   width: 100%;
+}
+
+.section_resources {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }
 
 /*# sourceMappingURL=app.css.map */

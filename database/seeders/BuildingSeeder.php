@@ -68,7 +68,7 @@ class BuildingSeeder extends Seeder
                     'en' => 'Stores metal.',
                     'es' => 'Almacena metal.'
                 ],
-                'image' => '/images/buildings/metal_mine.jpg'
+                'image' => '/images/buildings/Metal_Storage.webp'
             ],
             [
                 'name' => [
@@ -79,7 +79,7 @@ class BuildingSeeder extends Seeder
                     'en' => 'Stores crystal.',
                     'es' => 'Almacena cristal.'
                 ],
-                'image' => '/images/buildings/metal_mine.jpg'
+                'image' => '/images/buildings/Crystal_Storage.webp'
             ],
             [
                 'name' => [
@@ -90,7 +90,7 @@ class BuildingSeeder extends Seeder
                     'en' => 'Stores deuterium.',
                     'es' => 'Almacena deuterio.'
                 ],
-                'image' => '/images/buildings/metal_mine.jpg'
+                'image' => '/images/buildings/Deuterium_Tank.webp'
             ],
             [
                 'name' => [
@@ -101,7 +101,7 @@ class BuildingSeeder extends Seeder
                     'en' => 'Produces and maintains robotic units.',
                     'es' => 'Produce y mantiene unidades robóticas.'
                 ],
-                'image' => '/images/buildings/metal_mine.jpg'
+                'image' => '/images/buildings/Robotics_Factory.webp'
             ],
             [
                 'name' => [
@@ -112,7 +112,7 @@ class BuildingSeeder extends Seeder
                     'en' => 'Stores and maintains fleet units.',
                     'es' => 'Almacena y mantiene unidades de la flota.'
                 ],
-                'image' => '/images/buildings/metal_mine.jpg'
+                'image' => '/images/buildings/Shipyard.webp'
             ],
             [
                 'name' => [
@@ -123,7 +123,7 @@ class BuildingSeeder extends Seeder
                     'en' => 'Allows for advanced technological research.',
                     'es' => 'Permite la investigación tecnológica avanzada.'
                 ],
-                'image' => '/images/buildings/metal_mine.jpg'
+                'image' => '/images/buildings/Research_Lab.webp'
             ]
         ];
 

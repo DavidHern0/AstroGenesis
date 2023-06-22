@@ -71,6 +71,7 @@ body {
   flex: 0.5;
 }
 .sidebar {
+  margin-top: 150px;
   text-align: center;
   ul {
     display: flex;
@@ -103,3 +104,9 @@ body {
 .building-item {
 }
 
+.section_resources {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}

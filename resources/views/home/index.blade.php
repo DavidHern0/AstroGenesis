@@ -8,7 +8,6 @@
         <ul>
             <li>
                 <h2>{{__('list')}}</h2>
-                <img src="{{ asset('images/planets/Planet.png') }}" alt="{{$planet->name}}">
                 <h4>{{__('overview')}}</h4>
                 <h4>{{__('resources')}}</h4>
                 <h4>{{__('installations')}}</h4>
@@ -17,13 +16,14 @@
     </div>
 
     <div class="main-content">
+        <section class="section_resources">
         <h1 class="game-title">{{__('web.title')}}</h1>
         <h2 class="planet-name">{{$planet->name}}</h2>
-        <div id="resources" class="resources-container">
             {{-- <h2 class="resource">{{__('metal')}}: <span id="metal">{{intval($Usergame->metal)}}</span></h2> --}}
             {{-- <h2 class="resource">{{__('crystal')}}: <span id="crystal">{{intval($Usergame->crystal)}}</span></h2> --}}
             {{-- <h2 class="resource">{{__('deuterium')}}: <span id="deuterium">{{intval($Usergame->deuterium)}}</span></h2> --}}
             {{-- <h2 class="resource">{{__('energy')}}: <span id="energy">0</span></h2> --}}
+            
             <div id="resources" class="resources-container">
                 <div class="resource">
                     <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">
@@ -42,8 +42,8 @@
                     <span id="energy">0</span>
                 </div>
             </div>
-        </div>
-
+            <img src="{{ asset('images/planets/Ogame_Jungle_Resources.webp') }}" alt="{{__('metal')}}">
+        </section>    
         <hr class="separator">
         <section class="section_buildings">
             <div class="building-container">
