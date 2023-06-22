@@ -28,14 +28,17 @@
                 <div class="resource">
                     <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">
                     <span id="metal">{{intval($Usergame->metal)}}</span>
+                    <span>{{$Usergame->metal_storage}}</span>
                 </div>
                 <div class="resource">
                     <img src="{{ asset('images/resources/crystal.gif') }}" alt="{{__('crystal')}}">
                     <span id="crystal">{{intval($Usergame->crystal)}}</span>
+                    <span>{{$Usergame->crystal_storage}}</span>
                 </div>
                 <div class="resource">
                     <img src="{{ asset('images/resources/deuterium.gif') }}" alt="{{__('deuterium')}}">
                     <span id="deuterium">{{intval($Usergame->deuterium)}}</span>
+                    <span>{{$Usergame->deuterium_storage}}</span>
                 </div>
                 <div class="resource">
                     <img src="{{ asset('images/resources/energy.gif') }}" alt="{{__('energy')}}">
@@ -57,6 +60,9 @@
                             <p class="building-cost">{{__('level')}}: {{ $buildingLevel->level }}</p>
                             <img class="building-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$planet->name}}">
                             <div class="update-container">
+                                <p>{{$buildingLevel->production_rate}} / hora</p>       
+                                <p>{{ round((($buildingLevel->production_rate + 40) / 3600) * 5, 3) }} / 5 segundos</p>
+                                
                                 <p>{{__('update_level')}} {{$buildingLevel->level+1}}:</p>                    
                                 <div class="cost-container">
                                     <span>

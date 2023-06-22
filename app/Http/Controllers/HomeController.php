@@ -61,11 +61,27 @@ class HomeController extends Controller
 
 
         if ($Usergame) {
-            $Usergame->metal += (($metal_production + 40) / 3600) * 5;
-            $Usergame->crystal += (($crystal_production + 15) / 3600) * 5;
-            $Usergame->deuterium += $deuterium_production;
+            $metal_production_per_hour = ($metal_production + 40) / 3600;
+            $crystal_production_per_hour = ($crystal_production + 15) / 3600;
+            $deuterium_production_per_hour = ($deuterium_production + 15) / 3600;
+            
+            if ($Usergame->metal < $Usergame->metal_storage) {
+                $available_metal_space = $Usergame->metal_storage - $Usergame->metal;
+                $Usergame->metal += min($available_metal_space, $metal_production_per_hour * 5);
+            }
+            
+            if ($Usergame->crystal < $Usergame->crystal_storage) {
+                $available_crystal_space = $Usergame->crystal_storage - $Usergame->crystal;
+                $Usergame->crystal += min($available_crystal_space, $crystal_production_per_hour * 5);
+            }
+            
+            if ($Usergame->deuterium < $Usergame->deuterium_storage) {
+                $available_deuterium_space = $Usergame->deuterium_storage - $Usergame->deuterium;
+                $Usergame->deuterium += min($available_deuterium_space, $deuterium_production_per_hour * 5);
+            }
+            
             $Usergame->save();
-        }
+        }    
         
         return response()->json($Usergame);
     }
