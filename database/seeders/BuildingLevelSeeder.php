@@ -16,6 +16,8 @@ class BuildingLevelSeeder extends Seeder
         $data = [
             // Valores para building_id = 1
             [
+                //b_id, lvl, mC, cC, dC, eC, pr, t
+                [1, 0, 0, 0, 0, 0, 0, 'metal'],
                 [1, 1, 60, 15, 0, 11, 30, 'metal'],
                 [1, 2, 90, 22, 0, 25, 33, 'metal'],
                 [1, 3, 135, 33, 0, 40, 72, 'metal'],
@@ -29,6 +31,7 @@ class BuildingLevelSeeder extends Seeder
             ],
             // Valores para building_id = 2
             [
+                [2, 0, 0, 0, 0, 0, 0, 'crystal'],
                 [2, 1, 48, 24, 0, 11, 22, 'crystal'],
                 [2, 2, 76, 38, 0, 25, 48, 'crystal'],
                 [2, 3, 122, 61, 0, 40, 79, 'crystal'],
@@ -43,6 +46,7 @@ class BuildingLevelSeeder extends Seeder
         
             // Valores para building_id = 3
             [
+                [3, 0, 0, 0, 0, 0, 0, 'deuterium'],
                 [3, 1, 225, 75, 0, 11, 30, 'deuterium'],
                 [3, 2, 337, 112, 0, 25, 43, 'deuterium'],
                 [3, 3, 505, 168, 0, 40, 59, 'deuterium'],
@@ -57,6 +61,7 @@ class BuildingLevelSeeder extends Seeder
         
             // Valores para building_id = 4
             [
+                [7, 0, 0, 0, 0, 0, 0, 'energy'],
                 [7, 1, 75, 30, 0, 0, 22, 'energy'],
                 [7, 2, 112, 45, 0, 0, 48, 'energy'],
                 [7, 3, 168, 67, 0, 0, 79, 'energy'],
@@ -71,6 +76,7 @@ class BuildingLevelSeeder extends Seeder
         
             // Valores para building_id = 5
             [
+                [5, 0, 0, 0, 0, 0, 0, 'storage'],
                 [5, 1, 0, 1000, 0, 0, 0, 'storage'],
                 [5, 2, 0, 2000, 0, 0, 0, 'storage'],
                 [5, 3, 0, 4000, 0, 0, 0, 'storage'],
@@ -85,6 +91,7 @@ class BuildingLevelSeeder extends Seeder
         
             // Valores para building_id = 6
             [
+                [6, 0, 0, 0, 0, 0, 0, 'storage'],
                 [6, 1, 1000, 1000, 0, 0, 0, 'storage'],
                 [6, 2, 2000, 2000, 0, 0, 0, 'storage'],
                 [6, 3, 4000, 4000, 0, 0, 0, 'storage'],
@@ -99,6 +106,7 @@ class BuildingLevelSeeder extends Seeder
         
             // Valores para building_id = 7
             [
+                [4, 0, 0, 0, 0, 0, 0, 'storage'],
                 [4, 1, 1000, 0, 0, 0, 0, 'storage'],
                 [4, 2, 2000, 0, 0, 0, 0, 'storage'],
                 [4, 3, 4000, 0, 0, 0, 0, 'storage'],
@@ -113,6 +121,7 @@ class BuildingLevelSeeder extends Seeder
         
             // Valores para building_id = 8
             [
+                [8, 0, 0, 0, 0, 0, 0, NULL],
                 [8, 1, 400, 120, 200, 0, 0, NULL],
                 [8, 2, 800, 240, 400, 0, 0, NULL],
                 [8, 3, 1600, 480, 800, 0, 0, NULL],
@@ -127,6 +136,7 @@ class BuildingLevelSeeder extends Seeder
         
             // Valores para building_id = 9
             [
+                [9, 0, 0, 0, 0, 0, 0, NULL],
                 [9, 1, 400, 200, 100, 0, 0, NULL],
                 [9, 2, 800, 400, 200, 0, 0, NULL],
                 [9, 3, 1600, 800, 400, 0, 0, NULL],
@@ -141,6 +151,7 @@ class BuildingLevelSeeder extends Seeder
         
             // Valores para building_id = 10
             [
+                [10, 0, 0, 0, 0, 0, 0, NULL],
                 [10, 1, 400, 200, 0, 200, 0, NULL],
                 [10, 2, 800, 400, 0, 400, 0, NULL],
                 [10, 3, 1600, 800, 0, 800, 0, NULL],

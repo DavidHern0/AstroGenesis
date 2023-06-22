@@ -64,9 +64,6 @@
                                 <p class="building-resource-type">{{__('Resource Type')}}: {{ $buildingLevel->resource_type }}</p> --}}
                             @endif
                         @endforeach
-                        @if($buildingPlanet->level === 0)
-                            <p class="building-level">{{__('level')}}: 0</p>
-                        @endif
                         <button class="update-building-button">{{__('update_building')}}</button>
                     </div>
                 @endforeach
