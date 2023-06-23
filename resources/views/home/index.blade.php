@@ -42,7 +42,7 @@
                 </div>
                 <div class="resource">
                     <img src="{{ asset('images/resources/energy.gif') }}" alt="{{__('energy')}}">
-                    <span id="energy">0</span>
+                    <span id="energy">{{$Usergame->energy}}</span>
                 </div>
             </div>
             <img src="{{ asset('images/planets/Ogame_Jungle_Resources.webp') }}" alt="{{__('metal')}}">
@@ -60,8 +60,7 @@
                             <p class="building-cost">{{__('level')}}: {{ $buildingLevel->level }}</p>
                             <img class="building-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$planet->name}}">
                             <div class="update-container">
-                                <p>{{$buildingLevel->production_rate}} / hora</p>       
-                                <p>{{ round((($buildingLevel->production_rate + 40) / 3600) * 5, 3) }} / 5 segundos</p>
+                                <p>{{$buildingLevel->production_rate}} / hora</p> 
                                 
                                 <p>{{__('update_level')}} {{$buildingLevel->level+1}}:</p>                    
                                 <div class="cost-container">
@@ -80,8 +79,13 @@
                                 </div>
                             </div>
                             @endif
-                        @endforeach
-                        <button class="update-building-button">{{__('update_building')}}</button>
+                            @endforeach
+                            <form action="{{ route('home.update-building') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="buildingPlanet-id" value="{{$buildingPlanet->building_id}}">
+                                <input type="hidden" name="buildingPlanet-level" value="{{$buildingPlanet->level}}">
+                                <button class="update-building-button" type="submit">{{__('update_building')}}</button>
+                            </form>
                     </div>
                 @endforeach
             </div>
