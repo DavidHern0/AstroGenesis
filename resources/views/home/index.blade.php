@@ -19,30 +19,30 @@
         <section class="section_resources">
         <h1 class="game-title">{{__('web.title')}}</h1>
         <h2 class="planet-name">{{$planet->name}}</h2>
-            {{-- <h2 class="resource">{{__('metal')}}: <span id="metal">{{intval($Usergame->metal)}}</span></h2> --}}
-            {{-- <h2 class="resource">{{__('crystal')}}: <span id="crystal">{{intval($Usergame->crystal)}}</span></h2> --}}
-            {{-- <h2 class="resource">{{__('deuterium')}}: <span id="deuterium">{{intval($Usergame->deuterium)}}</span></h2> --}}
+            {{-- <h2 class="resource">{{__('metal')}}: <span id="metal">{{intval($userGame->metal)}}</span></h2> --}}
+            {{-- <h2 class="resource">{{__('crystal')}}: <span id="crystal">{{intval($userGame->crystal)}}</span></h2> --}}
+            {{-- <h2 class="resource">{{__('deuterium')}}: <span id="deuterium">{{intval($userGame->deuterium)}}</span></h2> --}}
             {{-- <h2 class="resource">{{__('energy')}}: <span id="energy">0</span></h2> --}}
             
             <div id="resources" class="resources-container">
                 <div class="resource">
                     <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">
-                    <span id="metal">{{intval($Usergame->metal)}}</span>
-                    <span>{{$Usergame->metal_storage}}</span>
+                    <span id="metal">{{intval($userGame->metal)}}</span>
+                    <span>{{$userGame->metal_storage}}</span>
                 </div>
                 <div class="resource">
                     <img src="{{ asset('images/resources/crystal.gif') }}" alt="{{__('crystal')}}">
-                    <span id="crystal">{{intval($Usergame->crystal)}}</span>
-                    <span>{{$Usergame->crystal_storage}}</span>
+                    <span id="crystal">{{intval($userGame->crystal)}}</span>
+                    <span>{{$userGame->crystal_storage}}</span>
                 </div>
                 <div class="resource">
                     <img src="{{ asset('images/resources/deuterium.gif') }}" alt="{{__('deuterium')}}">
-                    <span id="deuterium">{{intval($Usergame->deuterium)}}</span>
-                    <span>{{$Usergame->deuterium_storage}}</span>
+                    <span id="deuterium">{{intval($userGame->deuterium)}}</span>
+                    <span>{{$userGame->deuterium_storage}}</span>
                 </div>
                 <div class="resource">
                     <img src="{{ asset('images/resources/energy.gif') }}" alt="{{__('energy')}}">
-                    <span id="energy">{{$Usergame->energy}}</span>
+                    <span id="energy">{{$userGame->energy}}</span>
                 </div>
             </div>
             <img src="{{ asset('images/planets/Ogame_Jungle_Resources.webp') }}" alt="{{__('metal')}}">

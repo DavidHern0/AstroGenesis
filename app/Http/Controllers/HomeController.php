@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Planet;
-use App\Models\Usergame;
+use App\Models\userGame;
 use App\Models\BuildingPlanet;
 use App\Models\BuildingLevel;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Lang;
 
 class HomeController extends Controller
 {
@@ -16,13 +17,13 @@ class HomeController extends Controller
         try {
             $userID = auth()->id();
             
-            $Usergame = Usergame::where('user_id', $userID)->first();
+            $userGame = userGame::where('user_id', $userID)->first();
             $planet = Planet::where('user_id', $userID)->first();
             $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->get();
             $buildingLevels = BuildingLevel::all();
             return view('home.index', [
                 'planet' => $planet,
-                'Usergame' => $Usergame,
+                'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
                 'buildingLevels' => $buildingLevels,
             ]);
@@ -35,7 +36,7 @@ class HomeController extends Controller
     {
         $userID = auth()->id();
         
-        $Usergame = Usergame::where('user_id', $userID)->first();
+        $userGame = userGame::where('user_id', $userID)->first();
         $planet = Planet::where('user_id', $userID)->first();
         $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->get();
         $buildingLevels = BuildingLevel::all();
@@ -65,36 +66,36 @@ class HomeController extends Controller
         $crystal_production *= 10;
         $deuterium_production *= 10;
         /////////////////////////////////////////////////////////////////
-        
-        if ($Usergame->energy < 0) {
+
+        if ($userGame->energy < 0) {
             $metal_production *= 0.4;
             $crystal_production *= 0.4;
             $deuterium_production *= 0.4;
         }
 
-        if ($Usergame) {
+        if ($userGame) {
             if ($metal_production) {
                 $metal_production_per_hour = ($metal_production + 40) / 3600;
-                if ($Usergame->metal < $Usergame->metal_storage) {
-                    $Usergame->metal += $metal_production_per_hour * 5;
+                if ($userGame->metal < $userGame->metal_storage) {
+                    $userGame->metal += $metal_production_per_hour * 5;
                 }
             }
             if ($crystal_production) {
                 $crystal_production_per_hour = ($crystal_production + 15) / 3600;
-                if ($Usergame->crystal < $Usergame->crystal_storage) {
-                    $Usergame->crystal += $crystal_production_per_hour * 5;
+                if ($userGame->crystal < $userGame->crystal_storage) {
+                    $userGame->crystal += $crystal_production_per_hour * 5;
                 }
             }
             if ($deuterium_production) {
                 $deuterium_production_per_hour = ($deuterium_production + 15) / 3600;
-                if ($Usergame->deuterium < $Usergame->deuterium_storage) {
-                    $Usergame->deuterium += $deuterium_production_per_hour * 5;
+                if ($userGame->deuterium < $userGame->deuterium_storage) {
+                    $userGame->deuterium += $deuterium_production_per_hour * 5;
                 }
             }
-            $Usergame->save();
+            $userGame->save();
         }    
         
-        return response()->json($Usergame);
+        return response()->json($userGame);
     }
 
     public function updateBuilding(Request $request)
@@ -104,7 +105,7 @@ class HomeController extends Controller
     
         $userID = auth()->id();
         
-        $userGame = Usergame::where('user_id', $userID)->first();
+        $userGame = userGame::where('user_id', $userID)->first();
         
         $selectedBuilding = buildingPlanet::where('building_id', $buildingID)
             ->where('level', $buildingLevel)->first();
@@ -139,7 +140,14 @@ class HomeController extends Controller
                 $userGame->save();
             // Devolver un mensaje de éxito o realizar alguna acción adicional si se alcanza el nivel máximo
             // ...
+            if ($userGame->energy < 0) {
+                return redirect()->route('home.index')->with('success', __("update_succes"))->with('error', __("insufficient_energy"));
+            }
+        return redirect()->route('home.index')->with('success', __("update_succes"));
+        } else{
+            $building = $selectedBuilding->building;
+            return redirect()->route('home.index')->with('error', __("update_error"));
+
         }
-        return redirect()->route('home.index');
     }    
 }

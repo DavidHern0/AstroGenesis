@@ -134,4 +134,43 @@ body {
   display: flex;
 }
 
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.flash-messages .alert {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.flash-messages .alert-success {
+  background-color: #dff0d8;
+  color: #3c763d;
+  border: 1px solid #d6e9c6;
+}
+
+.flash-messages .alert-danger {
+  background-color: #f2dede;
+  color: #a94442;
+  border: 1px solid #ebccd1;
+}
+
+.close-btn {
+  position: relative;
+  top: -3px;
+  float: right;
+  font-weight: bold;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.close-btn:hover {
+  color: rgb(78, 78, 78);
+}
+
 /*# sourceMappingURL=app.css.map */

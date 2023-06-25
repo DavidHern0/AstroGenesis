@@ -22,3 +22,10 @@ const energyValue = parseInt(energyElement.textContent);
 if (energyValue < 0) {
   energyElement.style.color = 'red';
 }
+
+setTimeout(function(){
+    var alerts = document.getElementsByClassName('alert');
+    for(var i = 0; i < alerts.length; i++) {
+        alerts[i].style.display = 'none';
+    }
+}, 10000);

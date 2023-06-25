@@ -23,6 +23,7 @@
     </header>
 
     <main>
+        <x-flash-messages />
         @yield('content')
     </main>
 

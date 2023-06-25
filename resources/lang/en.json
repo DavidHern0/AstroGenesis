@@ -18,7 +18,10 @@
     "resources": "Resources",
     "installations": "Installations",
     "update_level": "Required to level",
-
+    "update_error": "You do not have enough resources to upgrade this building",
+    "update_succes": "The building has been upgraded",
+    "insufficient_energy": "You do not have sufficient energy",
+    
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",
     "30 Days": "30 Days",

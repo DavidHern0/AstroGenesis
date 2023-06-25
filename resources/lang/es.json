@@ -18,6 +18,9 @@
     "resources": "Recursos",
     "installations": "Instalaciones",
     "update_level": "Necesario para subir a nivel",
+    "update_error": "No tienes los recursos suficientes para mejorar este edificio",
+    "update_succes": "Se ha mejorado el edificio",
+    "insufficient_energy": "No tienes energía suficiente",
 
     "(and :count more error)": "(y :count error más)",
     "(and :count more errors)": "(y :count errores más)",
