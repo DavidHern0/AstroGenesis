@@ -22,9 +22,60 @@
         </form>
     </header>
 
-    <main>
-        <x-flash-messages />
-        @yield('content')
+    <main>  
+        <div class="container">
+            <div class="left-sidebar sidebar">
+                <ul>
+                    <li>
+                        <h2>{{__('list')}}</h2>
+                        <a href="{{route('home.index')}}"><h4>{{__('overview')}}</h4></a>
+                        <a href="{{route('home.resources')}}"><h4>{{__('resources')}}</h4></a>
+                        <a href="{{route('home.facilities')}}"><h4>{{__('facilities')}}</h4></a>
+                    </li>
+                </ul>
+            </div>
+            <x-flash-messages />
+            
+            <div class="main-content">
+                <section class="section_resources">
+                    <h1 class="game-title">{{__('web.title')}}</h1>
+                    <h2 class="planet-name">{{$planet->name}}</h2>                    
+                    <div id="resources" class="resources-container">
+                        <div class="resource">
+                            <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">
+                            <span id="metal">{{intval($userGame->metal)}}</span>
+                            <span>{{$userGame->metal_storage}}</span>
+                        </div>
+                        <div class="resource">
+                            <img src="{{ asset('images/resources/crystal.gif') }}" alt="{{__('crystal')}}">
+                            <span id="crystal">{{intval($userGame->crystal)}}</span>
+                            <span>{{$userGame->crystal_storage}}</span>
+                        </div>
+                        <div class="resource">
+                            <img src="{{ asset('images/resources/deuterium.gif') }}" alt="{{__('deuterium')}}">
+                            <span id="deuterium">{{intval($userGame->deuterium)}}</span>
+                            <span>{{$userGame->deuterium_storage}}</span>
+                        </div>
+                        <div class="resource">
+                            <img src="{{ asset('images/resources/energy.gif') }}" alt="{{__('energy')}}">
+                            <span id="energy">{{$userGame->energy}}</span>
+                        </div>
+                    </div>
+                </section>
+
+                @yield('content')
+                
+            </div>
+                <div class="right-sidebar sidebar">
+                    <h2>{{__('planets')}}</h2>
+                    <ul>
+                        <li>
+                            <img src="{{ asset("images/planets/worlds/$planet->biome"."_world ($planet->variation).webp") }}" alt="{{$planet->name}}">
+                            <h4>{{$planet->name}}</h4>
+                        </li>
+                    </ul>
+                </div>
+                </div>
     </main>
 
     <footer>

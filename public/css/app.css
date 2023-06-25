@@ -88,6 +88,13 @@ body {
   margin-top: 150px;
   text-align: center;
 }
+.sidebar a:link, .sidebar a:visited, .sidebar a:active {
+  color: white;
+  text-decoration: none;
+}
+.sidebar a:hover {
+  color: rgb(182, 182, 182);
+}
 .sidebar ul {
   display: flex;
   justify-content: center;
@@ -96,7 +103,7 @@ body {
   padding: 0;
 }
 .sidebar ul li img {
-  width: 125px;
+  width: 75px;
 }
 .sidebar ul li h4 {
   margin-top: 0;
@@ -171,6 +178,11 @@ body {
 
 .close-btn:hover {
   color: rgb(78, 78, 78);
+}
+
+.principal_image {
+  display: flex;
+  justify-content: center;
 }
 
 /*# sourceMappingURL=app.css.map */

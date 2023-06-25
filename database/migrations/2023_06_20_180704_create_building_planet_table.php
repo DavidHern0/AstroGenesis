@@ -18,6 +18,7 @@ class CreateBuildingPlanetTable extends Migration
             $table->unsignedBigInteger('building_id');
             $table->unsignedBigInteger('planet_id');
             $table->integer('level');
+            $table->enum('type', ['resources', 'facilities']);
             $table->foreign('building_id')->references('id')->on('buildings')->cascadeOnDelete();
             $table->foreign('planet_id')->references('id')->on('planets')->cascadeOnDelete();
             $table->timestamps();

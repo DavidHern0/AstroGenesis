@@ -19,9 +19,25 @@ class HomeController extends Controller
             
             $userGame = userGame::where('user_id', $userID)->first();
             $planet = Planet::where('user_id', $userID)->first();
-            $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->get();
-            $buildingLevels = BuildingLevel::all();
             return view('home.index', [
+                'planet' => $planet,
+                'userGame' => $userGame,
+            ]);
+        } catch(\Exception $e) {
+            Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
+        }
+    }
+
+    public function resources()
+    {  
+        try {
+            $userID = auth()->id();
+            
+            $userGame = userGame::where('user_id', $userID)->first();
+            $planet = Planet::where('user_id', $userID)->first();
+            $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->where('type', "resources")->get();
+            $buildingLevels = BuildingLevel::all();
+            return view('home.resources', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
@@ -31,7 +47,27 @@ class HomeController extends Controller
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
         }
     }
-    
+
+    public function facilities()
+    {  
+        try {
+            $userID = auth()->id();
+            
+            $userGame = userGame::where('user_id', $userID)->first();
+            $planet = Planet::where('user_id', $userID)->first();
+            $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->where('type', "facilities")->get();
+            $buildingLevels = BuildingLevel::all();
+            return view('home.facilities', [
+                'planet' => $planet,
+                'userGame' => $userGame,
+                'buildingPlanets' => $buildingPlanets,
+                'buildingLevels' => $buildingLevels,
+            ]);
+        } catch(\Exception $e) {
+            Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
+        }
+    }
+
     public function updateResources()
     {
         $userID = auth()->id();
@@ -131,22 +167,22 @@ class HomeController extends Controller
                 else if ($buildingID == 7) {
                     $userGame->deuterium_storage += $currentBuildingLevel->production_rate;
                 }
-                $userGame->metal -= $nextBuildingLevel->metal_cost;
-                $userGame->crystal -= $nextBuildingLevel->crystal_cost;
-                $userGame->deuterium -= $nextBuildingLevel->deuterium_cost;
-                $userGame->energy -= $nextBuildingLevel->energy_cost;
+                $userGame->metal -= $currentBuildingLevel->metal_cost;
+                $userGame->crystal -= $currentBuildingLevel->crystal_cost;
+                $userGame->deuterium -= $currentBuildingLevel->deuterium_cost;
+                $userGame->energy -= $currentBuildingLevel->energy_cost;
                 $selectedBuilding->level = $buildingLevel + 1;
                 $selectedBuilding->save();
                 $userGame->save();
             // Devolver un mensaje de éxito o realizar alguna acción adicional si se alcanza el nivel máximo
             // ...
             if ($userGame->energy < 0) {
-                return redirect()->route('home.index')->with('success', __("update_succes"))->with('error', __("insufficient_energy"));
+                return redirect()->route("home.$selectedBuilding->type")->with('success', __("update_succes"))->with('error', __("insufficient_energy"));
             }
-        return redirect()->route('home.index')->with('success', __("update_succes"));
+            return redirect()->route("home.$selectedBuilding->type")->with('success', __("update_success"));
         } else{
             $building = $selectedBuilding->building;
-            return redirect()->route('home.index')->with('error', __("update_error"));
+            return redirect()->route("home.$selectedBuilding->type")->with('error', __("update_error"));
 
         }
     }    

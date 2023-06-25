@@ -71,8 +71,16 @@ body {
   flex: 0.5;
 }
 .sidebar {
+  a:link, a:visited, a:active {
+    color: white;
+    text-decoration:none;
+  }
+  a:hover{
+    color: rgb(182, 182, 182);
+  }
   margin-top: 150px;
   text-align: center;
+
   ul {
     display: flex;
     justify-content: center;
@@ -80,7 +88,7 @@ body {
     margin: 0;
     padding: 0;
     li img{
-      width: 125px;
+      width: 75px;
     }
     li h4 {
       margin-top: 0;
@@ -154,4 +162,9 @@ body {
 
 .close-btn:hover {
   color: rgb(78, 78, 78);
+}
+
+.principal_image {
+  display: flex;
+  justify-content: center;
 }
