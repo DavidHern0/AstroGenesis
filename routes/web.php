@@ -33,5 +33,6 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
 
     
     Route::post('/update-building', [HomeController::class, 'updateBuilding'])->name('home.update-building');
+    Route::post('/update-planetname', [HomeController::class, 'updatePlanetName'])->name('home.update-planetname');
 
 });

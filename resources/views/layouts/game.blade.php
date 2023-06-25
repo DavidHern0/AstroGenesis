@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
@@ -39,7 +40,12 @@
             <div class="main-content">
                 <section class="section_resources">
                     <h1 class="game-title">{{__('web.title')}}</h1>
-                    <h2 class="planet-name">{{$planet->name}}</h2>                    
+                    <div class="planet-name-container">
+                        <span id="editIcon" class="edit-icon">&#9998;</span>
+                        <h2 class="planet-name" id="planetName">{{$planet->name}}</h2>                 
+                        <input type="text" id="editInput" style="display: none;" />
+                    </div>
+                       
                     <div id="resources" class="resources-container">
                         <div class="resource">
                             <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">
@@ -71,7 +77,7 @@
                     <ul>
                         <li>
                             <img src="{{ asset("images/planets/worlds/$planet->biome"."_world ($planet->variation).webp") }}" alt="{{$planet->name}}">
-                            <h4>{{$planet->name}}</h4>
+                            <h4 id="planetListName">{{$planet->name}}</h4>
                         </li>
                     </ul>
                 </div>

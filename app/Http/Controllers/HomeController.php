@@ -186,4 +186,19 @@ class HomeController extends Controller
 
         }
     }    
+    public function updatePlanetName(Request $request)
+    {
+        $newTitle = $request->input('planetName');
+    
+        $planet = Planet::where('user_id', auth()->id())->first();
+    
+        if ($planet) {
+            $planet->name = $newTitle;
+            $planet->save();
+    
+            return response()->json(['success' => true, 'message' => 'Título actualizado correctamente']);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'No se encontró el planeta del usuario']);
+    }
 }

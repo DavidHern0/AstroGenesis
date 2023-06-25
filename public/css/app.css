@@ -185,4 +185,13 @@ body {
   justify-content: center;
 }
 
+.planet-name-container {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.edit-icon {
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=app.css.map */
