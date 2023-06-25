@@ -171,9 +171,67 @@ body {
 
 .planet-name-container {
   display: flex;
+  align-items: center;
   flex-direction: row-reverse;
 }
 
 .edit-icon {
   cursor: pointer;
+}
+
+.planets_container {
+  margin-top:50px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.planets_table {
+  border-collapse: collapse;
+}
+
+.planets_table {
+  .table_position, 
+  .table_planet {
+  width: 30px;
+  }
+}
+  
+.planets_table th,
+.planets_table td {
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #444444;
+}
+.truncate {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.planets_table th {
+  background-color: #414141;
+}
+
+.planets_table img {
+  min-width: 25px;
+  max-width: 25px;
+  height: auto;
+}
+
+.selected {
+  color: #8fd390;
+}
+
+.galaxy_selector {
+  a:link, a:visited, a:active {
+    color: white;
+    text-decoration:none;
+  }
+  a:hover{
+    color: rgb(182, 182, 182);
+  }
+  input {
+    width: 35px;
+  }
+  margin-bottom: 20px;
 }

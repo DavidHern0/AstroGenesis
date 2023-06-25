@@ -30,6 +30,16 @@ class Planet extends Model
     
         $biome = $biomes[array_rand($biomes)];
         $randomVariation = rand(1, 10);
+        $randomSSP = 0;
+        $randomG = 0;
+    
+        do {
+            $randomSSP = rand(1, env('RANDOM_SSP_MAX'));
+            $randomG = rand(1, env('RANDOM_G_MAX'));
+    
+            $checkPosition = self::where('solar_system_position', $randomSSP)->where('galaxy_position', $randomG)->exists();
+    
+        } while ($checkPosition);
     
         return self::create([
             'user_id' => $userId,
@@ -37,7 +47,8 @@ class Planet extends Model
             'type' => 'planet',
             'biome' => $biome,
             'variation' => $randomVariation,
-            'position' => '',
+            'solar_system_position' => $randomSSP,
+            'galaxy_position' => $randomG,
             'info' => ''
         ]);
     }

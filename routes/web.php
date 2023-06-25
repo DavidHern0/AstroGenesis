@@ -21,7 +21,9 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     ->middleware('auth');
     Route::get('/home/facilities', [HomeController::class, 'facilities'])->name('home.facilities')
     ->middleware('auth');
-        
+    Route::get('/home/galaxy/{galaxy_position}', [HomeController::class, 'galaxy'])->name('home.galaxy')
+    ->middleware('auth');
+
     Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
     Route::post('/register', [RegisterController::class, 'register'])->name('register');
         

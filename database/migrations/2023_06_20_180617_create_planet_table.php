@@ -20,7 +20,8 @@ class CreatePlanetTable extends Migration
             $table->enum('type', ['planet', 'moon']);
             $table->enum('biome', ['desert', 'dry', 'gas', 'ice', 'savanna', 'jungle', 'water']);
             $table->integer('variation');
-            $table->string('position');
+            $table->string('solar_system_position');
+            $table->string('galaxy_position');
             $table->string('info');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();

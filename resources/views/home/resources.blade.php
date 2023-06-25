@@ -12,7 +12,6 @@
                 @foreach ($buildingPlanets as $buildingPlanet)
                     <div class="building-item">
                         <h4 class="building-name">{{ $buildingPlanet->building->getTranslation('name', config('app.locale')) }}</h4>
-                        {{-- <h4 class="building-description">{{ $buildingPlanet->building->getTranslation('description', config('app.locale')) }}</h4> --}}
                         
                         @foreach ($buildingLevels as $buildingLevel)
                         @if ($buildingLevel->building_id === $buildingPlanet->building->id && $buildingLevel->level === $buildingPlanet->level)
@@ -28,10 +27,6 @@
                                     <span>
                                         <img src="{{ asset('images/resources/crystal.gif') }}" alt="{{__('crystal')}}">
                                         <p class="building-cost">{{ $buildingLevel->crystal_cost }}</p>
-                                    </span>
-                                    <span>
-                                        <img src="{{ asset('images/resources/deuterium.gif') }}" alt="{{__('deuterium')}}">
-                                        <p class="building-cost">{{ $buildingLevel->deuterium_cost }}</p>
                                     </span>
                                     <span>
                                         <img src="{{ asset('images/resources/energy.gif') }}" alt="{{__('energy')}}">
