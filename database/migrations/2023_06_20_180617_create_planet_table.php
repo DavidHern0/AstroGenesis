@@ -18,6 +18,8 @@ class CreatePlanetTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name')->default('PRINCIPAL PLANET');
             $table->enum('type', ['planet', 'moon']);
+            $table->enum('biome', ['desert', 'dry', 'gas', 'ice', 'savanna', 'jungle', 'water']);
+            $table->integer('variation');
             $table->string('position');
             $table->string('info');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();

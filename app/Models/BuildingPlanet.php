@@ -14,15 +14,16 @@ class BuildingPlanet extends Model
     public static function createDefault($planetId)
     {
         $buildings = Building::all();
-        $defaultLevel = [1, 2, 4, 5, 7];
     
-        foreach ($buildings as $building) {
-            $level = in_array($building->id, $defaultLevel) ? 1 : 0;
-    
+        $resourcesBuildingIds = [1, 2, 3, 4, 5, 6, 7];
+
+        foreach ($buildings as $building) { 
+            $type = in_array($building->id, $resourcesBuildingIds) ? "resources" : "facilities";
             self::create([
                 'building_id' => $building->id,
                 'planet_id' => $planetId,
-                'level' => $level
+                'level' => 0,
+                'type' => $type
             ]);
         }
     }

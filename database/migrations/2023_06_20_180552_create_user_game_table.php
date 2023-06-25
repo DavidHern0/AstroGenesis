@@ -16,9 +16,13 @@ class CreateUserGameTable extends Migration
         Schema::create('user_games', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->double('metal')->default(50);
-            $table->double('crystal')->default(50);
+            $table->double('metal')->default(1000);
+            $table->double('crystal')->default(1000);
             $table->double('deuterium')->default(0);
+            $table->double('energy')->default(0);
+            $table->double('metal_storage')->default(20000);
+            $table->double('crystal_storage')->default(10000);
+            $table->double('deuterium_storage')->default(10000);
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });

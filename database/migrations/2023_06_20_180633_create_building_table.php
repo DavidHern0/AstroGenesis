@@ -16,6 +16,7 @@ class CreateBuildingTable extends Migration
         Schema::create('buildings', function (Blueprint $table) {
             $table->id();
             $table->string('name', 1024);
+            $table->string('image', 1024);
             $table->string('description', 2048);
             $table->timestamps();
         });

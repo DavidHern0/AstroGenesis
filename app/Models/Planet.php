@@ -18,7 +18,8 @@ class Planet extends Model
      */
     public static function createDefault($userId)
     {
-        
+        $biomes = ['desert', 'dry', 'gas', 'ice', 'savanna', 'jungle', 'water'];
+    
         if (App::getLocale() == 'es') {
             $planetName = 'Planeta Principal';
         } else if (App::getLocale() == 'en') {
@@ -26,11 +27,16 @@ class Planet extends Model
         } else {
             $planetName = 'Planet';
         }
-
+    
+        $biome = $biomes[array_rand($biomes)];
+        $randomVariation = rand(1, 10);
+    
         return self::create([
             'user_id' => $userId,
             'name' => $planetName,
             'type' => 'planet',
+            'biome' => $biome,
+            'variation' => $randomVariation,
             'position' => '',
             'info' => ''
         ]);

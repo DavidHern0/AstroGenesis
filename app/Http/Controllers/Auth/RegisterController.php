@@ -50,7 +50,7 @@ class RegisterController extends Controller
             ]);
             $planet = Planet::createDefault($user->id);
             $buildingPlanet = BuildingPlanet::createDefault($planet->id);
-            $Usergame = Usergame::createDefault($user->id);
+            $userGame = userGame::createDefault($user->id);
 
 
             return redirect()->route('login.index');

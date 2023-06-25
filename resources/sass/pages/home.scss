@@ -23,10 +23,7 @@ body {
     flex-direction: column;
     text-align: center;
     margin-inline: 15px;
-  span {
     font-weight: bold;
-    color: $primary-color;
-  }
 }
 
 .separator {
@@ -37,6 +34,11 @@ body {
 
 .building-name {
   color: $primary-color;
+}
+
+.building-image {
+  width: 150px;
+  height: auto;
 }
 
 .user-button, .update-building-button {
@@ -51,4 +53,118 @@ body {
   &:hover {
     background-color: darken($primary-color, 10%);
   }
+}
+
+.container {
+  display: flex;
+}
+
+.left-sidebar {
+  flex: 0.5;
+}
+
+.main-content {
+  flex: 2;
+}
+
+.right-sidebar {
+  flex: 0.5;
+}
+.sidebar {
+  a:link, a:visited, a:active {
+    color: white;
+    text-decoration:none;
+  }
+  a:hover{
+    color: rgb(182, 182, 182);
+  }
+  margin-top: 150px;
+  text-align: center;
+
+  ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li img{
+      width: 75px;
+    }
+    li h4 {
+      margin-top: 0;
+    }
+  }
+}
+.section_buildings {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.building-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px; /* Espacio entre los elementos */
+  width: 100%;
+}
+
+.section_resources {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+.update-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+.cost-container {
+  display: flex;
+}
+
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.flash-messages .alert {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.flash-messages .alert-success {
+  background-color: #dff0d8;
+  color: #3c763d;
+  border: 1px solid #d6e9c6;
+}
+
+.flash-messages .alert-danger {
+  background-color: #f2dede;
+  color: #a94442;
+  border: 1px solid #ebccd1;
+}
+.close-btn {
+  position: relative;
+  top: -3px;
+  float: right;
+  font-weight: bold;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.close-btn:hover {
+  color: rgb(78, 78, 78);
+}
+
+.principal_image {
+  display: flex;
+  justify-content: center;
 }
