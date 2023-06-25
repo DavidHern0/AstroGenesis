@@ -58,34 +58,38 @@ class HomeController extends Controller
         ->where('level', $deuterium_mine->level)
         ->pluck('production_rate')
         ->first();
+        
 
+        // BOOST ////////////////////////////////////////////////////////
+        $metal_production *= 10;
+        $crystal_production *= 10;
+        $deuterium_production *= 10;
+        /////////////////////////////////////////////////////////////////
+        
+        if ($Usergame->energy < 0) {
+            $metal_production *= 0.4;
+            $crystal_production *= 0.4;
+            $deuterium_production *= 0.4;
+        }
 
         if ($Usergame) {
             if ($metal_production) {
                 $metal_production_per_hour = ($metal_production + 40) / 3600;
                 if ($Usergame->metal < $Usergame->metal_storage) {
-                    $available_metal_space = $Usergame->metal_storage - $Usergame->metal;
-                    $Usergame->metal += min($available_metal_space, $metal_production_per_hour * 5);
+                    $Usergame->metal += $metal_production_per_hour * 5;
                 }
             }
             if ($crystal_production) {
                 $crystal_production_per_hour = ($crystal_production + 15) / 3600;
                 if ($Usergame->crystal < $Usergame->crystal_storage) {
-                    $available_crystal_space = $Usergame->crystal_storage - $Usergame->crystal;
-                    $Usergame->crystal += min($available_crystal_space, $crystal_production_per_hour * 5);
+                    $Usergame->crystal += $crystal_production_per_hour * 5;
                 }
             }
             if ($deuterium_production) {
                 $deuterium_production_per_hour = ($deuterium_production + 15) / 3600;
                 if ($Usergame->deuterium < $Usergame->deuterium_storage) {
-                    $available_deuterium_space = $Usergame->deuterium_storage - $Usergame->deuterium;
-                    $Usergame->deuterium += min($available_deuterium_space, $deuterium_production_per_hour * 5);
+                    $Usergame->deuterium += $deuterium_production_per_hour * 5;
                 }
-            }
-            if ($Usergame->energy <= 0) {
-                $Usergame->metal *= 0.4;
-                $Usergame->crystal *= 0.4;
-                $Usergame->deuterium *= 0.4;
             }
             $Usergame->save();
         }    
@@ -111,22 +115,28 @@ class HomeController extends Controller
         $nextBuildingLevel = buildingLevel::where('building_id', $buildingID)
             ->where('level', $buildingLevel + 1)->first();
             
-        if ($buildingID == 4) {
-            $userGame->energy += $currentBuildingLevel->production_rate;
-            $userGame->save();
-        }
-        if ($nextBuildingLevel && $userGame->metal >= $currentBuildingLevel->metal_cost &&
+            if ($nextBuildingLevel && $userGame->metal >= $currentBuildingLevel->metal_cost &&
             $userGame->crystal >= $currentBuildingLevel->crystal_cost &&
             $userGame->deuterium >= $currentBuildingLevel->deuterium_cost) {
-            
-            $userGame->metal -= $nextBuildingLevel->metal_cost;
-            $userGame->crystal -= $nextBuildingLevel->crystal_cost;
-            $userGame->deuterium -= $nextBuildingLevel->deuterium_cost;
-            $userGame->energy -= $nextBuildingLevel->energy_cost;
-            $selectedBuilding->level = $buildingLevel + 1;
-            $selectedBuilding->save();
-            $userGame->save();
-    
+                if ($buildingID == 4) {
+                    $userGame->energy += $currentBuildingLevel->production_rate;
+                }
+                else if ($buildingID == 5) {
+                    $userGame->metal_storage += $currentBuildingLevel->production_rate;
+                }
+                else if ($buildingID == 6) {
+                    $userGame->crystal_storage += $currentBuildingLevel->production_rate;
+                }
+                else if ($buildingID == 7) {
+                    $userGame->deuterium_storage += $currentBuildingLevel->production_rate;
+                }
+                $userGame->metal -= $nextBuildingLevel->metal_cost;
+                $userGame->crystal -= $nextBuildingLevel->crystal_cost;
+                $userGame->deuterium -= $nextBuildingLevel->deuterium_cost;
+                $userGame->energy -= $nextBuildingLevel->energy_cost;
+                $selectedBuilding->level = $buildingLevel + 1;
+                $selectedBuilding->save();
+                $userGame->save();
             // Devolver un mensaje de éxito o realizar alguna acción adicional si se alcanza el nivel máximo
             // ...
         }

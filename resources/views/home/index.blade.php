@@ -59,9 +59,7 @@
                         @if ($buildingLevel->building_id === $buildingPlanet->building->id && $buildingLevel->level === $buildingPlanet->level)
                             <p class="building-cost">{{__('level')}}: {{ $buildingLevel->level }}</p>
                             <img class="building-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$planet->name}}">
-                            <div class="update-container">
-                                <p>{{$buildingLevel->production_rate}} / hora</p> 
-                                
+                            <div class="update-container">                                
                                 <p>{{__('update_level')}} {{$buildingLevel->level+1}}:</p>                    
                                 <div class="cost-container">
                                     <span>
