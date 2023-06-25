@@ -2,32 +2,25 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Database\Seeders\BuildingSeeder;
-use Database\Seeders\BuildingLevelSeeder;
-use Database\Seeders\ShipSeeder;
-use Database\Seeders\ShipLevelSeeder;
+
 use App\Models\User;
 use App\Models\Planet;
 use App\Models\BuildingPlanet;
 use App\Models\ShipPlanet;
 use App\Models\Usergame;
+use Illuminate\Support\Facades\Log;
 
-class DatabaseSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        $this->call(BuildingSeeder::class);
-        $this->call(BuildingLevelSeeder::class);
-        $this->call(ShipSeeder::class);
-        $this->call(ShipLevelSeeder::class);
-        $this->call(UserSeeder::class);
-        // \App\Models\User::factory(10)->create();
-
+        try {
+            LOG::INFO("HOLA");
         $user = \App\Models\User::factory()->create([
             'name' => 'Jugador',
             'email' => 'test@example.com',
@@ -37,6 +30,8 @@ class DatabaseSeeder extends Seeder
         $buildingPlanet = BuildingPlanet::createDefault($planet->id);
         $userGame = UserGame::createDefault($user->id);
         $shipPlanet = ShipPlanet::createDefault($planet->id);
+        LOG::INFO("1 OK");
+        LOG::INFO("$user, $planet, $buildingPlanet, $userGame, $shipPlanet");
         for ($i = 1; $i <= 30; $i++) {
                 $user = \App\Models\User::factory()->create([
                     'name' => 'CPU '.$i,
@@ -47,6 +42,11 @@ class DatabaseSeeder extends Seeder
             $buildingPlanet = BuildingPlanet::createDefault($planet->id);
             $userGame = UserGame::createDefault($user->id);
             $shipPlanet = ShipPlanet::createDefault($planet->id);
+            LOG::INFO("for $i OK");
+            LOG::INFO("$user, $planet, $buildingPlanet, $userGame, $shipPlanet");
         }
+    } catch (\Exception $e) {
+        LOG::INFO($e->getMessage()); // Muestra el mensaje de error en la consola
+    }
     }
 }

@@ -7,16 +7,16 @@
         <img src="{{ asset("images/planets/biomes/$planet->biome-resources.jpg") }}" alt="{{__('planet')}}">
     </div>
     <hr class="separator">
-        <section class="section_buildings">
-            <div class="building-container">
+        <section class="section_items">
+            <div class="item-container">
                 @foreach ($buildingPlanets as $buildingPlanet)
                     <div class="building-item">
-                        <h4 class="building-name">{{ $buildingPlanet->building->getTranslation('name', config('app.locale')) }}</h4>
+                        <h4 class="item-name">{{ $buildingPlanet->building->getTranslation('name', config('app.locale')) }}</h4>
                         
                         @foreach ($buildingLevels as $buildingLevel)
                         @if ($buildingLevel->building_id === $buildingPlanet->building->id && $buildingLevel->level === $buildingPlanet->level)
                             <p class="building-cost">{{__('level')}}: {{ $buildingLevel->level }}</p>
-                            <img class="building-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$planet->name}}">
+                            <img class="item-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$planet->name}}">
                             <div class="update-container">                                
                                 <p>{{__('update_level')}} {{$buildingLevel->level+1}}:</p>                    
                                 <div class="cost-container">
@@ -40,7 +40,7 @@
                                 @csrf
                                 <input type="hidden" name="buildingPlanet-id" value="{{$buildingPlanet->building_id}}">
                                 <input type="hidden" name="buildingPlanet-level" value="{{$buildingPlanet->level}}">
-                                <button class="update-building-button" type="submit">{{__('update_building')}}</button>
+                                <button class="update-item-button" type="submit">{{__('update_building')}}</button>
                             </form>
                     </div>
                 @endforeach

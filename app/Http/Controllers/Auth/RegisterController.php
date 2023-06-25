@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use App\Models\Planet;
 use App\Models\BuildingPlanet;
+use App\Models\ShipPlanet;
 use App\Models\Usergame;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -51,6 +52,7 @@ class RegisterController extends Controller
             $planet = Planet::createDefault($user->id);
             $buildingPlanet = BuildingPlanet::createDefault($planet->id);
             $userGame = userGame::createDefault($user->id);
+            $shipPlanet = ShipPlanet::createDefault($planet->id);
 
 
             return redirect()->route('login.index');

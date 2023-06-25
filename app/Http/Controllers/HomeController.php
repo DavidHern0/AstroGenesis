@@ -7,6 +7,8 @@ use App\Models\Planet;
 use App\Models\userGame;
 use App\Models\BuildingPlanet;
 use App\Models\BuildingLevel;
+use App\Models\ShipPlanet;
+use App\Models\ShipLevel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Lang;
 
@@ -62,6 +64,26 @@ class HomeController extends Controller
                 'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
                 'buildingLevels' => $buildingLevels,
+            ]);
+        } catch(\Exception $e) {
+            Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
+        }
+    }
+
+    public function shipyard()
+    {  
+        try {
+            $userID = auth()->id();
+            
+            $userGame = userGame::where('user_id', $userID)->first();
+            $planet = Planet::where('user_id', $userID)->first();
+            $shipPlanets = ShipPlanet::where('planet_id', $planet->id)->get();
+            $shipLevels = ShipLevel::all();
+            return view('home.shipyard', [
+                'planet' => $planet,
+                'userGame' => $userGame,
+                'shipPlanets' => $shipPlanets,
+                'shipLevels' => $shipLevels,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -199,13 +221,45 @@ class HomeController extends Controller
             if ($userGame->energy < 0) {
                 return redirect()->route("home.$selectedBuilding->type")->with('success', __("update_succes"))->with('error', __("insufficient_energy"));
             }
-            return redirect()->route("home.$selectedBuilding->type")->with('success', __("update_success"));
+            return redirect()->route("home.$selectedBuilding->type")->with('success', __("update_succes"));
         } else{
             $building = $selectedBuilding->building;
             return redirect()->route("home.$selectedBuilding->type")->with('error', __("update_error"));
 
         }
     }    
+
+    public function updateShip(Request $request)
+    {
+        $shipID = $request->input('shipPlanet-id');
+        $ship_number = $request->input('ship_number');
+        
+        $userID = auth()->id();
+        
+        $userGame = userGame::where('user_id', $userID)->first();
+        
+        $selectedShip = shipPlanet::where('ship_id', $shipID)->first();
+    
+        $currentShipLevel = shipLevel::where('ship_id', $shipID)->first();
+
+        if ($userGame->metal >= $currentShipLevel->metal_cost * $ship_number &&
+        $userGame->crystal >= $currentShipLevel->crystal_cost * $ship_number &&
+        $userGame->deuterium >= $currentShipLevel->deuterium_cost * $ship_number) {
+            $userGame->metal -= $currentShipLevel->metal_cost * $ship_number;
+            $userGame->crystal -= $currentShipLevel->crystal_cost * $ship_number;
+            $userGame->deuterium -= $currentShipLevel->deuterium_cost * $ship_number;
+            $selectedShip->quantity =  ($selectedShip->quantity + 1) * $ship_number;
+            $selectedShip->save();
+            $userGame->save();
+            return redirect()->route("home.shipyard")->with('success', __("update_succes"));
+        } else{
+            $ship = $selectedShip->ship;
+            return redirect()->route("home.shipyard")->with('error', __("update_error"));
+
+        }
+    }
+
+
     public function updatePlanetName(Request $request)
     {
         $newTitle = $request->input('planetName');

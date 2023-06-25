@@ -46,16 +46,16 @@ body {
   margin: 20px 0;
 }
 
-.building-name {
+.item-name {
   color: #00a2ff;
 }
 
-.building-image {
+.item-image {
   width: 150px;
   height: auto;
 }
 
-.user-button, .update-building-button {
+.user-button, .update-item-button {
   padding: 10px 20px;
   color: #000000;
   background-color: #00a2ff;
@@ -64,7 +64,7 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.user-button:hover, .update-building-button:hover {
+.user-button:hover, .update-item-button:hover {
   background-color: #0082cc;
 }
 
@@ -109,14 +109,14 @@ body {
   margin-top: 0;
 }
 
-.section_buildings {
+.section_items {
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
 }
 
-.building-container {
+.item-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px; /* Espacio entre los elementos */
@@ -249,6 +249,10 @@ body {
   color: rgb(182, 182, 182);
 }
 .galaxy_selector input {
+  width: 35px;
+}
+
+input[type=number] {
   width: 35px;
 }
 

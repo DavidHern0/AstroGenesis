@@ -32,6 +32,7 @@
                         <a href="{{route('home.index')}}"><h4>{{__('overview')}}</h4></a>
                         <a href="{{route('home.resources')}}"><h4>{{__('resources')}}</h4></a>
                         <a href="{{route('home.facilities')}}"><h4>{{__('facilities')}}</h4></a>
+                        <a href="{{route('home.shipyard')}}"><h4>{{__('shipyard')}}</h4></a>
                         <a href="{{route('home.galaxy', $planet->galaxy_position)}}"><h4>{{__('galaxy')}}</h4></a>
                     </li>
                 </ul>

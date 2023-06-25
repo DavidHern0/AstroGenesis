@@ -32,16 +32,16 @@ body {
   margin: 20px 0;
 }
 
-.building-name {
+.item-name {
   color: $primary-color;
 }
 
-.building-image {
+.item-image {
   width: 150px;
   height: auto;
 }
 
-.user-button, .update-building-button {
+.user-button, .update-item-button {
   padding: 10px 20px;
   color: $dark-background;
   background-color: $primary-color;
@@ -95,14 +95,14 @@ body {
     }
   }
 }
-.section_buildings {
+.section_items {
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
 }
 
-.building-container {
+.item-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px; /* Espacio entre los elementos */
@@ -234,4 +234,8 @@ body {
     width: 35px;
   }
   margin-bottom: 20px;
+}
+
+input[type=number] {
+  width: 35px;
 }

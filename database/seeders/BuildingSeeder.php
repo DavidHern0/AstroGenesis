@@ -106,7 +106,7 @@ class BuildingSeeder extends Seeder
             [
                 'name' => [
                     'en' => 'SHIPYARD',
-                    'es' => 'ASTILLERO'
+                    'es' => 'HANGAR'
                 ],
                 'description' => [
                     'en' => 'Stores and maintains fleet units.',

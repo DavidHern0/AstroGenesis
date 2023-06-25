@@ -71,3 +71,15 @@ $(document).ready(function() {
         }
     });
 });
+
+$(document).ready(function() {
+    const shipNumberInput = $('input[name="ship_number"]');
+  
+    shipNumberInput.on('input', function() {
+      let shipNumber = parseInt(shipNumberInput.val());
+  
+      if (shipNumber <= 0) {
+        shipNumberInput.val(1);
+      }
+    });
+  });
