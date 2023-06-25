@@ -68,6 +68,26 @@ class HomeController extends Controller
         }
     }
 
+    public function galaxy($galaxy_position)
+    {  
+        try {
+            $userID = auth()->id();
+            $userGame = userGame::where('user_id', $userID)->first();
+            $planet = Planet::where('user_id', $userID)->first();
+            $planets = Planet::where('galaxy_position', $galaxy_position)
+                ->orderByRaw('CAST(solar_system_position AS UNSIGNED) ASC')
+                ->get();
+            return view('home.galaxy', [
+                'planet' => $planet,
+                'planets' => $planets,
+                'userGame' => $userGame,
+                'galaxy_position' => $galaxy_position,
+            ]);
+        } catch(\Exception $e) {
+            Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
+        }
+    }
+
     public function updateResources()
     {
         $userID = auth()->id();
@@ -186,4 +206,19 @@ class HomeController extends Controller
 
         }
     }    
+    public function updatePlanetName(Request $request)
+    {
+        $newTitle = $request->input('planetName');
+    
+        $planet = Planet::where('user_id', auth()->id())->first();
+    
+        if ($planet) {
+            $planet->name = $newTitle;
+            $planet->save();
+    
+            return response()->json(['success' => true, 'message' => 'Título actualizado correctamente']);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'No se encontró el planeta del usuario']);
+    }
 }
