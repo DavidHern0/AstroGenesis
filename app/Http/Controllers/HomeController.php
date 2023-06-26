@@ -7,6 +7,7 @@ use App\Models\Planet;
 use App\Models\userGame;
 use App\Models\BuildingPlanet;
 use App\Models\BuildingLevel;
+use App\Models\Ship;
 use App\Models\ShipPlanet;
 use App\Models\ShipLevel;
 use App\Models\DefensePlanet;
@@ -106,6 +107,26 @@ class HomeController extends Controller
                 'userGame' => $userGame,
                 'defensePlanets' => $defensePlanets,
                 'defenseLevels' => $defenseLevels,
+            ]);
+        } catch(\Exception $e) {
+            Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
+        }
+    }
+
+    public function fleet()
+    {  
+        try {
+            $userID = auth()->id();
+            
+            $userGame = userGame::where('user_id', $userID)->first();
+            $planet = Planet::where('user_id', $userID)->first();
+            $shipPlanets = ShipPlanet::where('planet_id', $planet->id)->get();
+            $shipLevels = ShipLevel::all();
+            return view('home.fleet', [
+                'planet' => $planet,
+                'userGame' => $userGame,
+                'shipPlanets' => $shipPlanets,
+                'shipLevels' => $shipLevels,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);

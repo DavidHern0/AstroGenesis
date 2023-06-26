@@ -42,6 +42,12 @@
     "update_build": "Build",
     "quantity": "Quantity",
     "defenses": "Defenses",
+    "fleet": "Fleet",
+    "no_ship_message": "There are not ships available in this planet",
+    "spy_succes": "The spy probe has been sent successfully",
+    "spy_error": "You have no spy probes",
+    "notification_title_spy": "Your spying probe has arrived",
+    "notification_body_spy": "Your spy probe has arrived at the planet :planetName of coordinates [:planetSSP,:planetGP]",
     
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",

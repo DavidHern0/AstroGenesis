@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FleetController;
 use App\Http\Middleware\LocaleMiddleware;
 
 
@@ -28,6 +29,8 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     ->middleware('auth');
     Route::get('/home/defenses', [HomeController::class, 'defenses'])->name('home.defenses')
     ->middleware('auth');
+    Route::get('/home/fleet', [HomeController::class, 'fleet'])->name('home.fleet')
+    ->middleware('auth');
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
     Route::post('/register', [RegisterController::class, 'register'])->name('register');
@@ -44,5 +47,7 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     Route::post('/update-ship', [UserController::class, 'updateShip'])->name('home.update-ship');
     Route::post('/update-defense', [UserController::class, 'updateDefense'])->name('home.update-defense');
     Route::post('/update-planetname', [UserController::class, 'updatePlanetName'])->name('home.update-planetname');
-
+    
+    
+    Route::post('/fleet-spy', [FleetController::class, 'spy'])->name('fleet.spy');
 });
