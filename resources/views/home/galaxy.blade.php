@@ -41,9 +41,9 @@
             </td>
             <td>
                 @if($individualPlanet && $individualPlanet->id != $planet->id)
-                    <button type="button">{{__("transport")}}</button>
-                    <button type="button">{{__("spy")}}</button>
-                    <button type="button">{{__("attack")}}</button>
+                    <button class="galaxy_button" type="button">{{__("transport")}}</button>
+                    <button class="galaxy_button" type="button">{{__("spy")}}</button>
+                    <button class="galaxy_button" type="button">{{__("attack")}}</button>
                 @endif
             </td>
         </tr>

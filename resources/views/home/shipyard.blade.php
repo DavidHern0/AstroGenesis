@@ -11,7 +11,7 @@
         <div class="item-container">
             @foreach ($shipPlanets as $shipPlanet)
                 <div class="ship-item">
-                    <h4 class="item-name">{{ $shipPlanet->ship->getTranslation('name', config('app.locale')) }}</h4>
+                     <h4 class="item-name truncate">{{ $shipPlanet->ship->getTranslation('name', config('app.locale')) }}</h4>
                     <p>{{__('quantity')}}: {{$shipPlanet->quantity}}</p>                    
                     
                     @foreach ($shipLevels as $shipLevel)
