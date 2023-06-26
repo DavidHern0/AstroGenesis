@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Planet;
 use App\Models\BuildingPlanet;
 use App\Models\ShipPlanet;
+use App\Models\DefensePlanet;
 use App\Models\Usergame;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -53,6 +54,7 @@ class RegisterController extends Controller
             $buildingPlanet = BuildingPlanet::createDefault($planet->id);
             $userGame = userGame::createDefault($user->id);
             $shipPlanet = ShipPlanet::createDefault($planet->id);
+            $defensePlanet = DefensePlanet::createDefault($planet->id);
 
 
             return redirect()->route('login.index');

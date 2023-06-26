@@ -9,6 +9,8 @@ use App\Models\BuildingPlanet;
 use App\Models\BuildingLevel;
 use App\Models\ShipPlanet;
 use App\Models\ShipLevel;
+use App\Models\DefensePlanet;
+use App\Models\DefenseLevel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Lang;
 
@@ -84,6 +86,26 @@ class HomeController extends Controller
                 'userGame' => $userGame,
                 'shipPlanets' => $shipPlanets,
                 'shipLevels' => $shipLevels,
+            ]);
+        } catch(\Exception $e) {
+            Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
+        }
+    }
+
+    public function defenses()
+    {  
+        try {
+            $userID = auth()->id();
+            
+            $userGame = userGame::where('user_id', $userID)->first();
+            $planet = Planet::where('user_id', $userID)->first();
+            $defensePlanets = DefensePlanet::where('planet_id', $planet->id)->get();
+            $defenseLevels = DefenseLevel::all();
+            return view('home.defenses', [
+                'planet' => $planet,
+                'userGame' => $userGame,
+                'defensePlanets' => $defensePlanets,
+                'defenseLevels' => $defenseLevels,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -259,6 +281,35 @@ class HomeController extends Controller
         }
     }
 
+    public function updateDefense(Request $request)
+    {
+        $defenseID = $request->input('defensePlanet-id');
+        $defense_number = $request->input('defense_number');
+        
+        $userID = auth()->id();
+        
+        $userGame = userGame::where('user_id', $userID)->first();
+        
+        $selectedDefense = defensePlanet::where('defense_id', $defenseID)->first();
+    
+        $currentDefenseLevel = defenseLevel::where('defense_id', $defenseID)->first();
+
+        if ($userGame->metal >= $currentDefenseLevel->metal_cost * $defense_number &&
+        $userGame->crystal >= $currentDefenseLevel->crystal_cost * $defense_number &&
+        $userGame->deuterium >= $currentDefenseLevel->deuterium_cost * $defense_number) {
+            $userGame->metal -= $currentDefenseLevel->metal_cost * $defense_number;
+            $userGame->crystal -= $currentDefenseLevel->crystal_cost * $defense_number;
+            $userGame->deuterium -= $currentDefenseLevel->deuterium_cost * $defense_number;
+            $selectedDefense->quantity =  ($selectedDefense->quantity + 1) * $defense_number;
+            $selectedDefense->save();
+            $userGame->save();
+            return redirect()->route("home.defenses")->with('success', __("update_succes"));
+        } else{
+            $defense = $selectedDefense->defense;
+            return redirect()->route("home.defenses")->with('error', __("update_error"));
+
+        }
+    }
 
     public function updatePlanetName(Request $request)
     {

@@ -39,8 +39,9 @@
     "attack": "Attack",
     "player": "Player",
     "shipyard": "Shipyard",
-    "update_ship": "Build",
+    "update_build": "Build",
     "quantity": "Quantity",
+    "defenses": "Defenses",
     
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",

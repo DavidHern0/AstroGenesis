@@ -25,6 +25,8 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     ->middleware('auth');
     Route::get('/home/galaxy/{galaxy_position}', [HomeController::class, 'galaxy'])->name('home.galaxy')
     ->middleware('auth');
+    Route::get('/home/defenses', [HomeController::class, 'defenses'])->name('home.defenses')
+    ->middleware('auth');
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
     Route::post('/register', [RegisterController::class, 'register'])->name('register');
@@ -38,6 +40,7 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     
     Route::post('/update-building', [HomeController::class, 'updateBuilding'])->name('home.update-building');
     Route::post('/update-ship', [HomeController::class, 'updateShip'])->name('home.update-ship');
+    Route::post('/update-defense', [HomeController::class, 'updateDefense'])->name('home.update-defense');
     Route::post('/update-planetname', [HomeController::class, 'updatePlanetName'])->name('home.update-planetname');
 
 });

@@ -8,6 +8,8 @@ use Database\Seeders\BuildingSeeder;
 use Database\Seeders\BuildingLevelSeeder;
 use Database\Seeders\ShipSeeder;
 use Database\Seeders\ShipLevelSeeder;
+use Database\Seeders\DefenseSeeder;
+use Database\Seeders\DefenseLevelSeeder;
 use App\Models\User;
 use App\Models\Planet;
 use App\Models\BuildingPlanet;
@@ -25,6 +27,8 @@ class DatabaseSeeder extends Seeder
         $this->call(BuildingLevelSeeder::class);
         $this->call(ShipSeeder::class);
         $this->call(ShipLevelSeeder::class);
+        $this->call(DefenseSeeder::class);
+        $this->call(DefenseLevelSeeder::class);
         $this->call(UserSeeder::class);
     }
 }

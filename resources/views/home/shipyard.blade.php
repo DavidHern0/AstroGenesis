@@ -15,7 +15,7 @@
                     <p>{{__('quantity')}}: {{$shipPlanet->quantity}}</p>                    
                     
                     @foreach ($shipLevels as $shipLevel)
-                    @if ($shipLevel->ship_id === $shipPlanet->ship->id && $shipLevel->level === $shipPlanet->level)
+                    @if ($shipLevel->ship_id === $shipPlanet->ship->id)
                         <img class="item-image" src="{{ asset($shipPlanet->ship->image) }}" alt="{{$planet->name}}">
                         <div class="update-container">                                
                             <div class="cost-container">
@@ -40,7 +40,7 @@
                             <input type="hidden" name="shipPlanet-id" value="{{$shipPlanet->ship_id}}">
                             <input type="hidden" name="shipPlanet-level" value="{{$shipPlanet->level}}">
                             <input type="number" name="ship_number" value="1"/>
-                            <button class="update-item-button" type="submit">{{__('update_ship')}}</button>
+                            <button class="update-item-button" type="submit">{{__('update_build')}}</button>
                         </form>
                 </div>
             @endforeach
