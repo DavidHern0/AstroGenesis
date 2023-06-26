@@ -26,27 +26,5 @@ class DatabaseSeeder extends Seeder
         $this->call(ShipSeeder::class);
         $this->call(ShipLevelSeeder::class);
         $this->call(UserSeeder::class);
-        // \App\Models\User::factory(10)->create();
-
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Jugador',
-            'email' => 'test@example.com',
-            'password' => '12345678'
-        ]);   
-        $planet = Planet::createDefault($user->id);
-        $buildingPlanet = BuildingPlanet::createDefault($planet->id);
-        $userGame = UserGame::createDefault($user->id);
-        $shipPlanet = ShipPlanet::createDefault($planet->id);
-        for ($i = 1; $i <= 30; $i++) {
-                $user = \App\Models\User::factory()->create([
-                    'name' => 'CPU '.$i,
-                    'email' => 'test'.$i.'@example.com',
-                    'password' => '12345678'
-                ]);   
-            $planet = Planet::createDefault($user->id);
-            $buildingPlanet = BuildingPlanet::createDefault($planet->id);
-            $userGame = UserGame::createDefault($user->id);
-            $shipPlanet = ShipPlanet::createDefault($planet->id);
-        }
     }
 }

@@ -20,7 +20,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         try {
-            LOG::INFO("HOLA");
         $user = \App\Models\User::factory()->create([
             'name' => 'Jugador',
             'email' => 'test@example.com',
@@ -30,23 +29,17 @@ class UserSeeder extends Seeder
         $buildingPlanet = BuildingPlanet::createDefault($planet->id);
         $userGame = UserGame::createDefault($user->id);
         $shipPlanet = ShipPlanet::createDefault($planet->id);
-        LOG::INFO("1 OK");
-        LOG::INFO("$user, $planet, $buildingPlanet, $userGame, $shipPlanet");
-        for ($i = 1; $i <= 30; $i++) {
+        for ($i = 1; $i <= 120; $i++) {
                 $user = \App\Models\User::factory()->create([
-                    'name' => 'CPU '.$i,
-                    'email' => 'test'.$i.'@example.com',
-                    'password' => '12345678'
+                    'name' => 'CPU '.$i
                 ]);   
             $planet = Planet::createDefault($user->id);
             $buildingPlanet = BuildingPlanet::createDefault($planet->id);
             $userGame = UserGame::createDefault($user->id);
             $shipPlanet = ShipPlanet::createDefault($planet->id);
-            LOG::INFO("for $i OK");
-            LOG::INFO("$user, $planet, $buildingPlanet, $userGame, $shipPlanet");
         }
     } catch (\Exception $e) {
-        LOG::INFO($e->getMessage()); // Muestra el mensaje de error en la consola
+        LOG::INFO($e->getMessage());
     }
     }
 }

@@ -17,11 +17,11 @@ class CreateBuildingLevelTable extends Migration
             $table->id();
             $table->unsignedBigInteger('building_id');
             $table->integer('level');
-            $table->integer('metal_cost');
-            $table->integer('crystal_cost');
-            $table->integer('deuterium_cost');
-            $table->integer('energy_cost');
-            $table->integer('production_rate');
+            $table->double('metal_cost');
+            $table->double('crystal_cost');
+            $table->double('deuterium_cost');
+            $table->double('energy_cost');
+            $table->double('production_rate');
             $table->string('resource_type')->nullable();
             $table->foreign('building_id')->references('id')->on('buildings')->cascadeOnDelete();
             $table->timestamps();
