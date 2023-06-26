@@ -6,11 +6,16 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\BuildingSeeder;
 use Database\Seeders\BuildingLevelSeeder;
-
+use Database\Seeders\ShipSeeder;
+use Database\Seeders\ShipLevelSeeder;
+use Database\Seeders\DefenseSeeder;
+use Database\Seeders\DefenseLevelSeeder;
 use App\Models\User;
 use App\Models\Planet;
 use App\Models\BuildingPlanet;
+use App\Models\ShipPlanet;
 use App\Models\Usergame;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -20,26 +25,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(BuildingSeeder::class);
         $this->call(BuildingLevelSeeder::class);
-        // \App\Models\User::factory(10)->create();
-
-        for ($i = 1; $i <= 50; $i++) {
-            if ($i == 1) {
-            $user = \App\Models\User::factory()->create([
-                'name' => 'Jugador',
-                'email' => 'test@example.com',
-                'password' => '12345678'
-            ]);   
-            } else {
-                $user = \App\Models\User::factory()->create([
-                    'name' => 'CPU '.$i,
-                    'email' => 'test'.$i.'@example.com',
-                    'password' => '12345678'
-                ]);   
-            }
-
-            $planet = Planet::createDefault($user->id);
-            $buildingPlanet = BuildingPlanet::createDefault($planet->id);
-            $userGame = UserGame::createDefault($user->id);
-        }
+        $this->call(ShipSeeder::class);
+        $this->call(ShipLevelSeeder::class);
+        $this->call(DefenseSeeder::class);
+        $this->call(DefenseLevelSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }

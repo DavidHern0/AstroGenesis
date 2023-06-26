@@ -21,7 +21,11 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     ->middleware('auth');
     Route::get('/home/facilities', [HomeController::class, 'facilities'])->name('home.facilities')
     ->middleware('auth');
+    Route::get('/home/shipyard', [HomeController::class, 'shipyard'])->name('home.shipyard')
+    ->middleware('auth');
     Route::get('/home/galaxy/{galaxy_position}', [HomeController::class, 'galaxy'])->name('home.galaxy')
+    ->middleware('auth');
+    Route::get('/home/defenses', [HomeController::class, 'defenses'])->name('home.defenses')
     ->middleware('auth');
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
@@ -32,9 +36,12 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         
     Route::get('/update-resources', [HomeController::class, 'updateResources'])->name('home.update-resources');
+    Route::get('/update-all', [HomeController::class, 'updateAll'])->name('home.update-all');
 
     
     Route::post('/update-building', [HomeController::class, 'updateBuilding'])->name('home.update-building');
+    Route::post('/update-ship', [HomeController::class, 'updateShip'])->name('home.update-ship');
+    Route::post('/update-defense', [HomeController::class, 'updateDefense'])->name('home.update-defense');
     Route::post('/update-planetname', [HomeController::class, 'updatePlanetName'])->name('home.update-planetname');
 
 });

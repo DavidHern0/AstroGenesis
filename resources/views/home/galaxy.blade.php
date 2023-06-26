@@ -19,11 +19,11 @@
                 <th>{{__("actions")}}</th>
             </tr>
         </thead>
-    <tbody>
-        @for ($i = 1; $i <= env('RANDOM_SSP_MAX'); $i++)
-        @php
+        <tbody>
+            @for ($i = 1; $i <= env('RANDOM_SSP_MAX'); $i++)
+            @php
             $individualPlanet = $planets->firstWhere('solar_system_position', $i);
-        @endphp
+            @endphp
         <tr>
             <td class="@if($individualPlanet && $individualPlanet->id == $planet->id)selected @endif table_position">
                 {{$i}}
