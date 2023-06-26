@@ -1,6 +1,9 @@
 body {
-  background-color: $dark-background;
   color: $secondary-color;
+  background-image: url('/images/space-bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .game-title {

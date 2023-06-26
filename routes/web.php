@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\LocaleMiddleware;
 
 
@@ -35,13 +36,13 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         
-    Route::get('/update-resources', [HomeController::class, 'updateResources'])->name('home.update-resources');
-    Route::get('/update-all', [HomeController::class, 'updateAll'])->name('home.update-all');
+    Route::get('/update-resources', [UserController::class, 'updateResources'])->name('home.update-resources');
+    Route::get('/update-all', [UserController::class, 'updateAll'])->name('home.update-all');
 
     
-    Route::post('/update-building', [HomeController::class, 'updateBuilding'])->name('home.update-building');
-    Route::post('/update-ship', [HomeController::class, 'updateShip'])->name('home.update-ship');
-    Route::post('/update-defense', [HomeController::class, 'updateDefense'])->name('home.update-defense');
-    Route::post('/update-planetname', [HomeController::class, 'updatePlanetName'])->name('home.update-planetname');
+    Route::post('/update-building', [UserController::class, 'updateBuilding'])->name('home.update-building');
+    Route::post('/update-ship', [UserController::class, 'updateShip'])->name('home.update-ship');
+    Route::post('/update-defense', [UserController::class, 'updateDefense'])->name('home.update-defense');
+    Route::post('/update-planetname', [UserController::class, 'updatePlanetName'])->name('home.update-planetname');
 
 });
