@@ -23,6 +23,7 @@ class CreateBuildingLevelTable extends Migration
             $table->double('energy_cost');
             $table->double('production_rate');
             $table->string('resource_type')->nullable();
+            $table->double('construction_time');
             $table->foreign('building_id')->references('id')->on('buildings')->cascadeOnDelete();
             $table->timestamps();
         });

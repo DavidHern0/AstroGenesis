@@ -12,12 +12,11 @@
                 @foreach ($buildingPlanets as $buildingPlanet)
                     <div class="building-item">
                         <h4 class="item-name">{{ $buildingPlanet->building->getTranslation('name', config('app.locale')) }}</h4>
-                        {{-- <h4 class="building-description">{{ $buildingPlanet->building->getTranslation('description', config('app.locale')) }}</h4> --}}
                         
                         @foreach ($buildingLevels as $buildingLevel)
                         @if ($buildingLevel->building_id === $buildingPlanet->building->id && $buildingLevel->level === $buildingPlanet->level)
                             <p class="building-cost">{{__('level')}}: {{ $buildingLevel->level }}</p>
-                            <img class="item-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$planet->name}}">
+                            <img class="item-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$buildingPlanet->building->getTranslation('name', config('app.locale'))}}">
                             <div class="update-container">                                
                                 <p>{{__('update_level')}} {{$buildingLevel->level+1}}:</p>                    
                                 <div class="cost-container">

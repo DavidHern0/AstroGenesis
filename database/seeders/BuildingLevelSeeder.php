@@ -24,6 +24,7 @@ class BuildingLevelSeeder extends Seeder
             $metal_cost = round($base_cost[0] * (1.5 ** ($i-1)));
             $crystal_cost = round($base_cost[1] * (1.5 ** ($i-1)));
             $production = round(30 * $universe_acceleration_factor * $i * (1.1 ** $i) + 30 * $universe_acceleration_factor);
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
                 'building_id' => 1,
                 'level' => $i-1,
@@ -33,6 +34,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => 'metal',
+                'construction_time' => $construction_time
             ]);
         }
 
@@ -44,6 +46,7 @@ class BuildingLevelSeeder extends Seeder
             $metal_cost = round($base_cost[0] * (1.6 ** ($i-1)));
             $crystal_cost = round($base_cost[1] * (1.6 ** ($i-1)));
             $production = round($universe_acceleration_factor * 20 * $i* (1.1 ** $i));
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
                 'building_id' => 2,
                 'level' => $i-1,
@@ -53,6 +56,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => 'crystal',
+                'construction_time' => $construction_time
             ]);
         }
 
@@ -64,6 +68,7 @@ class BuildingLevelSeeder extends Seeder
             $metal_cost = round($base_cost[0] * (1.5 ** ($i-1)));
             $crystal_cost = round($base_cost[1] * (1.5 ** ($i-1)));
             $production = round($universe_acceleration_factor * $energy_cost * (0.68 - 0.002 * $temp));
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
                 'building_id' => 3,
                 'level' => $i-1,
@@ -73,6 +78,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => 'deuterium',
+                'construction_time' => $construction_time
             ]);
         }
 
@@ -83,6 +89,7 @@ class BuildingLevelSeeder extends Seeder
             $metal_cost = round($base_cost[0] * (1.5 ** ($i-1)));
             $crystal_cost = round($base_cost[1] * (1.5 ** ($i-1)));
             $production = round(20 * $i * (1.1 ** $i));
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
                 'building_id' => 4,
                 'level' => $i-1,
@@ -92,6 +99,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => 'energy',
+                'construction_time' => $construction_time
             ]);
         }
 
@@ -102,6 +110,7 @@ class BuildingLevelSeeder extends Seeder
             $metal_cost = round($base_cost[0] * (2 ** ($i-1)));
             $crystal_cost = 0;
             $production = round(5000 * 5 * (2 ** ($i-1)));
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
                 'building_id' => 5,
                 'level' => $i-1,
@@ -111,6 +120,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => 'storage',
+                'construction_time' => $construction_time
             ]);
         }
 
@@ -121,6 +131,7 @@ class BuildingLevelSeeder extends Seeder
             $metal_cost = 0;
             $crystal_cost = round($base_cost[1] * (2 ** ($i-1)));
             $production = round(5000 * 5 * (2 ** ($i-1)));
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
                 'building_id' => 6,
                 'level' => $i-1,
@@ -130,6 +141,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => 'storage',
+                'construction_time' => $construction_time
             ]);
         }
 
@@ -140,6 +152,7 @@ class BuildingLevelSeeder extends Seeder
             $metal_cost = round($base_cost[0] * (2 ** ($i-1)));
             $crystal_cost = round($base_cost[1] * (2 ** ($i-1)));
             $production = round(5000 * 5 * (2 ** ($i-1)));
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
                 'building_id' => 7,
                 'level' => $i-1,
@@ -149,6 +162,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => 'storage',
+                'construction_time' => $construction_time
             ]);
         }
 
@@ -160,6 +174,7 @@ class BuildingLevelSeeder extends Seeder
             $crystal_cost = round($base_cost[1] * (2 ** ($i-1)));
             $deuterium_cost = round($base_cost[2] * (2 ** ($i-1)));
             $production = 1 / ($i + 1);
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
                 'building_id' => 8,
                 'level' => $i-1,
@@ -169,6 +184,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => NULL,
+                'construction_time' => $construction_time
             ]);
         }
 
@@ -180,6 +196,7 @@ class BuildingLevelSeeder extends Seeder
             $crystal_cost = round($base_cost[1] * (2 ** ($i-1)));
             $deuterium_cost = round($base_cost[2] * (2 ** ($i-1)));
             $production = ($metal_cost + $crystal_cost) / (2500 * (1 + $i-1) * (2 ** 1));
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
                 'building_id' => 9,
                 'level' => $i-1,
@@ -189,6 +206,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => NULL,
+                'construction_time' => $construction_time
             ]);
         }
 
@@ -200,8 +218,9 @@ class BuildingLevelSeeder extends Seeder
             $crystal_cost = round($base_cost[1] * (2 ** ($i-1)));
             $deuterium_cost = round($base_cost[2] * (2 ** ($i-1)));
             $production = 0;
+            $construction_time = round(($metal_cost + $crystal_cost) / (log($i + 1) * $universe_acceleration_factor));
             DB::table('building_levels')->insert([
-                'building_id' => 9,
+                'building_id' => 10,
                 'level' => $i-1,
                 'metal_cost' => $metal_cost,
                 'crystal_cost' => $crystal_cost,
@@ -209,6 +228,7 @@ class BuildingLevelSeeder extends Seeder
                 'energy_cost' => $energy_cost,
                 'production_rate' => $production,
                 'resource_type' => NULL,
+                'construction_time' => $construction_time
             ]);
         }
     }

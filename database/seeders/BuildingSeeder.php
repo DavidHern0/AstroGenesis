@@ -17,8 +17,8 @@ class BuildingSeeder extends Seeder
         $buildings = [
             [
                 'name' => [
-                    'en' => 'METAL MINE',
-                    'es' => 'MINA DE METAL'
+                    'en' => 'Metal Mine',
+                    'es' => 'Mina de metal'
                 ],
                 'description' => [
                     'en' => 'Produces metal from the planet\'s crust.',
@@ -28,8 +28,8 @@ class BuildingSeeder extends Seeder
             ],
             [
                 'name' => [
-                    'en' => 'CRYSTAL MINE',
-                    'es' => 'MINA DE CRISTAL'
+                    'en' => 'Crystal Mine',
+                    'es' => 'Mina de cristal'
                 ],
                 'description' => [
                     'en' => 'Produces crystal from crystal deposits.',
@@ -39,8 +39,8 @@ class BuildingSeeder extends Seeder
             ],
             [
                 'name' => [
-                    'en' => 'DEUTERIUM SYNTHESIZER',
-                    'es' => 'SINTETIZADOR DE DEUTERIO'
+                    'en' => 'Deuterium Synthesizer',
+                    'es' => 'Sintetizador de deuterio'
                 ],
                 'description' => [
                     'en' => 'Produces deuterium by fusing hydrogen from the planet\'s atmosphere.',
@@ -50,8 +50,8 @@ class BuildingSeeder extends Seeder
             ],
             [
                 'name' => [
-                    'en' => 'SOLAR PANEL',
-                    'es' => 'PANEL SOLAR'
+                    'en' => 'Solar Panel',
+                    'es' => 'Panel solar'
                 ],
                 'description' => [
                     'en' => 'Generates energy by converting solar radiation.',
@@ -61,8 +61,8 @@ class BuildingSeeder extends Seeder
             ],
             [
                 'name' => [
-                    'en' => 'METAL STORAGE',
-                    'es' => 'ALMACÉN DE METAL'
+                    'en' => 'Metal Storage',
+                    'es' => 'Almacén de metal'
                 ],
                 'description' => [
                     'en' => 'Stores metal.',
@@ -72,8 +72,8 @@ class BuildingSeeder extends Seeder
             ],
             [
                 'name' => [
-                    'en' => 'CRYSTAL STORAGE',
-                    'es' => 'ALMACÉN DE CRISTAL'
+                    'en' => 'Crystal Storage',
+                    'es' => 'Almacén de cristal'
                 ],
                 'description' => [
                     'en' => 'Stores crystal.',
@@ -83,8 +83,8 @@ class BuildingSeeder extends Seeder
             ],
             [
                 'name' => [
-                    'en' => 'DEUTERIUM STORAGE',
-                    'es' => 'ALMACÉN DE DEUTERIO'
+                    'en' => 'Deuterium Storage',
+                    'es' => 'Almacén de deuterio'
                 ],
                 'description' => [
                     'en' => 'Stores deuterium.',
@@ -94,8 +94,8 @@ class BuildingSeeder extends Seeder
             ],
             [
                 'name' => [
-                    'en' => 'ROBOTICS FACTORY',
-                    'es' => 'FÁBRICA DE ROBOTS'
+                    'en' => 'Robotics Factory',
+                    'es' => 'Fábrica de robots'
                 ],
                 'description' => [
                     'en' => 'Produces and maintains robotic units.',
@@ -105,8 +105,8 @@ class BuildingSeeder extends Seeder
             ],
             [
                 'name' => [
-                    'en' => 'SHIPYARD',
-                    'es' => 'HANGAR'
+                    'en' => 'Shipyard',
+                    'es' => 'Hangar'
                 ],
                 'description' => [
                     'en' => 'Stores and maintains fleet units.',
@@ -116,8 +116,8 @@ class BuildingSeeder extends Seeder
             ],
             [
                 'name' => [
-                    'en' => 'RESEARCH LAB',
-                    'es' => 'LABORATORIO DE INVESTIGACIÓN'
+                    'en' => 'Research Lab',
+                    'es' => 'Laboratorio de investigación'
                 ],
                 'description' => [
                     'en' => 'Allows for advanced technological research.',

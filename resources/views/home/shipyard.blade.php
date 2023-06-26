@@ -16,7 +16,7 @@
                     
                     @foreach ($shipLevels as $shipLevel)
                     @if ($shipLevel->ship_id === $shipPlanet->ship->id)
-                        <img class="item-image" src="{{ asset($shipPlanet->ship->image) }}" alt="{{$planet->name}}">
+                        <img class="item-image" src="{{ asset($shipPlanet->ship->image) }}" alt="{{$shipPlanet->ship->getTranslation('name', config('app.locale'))}}">
                         <div class="update-container">                                
                             <div class="cost-container">
                                 <span>

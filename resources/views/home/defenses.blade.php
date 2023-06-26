@@ -16,7 +16,7 @@
                 
                 @foreach ($defenseLevels as $defenseLevel)
                 @if ($defenseLevel->defense_id === $defensePlanet->defense->id)
-                    <img class="item-image" src="{{ asset($defensePlanet->defense->image) }}" alt="{{$planet->name}}">
+                    <img class="item-image" src="{{ asset($defensePlanet->defense->image) }}" alt="{{$defensePlanet->defense->getTranslation('name', config('app.locale'))}}">
                     <div class="update-container">                                
                         <div class="cost-container">
                             <span>
@@ -36,7 +36,6 @@
                     @endif
                     @endforeach
                     <form action="{{ route('home.update-defense') }}" method="POST">
-                    {{-- <form action="{{ route('home.update-defense') }}" method="POST"> --}}
                         @csrf
                         <input type="hidden" name="defensePlanet-id" value="{{$defensePlanet->defense_id}}">
                         <input type="hidden" name="defensePlanet-level" value="{{$defensePlanet->level}}">
