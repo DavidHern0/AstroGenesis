@@ -8,28 +8,14 @@ use App\Models\Planet;
 use App\Models\User;
 use App\Models\userGame;
 use App\Models\ShipPlanet;
-use App\Models\Notification;
 use App\Models\DefensePlanet;
 use App\Models\Defense;
+use App\Models\Spy;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Lang;
 
 class FleetController extends Controller
 {
-    public function spy_action($otherPlanet) {
-        $otherUserGame = UserGame::where('user_id', $otherPlanet->user_id)->first();
-        $otherDefenses = DefensePlanet::where('planet_id', $otherPlanet->id)->get();
-
-
-        LOG::INFO("Metal: ".round($otherUserGame->metal));
-        LOG::INFO("Cristal: ".round($otherUserGame->crystal));
-        LOG::INFO("Deuterio: ".round($otherUserGame->deuterium));
-        foreach ($otherDefenses as $otherDefense) {
-            LOG::INFO($otherDefense->defense->getTranslation('name', config('app.locale')) .": ".$otherDefense->quantity);
-        }
-        $notification = Notification::spyNotification(auth()->id(), $otherPlanet);
-    }
-
     public function spy(Request $Request)
     {  
         
@@ -45,7 +31,7 @@ class FleetController extends Controller
         if ($spyProbes->quantity > 0) {
             $spyProbes->quantity--;
             $spyProbes->save();
-            $this->spy_action($otherPlanet);
+            $spy = Spy::createSpy($otherPlanet);
             return redirect()->route("home.galaxy", $galaxyID)->with('success', __("spy_succes"));
         } else {
         return redirect()->route("home.galaxy", $galaxyID)->with('error', __("spy_error"));

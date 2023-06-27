@@ -277,4 +277,15 @@ tr.selected {
   cursor: not-allowed;
 }
 
+.notification-container {
+  background-color: rgba(68, 68, 68, 0.8078431373);
+  width: 654px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.spy_arrival {
+  display: none;
+}
+
 /*# sourceMappingURL=app.css.map */

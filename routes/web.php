@@ -7,6 +7,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FleetController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Middleware\LocaleMiddleware;
 
 
@@ -31,6 +32,8 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     ->middleware('auth');
     Route::get('/home/fleet', [HomeController::class, 'fleet'])->name('home.fleet')
     ->middleware('auth');
+    Route::get('/home/notification', [HomeController::class, 'notification'])->name('home.notification')
+    ->middleware('auth');
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
     Route::post('/register', [RegisterController::class, 'register'])->name('register');
@@ -39,7 +42,7 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         
-    Route::get('/update-resources', [UserController::class, 'updateResources'])->name('home.update-resources');
+    Route::get('/update-resources', [UserController::class, 'getUserResources'])->name('home.update-resources');
     Route::get('/update-all', [UserController::class, 'updateAll'])->name('home.update-all');
 
     
@@ -50,4 +53,6 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     
     
     Route::post('/fleet-spy', [FleetController::class, 'spy'])->name('fleet.spy');
+    
+    Route::post('/notification-spy', [NotificationController::class, 'spy'])->name('notification.spy');
 });

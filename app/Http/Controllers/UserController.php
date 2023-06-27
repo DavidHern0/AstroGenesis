@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Lang;
 
 class UserController extends Controller
 {
-    public function updateResources()
+    public function getUserResources()
     {
         $userID = auth()->id();
         
@@ -158,19 +158,19 @@ class UserController extends Controller
                 if ($metal_production) {
                     $metal_production_per_hour = ($metal_production + 40) / 3600;
                     if ($userGame->metal < $userGame->metal_storage) {
-                        $userGame->metal += $metal_production_per_hour * 5;
+                        $userGame->metal += round($metal_production_per_hour * 5, 3);
                     }
             }
             if ($crystal_production) {
                 $crystal_production_per_hour = ($crystal_production + 15) / 3600;
                 if ($userGame->crystal < $userGame->crystal_storage) {
-                    $userGame->crystal += $crystal_production_per_hour * 5;
+                    $userGame->crystal += round($crystal_production_per_hour * 5, 3);
                 }
             }
             if ($deuterium_mine->level != 0) {
                 $deuterium_production_per_hour = ($deuterium_production + 15) / 3600;
                 if ($userGame->deuterium < $userGame->deuterium_storage) {
-                    $userGame->deuterium += $deuterium_production_per_hour * 5;
+                    $userGame->deuterium += round($deuterium_production_per_hour * 5, 3);
                 }
             }
             $userGame->save();

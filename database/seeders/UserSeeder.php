@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
         $userGame = UserGame::createDefault($user->id);
         $shipPlanet = ShipPlanet::createDefault($planet->id);
         $defensePlanet = DefensePlanet::createDefault($planet->id);
-        for ($i = 1; $i <= 120; $i++) {
+        for ($i = 1; $i <= 75; $i++) {
                 $user = \App\Models\User::factory()->create([
                     'name' => 'CPU '.$i
                 ]);   

@@ -43,13 +43,20 @@
             
             <div class="main-content">
                 <section class="section_resources">
-                    <h1 class="game-title">{{__('web.title')}}</h1>
                     <div class="planet-name-container">
                         <span id="editIcon" class="edit-icon">&#9998;</span>
                         <h2 class="planet-name" id="planetName">{{$planet->name}}</h2>                 
                         <input type="text" id="editInput" style="display: none;" />
                     </div>
-                       
+                    <h1 class="game-title">{{__('web.title')}}</h1>
+                    <div class="notification-container">
+                            
+                            @if($spies)
+                                <p>&#128065; {{__('movement_spy')}} <span id="arrival_coordinates">{{"[".$spies->galaxy_position.":".$spies->solar_system_position."]"}}</span>: <span id="spy_arrival" class="spy_arrival">{{$spies->arrival}}</span></p>
+                            @else
+                                <p>{{__('movement_no')}}</p>
+                            @endif
+                    </div>
                     <div id="resources" class="resources-container">
                         <div class="resource">
                             <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">

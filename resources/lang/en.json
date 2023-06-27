@@ -46,8 +46,10 @@
     "no_ship_message": "There are not ships available in this planet",
     "spy_succes": "The spy probe has been sent successfully",
     "spy_error": "You have no spy probes",
-    "notification_title_spy": "Your spying probe has arrived",
-    "notification_body_spy": "Your spy probe has arrived at the planet :planetName of coordinates [:planetSSP,:planetGP]",
+    "movement_no": "Currently there are no fleet movements",
+    "movement_spy": "Your spy probe is on its way",
+    "notification_title_spy": "The spy probe has reached the planet",
+    "notification_body_spy": "This is the information obtained from the planet",
     
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",

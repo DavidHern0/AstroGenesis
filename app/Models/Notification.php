@@ -8,15 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'title', 'body', 'parameters', 'type'];
+    protected $fillable = ['user_id', 'title', 'body', 'resources', 'defenses', 'solar_system_position', 'galaxy_position', 'type'];
 
-    public static function spyNotification($userId, $otherPlanet)
+    public static function notificationSpy($resources, $defense, $coordinates)
     {
         return self::create([
-            'user_id' => $userId,
+            'user_id' => auth()->id(),
             'title' => 'notification_title_spy',
             'body' => 'notification_body_spy',
-            'parameters' => "['planetName' => $otherPlanet->name, 'planetSSP' => $otherPlanet->solay_system_position, 'planetGP' => $otherPlanet->galaxy_position]",
+            'resources' => json_encode($resources),
+            'defenses' => json_encode($defense),
+            'solar_system_position' => $coordinates[1],
+            'galaxy_position' => $coordinates[0],
             'type' => 'spy',
         ]);
     }

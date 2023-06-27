@@ -46,8 +46,10 @@
     "no_ship_message": "No hay naves disponibles en este planeta",
     "spy_succes": "Se ha enviado la sonda de espionaje con éxito",
     "spy_error": "No tienes sondas de espionaje",
-    "notification_title_spy": "Ha llegado tu sonda de espionaje",
-    "notification_body_spy": "Ha llegado la sonda de espionaje al planeta :planetName de las coordenadas [:planetSSP,:planetGP]",
+    "movement_no": "Actualmente no hay movimientos de flota",
+    "movement_spy": "Tu sonda espía está en camino",
+    "notification_title_spy": "La sonda de espionaje ha llegado al planeta",
+    "notification_body_spy": "Esta es la información obtenida del planeta",
 
     "(and :count more error)": "(y :count error más)",
     "(and :count more errors)": "(y :count errores más)",

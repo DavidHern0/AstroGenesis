@@ -1,5 +1,5 @@
 <script>
-function actualizarRecursos() {
+function updateResources() {
     $.ajax({
         url: '/update-all',
         method: 'GET',
@@ -11,6 +11,6 @@ function actualizarRecursos() {
         }
     });
 }
-setInterval(actualizarRecursos, 5000);
+setInterval(updateResources, 5000);
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
