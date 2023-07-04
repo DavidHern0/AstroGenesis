@@ -87,6 +87,7 @@ class HomeController extends Controller
                 'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
                 'buildingLevels' => $buildingLevels,
+                'spies' => $spies,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
