@@ -39,5 +39,16 @@ class NotificationController extends Controller
         $notification = Notification::notificationSpy($resources, $defense, $coordinates);
     }
 
+    public function destroy($id)
+    {
+        try {
+            $notification = Notification::findOrFail($id);            
+            $notification->delete();
+            
+            return response()->json(['message' => 'Deleted succesfully']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error'], 500);
+        }
+    }
     
 }

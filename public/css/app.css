@@ -194,6 +194,54 @@ input[type=number] {
   width: 35px;
 }
 
+.notifications .accordion {
+  margin-top: 50px;
+  background-color: #222;
+}
+.notifications .accordion .accordion-item {
+  margin-bottom: 10px;
+}
+.notifications .accordion .accordion-item .accordion-header {
+  height: 40px;
+  background-color: #444;
+  border: 1px solid #666;
+  display: flex;
+  justify-content: space-between;
+}
+.notifications .accordion .accordion-item .accordion-header h3 {
+  cursor: pointer;
+  margin: 0;
+  line-height: 40px;
+  padding: 0 10px;
+  color: #fff;
+}
+.notifications .accordion .accordion-item .accordion-header h3:hover {
+  color: #cfcfcf;
+}
+.notifications .accordion .accordion-item .accordion-header i {
+  padding: 10px;
+  cursor: pointer;
+}
+.notifications .accordion .accordion-item .accordion-header i:hover {
+  color: #ff6565;
+}
+.notifications .accordion .accordion-item .accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 10px;
+  transition: max-height 0.3s ease-in-out;
+}
+.notifications .accordion .accordion-item .accordion-content p {
+  margin: 0;
+  color: #fff;
+}
+.notifications .accordion .accordion-item.active .accordion-content {
+  max-height: 500px;
+}
+.notifications .accordion .accordion-item .accordion-resources {
+  margin-bottom: 10px;
+}
+
 .planets_container {
   margin-top: 50px;
   display: flex;
@@ -282,6 +330,19 @@ tr.selected {
   width: 654px;
   border-radius: 5px;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.notification-container .fa-bell {
+  text-decoration: none;
+  padding: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+.notification-container .fa-bell:hover {
+  color: rgb(184, 184, 184);
 }
 
 .spy_arrival {

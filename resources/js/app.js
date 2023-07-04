@@ -137,3 +137,54 @@ if (spy_arrival && arrival_coordinates) {
 
 setInterval(actualizarSpy, 1000);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const accordionItems = document.querySelectorAll('.accordion-item');
+  
+    accordionItems.forEach(function(item) {
+      const header = item.querySelector('.accordion-header h3');
+      const content = item.querySelector('.accordion-content');
+  
+      header.addEventListener('click', function() {
+        item.classList.toggle('active');
+        if (item.classList.contains('active')) {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+          content.style.maxHeight = '0';
+        }
+      });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const deleteButtons = document.querySelectorAll('.fas.fa-times');
+
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            const notificationId = this.getAttribute('data-notification-id');
+            const notificationItem = this.closest('.accordion-item');
+
+            fetch('/notifications/' + notificationId, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(function (response) {
+                if (response.ok) {
+                    // Eliminar la notificación del DOM
+                    notificationItem.remove();
+                    console.log('Notificación eliminada');
+                } else {
+                    throw new Error('Error al eliminar la notificación');
+                }
+            })
+            .catch(function (error) {
+                // Manejar errores
+                console.error(error);
+            });
+        });
+    });
+});

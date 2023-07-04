@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <header>
@@ -50,12 +51,12 @@
                     </div>
                     <h1 class="game-title">{{__('web.title')}}</h1>
                     <div class="notification-container">
-                            
-                            @if($spies)
-                                <p>&#128065; {{__('movement_spy')}} <span id="arrival_coordinates">{{"[".$spies->galaxy_position.":".$spies->solar_system_position."]"}}</span>: <span id="spy_arrival" class="spy_arrival">{{$spies->arrival}}</span></p>
-                            @else
-                                <p>{{__('movement_no')}}</p>
-                            @endif
+                        @if($spies)
+                        <p>&#128065; {{__('movement_spy')}} <span id="arrival_coordinates">{{"[".$spies->galaxy_position.":".$spies->solar_system_position."]"}}</span>: <span id="spy_arrival" class="spy_arrival">{{$spies->arrival}}</span></p>
+                        @else
+                        <p>{{__('movement_no')}}</p>
+                        @endif
+                        <a class="fas fa-bell" href="{{route('home.notification')}}"></a>
                     </div>
                     <div id="resources" class="resources-container">
                         <div class="resource">
