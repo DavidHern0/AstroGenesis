@@ -5,17 +5,20 @@ h1 {
   font-family: "Orbitron", sans-serif;
 }
 
-h2, h3, h4, h5, h6 {
+h2, h3, h4, h5, h6, td, tr {
   font-family: "Exo", sans-serif;
 }
 
-p {
+p, button {
   font-family: "Titillium Web", sans-serif;
 }
 
 body {
-  background-color: #000000;
   color: #ffffff;
+  background-image: url("/images/space-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .game-title {
@@ -55,7 +58,8 @@ body {
   height: auto;
 }
 
-.user-button, .update-item-button {
+.user-button,
+.update-item-button {
   padding: 10px 20px;
   color: #000000;
   background-color: #00a2ff;
@@ -64,7 +68,8 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.user-button:hover, .update-item-button:hover {
+.user-button:hover,
+.update-item-button:hover {
   background-color: #0082cc;
 }
 
@@ -72,7 +77,8 @@ body {
   display: flex;
 }
 
-.left-sidebar {
+.left-sidebar,
+.right-sidebar {
   flex: 0.5;
 }
 
@@ -80,15 +86,13 @@ body {
   flex: 2;
 }
 
-.right-sidebar {
-  flex: 0.5;
-}
-
 .sidebar {
   margin-top: 150px;
   text-align: center;
 }
-.sidebar a:link, .sidebar a:visited, .sidebar a:active {
+.sidebar a:link,
+.sidebar a:visited,
+.sidebar a:active {
   color: white;
   text-decoration: none;
 }
@@ -109,7 +113,8 @@ body {
   margin-top: 0;
 }
 
-.section_items {
+.section_items,
+.section_resources {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -118,14 +123,13 @@ body {
 
 .item-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px; /* Espacio entre los elementos */
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 20px;
   width: 100%;
 }
 
-.section_resources {
+.cost-container {
   display: flex;
-  flex-direction: column;
   align-content: center;
   align-items: center;
 }
@@ -137,36 +141,28 @@ body {
   align-items: center;
 }
 
-.cost-container {
-  display: flex;
-}
-
 .flash-messages {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 9999;
 }
-
 .flash-messages .alert {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
 }
-
 .flash-messages .alert-success {
   background-color: #dff0d8;
   color: #3c763d;
   border: 1px solid #d6e9c6;
 }
-
 .flash-messages .alert-danger {
   background-color: #f2dede;
   color: #a94442;
   border: 1px solid #ebccd1;
 }
-
-.close-btn {
+.flash-messages .close-btn {
   position: relative;
   top: -3px;
   float: right;
@@ -175,8 +171,7 @@ body {
   cursor: pointer;
   padding: 0 5px;
 }
-
-.close-btn:hover {
+.flash-messages .close-btn:hover {
   color: rgb(78, 78, 78);
 }
 
@@ -193,6 +188,58 @@ body {
 
 .edit-icon {
   cursor: pointer;
+}
+
+input[type=number] {
+  width: 35px;
+}
+
+.notifications .accordion {
+  margin-top: 50px;
+  background-color: #222;
+}
+.notifications .accordion .accordion-item {
+  margin-bottom: 10px;
+}
+.notifications .accordion .accordion-item .accordion-header {
+  height: 40px;
+  background-color: #444;
+  border: 1px solid #666;
+  display: flex;
+  justify-content: space-between;
+}
+.notifications .accordion .accordion-item .accordion-header h3 {
+  cursor: pointer;
+  margin: 0;
+  line-height: 40px;
+  padding: 0 10px;
+  color: #fff;
+}
+.notifications .accordion .accordion-item .accordion-header h3:hover {
+  color: #cfcfcf;
+}
+.notifications .accordion .accordion-item .accordion-header i {
+  padding: 10px;
+  cursor: pointer;
+}
+.notifications .accordion .accordion-item .accordion-header i:hover {
+  color: #ff6565;
+}
+.notifications .accordion .accordion-item .accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 10px;
+  transition: max-height 0.3s ease-in-out;
+}
+.notifications .accordion .accordion-item .accordion-content p {
+  margin: 0;
+  color: #fff;
+}
+.notifications .accordion .accordion-item.active .accordion-content {
+  max-height: 500px;
+}
+.notifications .accordion .accordion-item .accordion-resources {
+  margin-bottom: 10px;
 }
 
 .planets_container {
@@ -215,7 +262,6 @@ body {
 .planets_table td {
   padding: 5px;
   text-align: center;
-  border: 1px solid #444444;
 }
 
 .truncate {
@@ -225,7 +271,7 @@ body {
 }
 
 .planets_table th {
-  background-color: #414141;
+  background-color: rgba(65, 65, 65, 0.8078431373);
 }
 
 .planets_table img {
@@ -252,8 +298,55 @@ body {
   width: 35px;
 }
 
-input[type=number] {
-  width: 35px;
+tr:nth-child(2n) {
+  background-color: rgba(34, 34, 34, 0.8078431373);
+}
+tr:hover {
+  background-color: rgba(51, 51, 51, 0.8078431373);
+}
+tr.selected {
+  background-color: rgba(68, 68, 68, 0.8078431373);
+}
+
+.galaxy_button {
+  background-color: rgba(51, 51, 51, 0.8078431373);
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.galaxy_button:hover {
+  background-color: #555;
+}
+.galaxy_button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
+
+.notification-container {
+  background-color: rgba(68, 68, 68, 0.8078431373);
+  width: 654px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.notification-container .fa-bell {
+  text-decoration: none;
+  padding: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+.notification-container .fa-bell:hover {
+  color: rgb(184, 184, 184);
+}
+
+.spy_arrival {
+  display: none;
 }
 
 /*# sourceMappingURL=app.css.map */

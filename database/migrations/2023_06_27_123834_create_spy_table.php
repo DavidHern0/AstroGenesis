@@ -4,25 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlanetTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('planets', function (Blueprint $table) {
+        Schema::create('spies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name')->default('PRINCIPAL PLANET');
-            $table->enum('type', ['planet', 'moon']);
-            $table->enum('biome', ['desert', 'dry', 'gas', 'ice', 'savanna', 'jungle', 'water']);
-            $table->integer('variation');
+            $table->timestamp('departure')->useCurrent();
+            $table->timestamp('arrival');
+            $table->integer('success')->default(100);
             $table->integer('solar_system_position');
             $table->integer('galaxy_position');
-            $table->string('info');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
@@ -30,14 +26,12 @@ class CreatePlanetTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('planets', function (Blueprint $table) {
+        Schema::table('spies', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
         });
-        Schema::dropIfExists('planets');
+        Schema::dropIfExists('spies');
     }
-}
+};

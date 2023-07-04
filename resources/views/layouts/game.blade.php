@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <header>
@@ -34,6 +35,7 @@
                         <a href="{{route('home.facilities')}}"><h4>{{__('facilities')}}</h4></a>
                         <a href="{{route('home.shipyard')}}"><h4>{{__('shipyard')}}</h4></a>
                         <a href="{{route('home.defenses')}}"><h4>{{__('defenses')}}</h4></a>
+                        <a href="{{route('home.fleet')}}"><h4>{{__('fleet')}}</h4></a>
                         <a href="{{route('home.galaxy', $planet->galaxy_position)}}"><h4>{{__('galaxy')}}</h4></a>
                     </li>
                 </ul>
@@ -42,13 +44,20 @@
             
             <div class="main-content">
                 <section class="section_resources">
-                    <h1 class="game-title">{{__('web.title')}}</h1>
                     <div class="planet-name-container">
                         <span id="editIcon" class="edit-icon">&#9998;</span>
                         <h2 class="planet-name" id="planetName">{{$planet->name}}</h2>                 
                         <input type="text" id="editInput" style="display: none;" />
                     </div>
-                       
+                    <h1 class="game-title">{{__('web.title')}}</h1>
+                    <div class="notification-container">
+                        @if($spies)
+                        <p>&#128065; {{__('movement_spy')}} <span id="arrival_coordinates">{{"[".$spies->galaxy_position.":".$spies->solar_system_position."]"}}</span>: <span id="spy_arrival" class="spy_arrival">{{$spies->arrival}}</span></p>
+                        @else
+                        <p>{{__('movement_no')}}</p>
+                        @endif
+                        <a class="fas fa-bell" href="{{route('home.notification')}}"></a>
+                    </div>
                     <div id="resources" class="resources-container">
                         <div class="resource">
                             <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">

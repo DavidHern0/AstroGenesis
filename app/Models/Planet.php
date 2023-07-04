@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class Planet extends Model
 {
-    protected $fillable = ['user_id', 'name', 'type', 'position', 'info'];
+    protected $fillable = ['user_id', 'name', 'type', 'solar_system_position', 'galaxy_position', 'position', 'info'];
 
     /**
      * Crea un objeto Planet con valores por defecto.
@@ -34,8 +34,8 @@ class Planet extends Model
         $biome = '';
     
         do {
-            $randomSSP = rand(1, env('RANDOM_SSP_MAX'));
-            $randomG = rand(1, env('RANDOM_G_MAX'));
+            $randomSSP = rand(1, 12);
+            $randomG = rand(1, 30);
             $checkPosition = self::where('solar_system_position', $randomSSP)->where('galaxy_position', $randomG)->exists();            
         } while ($checkPosition);
         

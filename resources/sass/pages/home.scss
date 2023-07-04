@@ -1,7 +1,9 @@
-// Estilos generales
 body {
-  background-color: $dark-background;
   color: $secondary-color;
+  background-image: url('/images/space-bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .game-title {
@@ -10,20 +12,20 @@ body {
 }
 
 .planet-name {
-    text-align: center;
+  text-align: center;
 }
 
 .resources-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .resource {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    margin-inline: 15px;
-    font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-inline: 15px;
+  font-weight: bold;
 }
 
 .separator {
@@ -41,7 +43,8 @@ body {
   height: auto;
 }
 
-.user-button, .update-item-button {
+.user-button,
+.update-item-button {
   padding: 10px 20px;
   color: $dark-background;
   background-color: $primary-color;
@@ -59,7 +62,8 @@ body {
   display: flex;
 }
 
-.left-sidebar {
+.left-sidebar,
+.right-sidebar {
   flex: 0.5;
 }
 
@@ -67,17 +71,18 @@ body {
   flex: 2;
 }
 
-.right-sidebar {
-  flex: 0.5;
-}
 .sidebar {
-  a:link, a:visited, a:active {
+  a:link,
+  a:visited,
+  a:active {
     color: white;
-    text-decoration:none;
+    text-decoration: none;
   }
-  a:hover{
+
+  a:hover {
     color: rgb(182, 182, 182);
   }
+
   margin-top: 150px;
   text-align: center;
 
@@ -87,15 +92,21 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
-    li img{
-      width: 75px;
-    }
-    li h4 {
-      margin-top: 0;
+
+    li {
+      img {
+        width: 75px;
+      }
+
+      h4 {
+        margin-top: 0;
+      }
     }
   }
 }
-.section_items {
+
+.section_items,
+.section_resources {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -104,14 +115,13 @@ body {
 
 .item-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px; /* Espacio entre los elementos */
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 20px;
   width: 100%;
 }
 
-.section_resources {
+.cost-container {
   display: flex;
-  flex-direction: column;
   align-content: center;
   align-items: center;
 }
@@ -122,46 +132,44 @@ body {
   align-content: center;
   align-items: center;
 }
-.cost-container {
-  display: flex;
-}
 
 .flash-messages {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 9999;
-}
 
-.flash-messages .alert {
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-}
+  .alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
 
-.flash-messages .alert-success {
-  background-color: #dff0d8;
-  color: #3c763d;
-  border: 1px solid #d6e9c6;
-}
+  .alert-success {
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+  }
 
-.flash-messages .alert-danger {
-  background-color: #f2dede;
-  color: #a94442;
-  border: 1px solid #ebccd1;
-}
-.close-btn {
-  position: relative;
-  top: -3px;
-  float: right;
-  font-weight: bold;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0 5px;
-}
+  .alert-danger {
+    background-color: #f2dede;
+    color: #a94442;
+    border: 1px solid #ebccd1;
+  }
 
-.close-btn:hover {
-  color: rgb(78, 78, 78);
+  .close-btn {
+    position: relative;
+    top: -3px;
+    float: right;
+    font-weight: bold;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 5px;
+
+    &:hover {
+      color: rgb(78, 78, 78);
+    }
+  }
 }
 
 .principal_image {
@@ -179,63 +187,64 @@ body {
   cursor: pointer;
 }
 
-.planets_container {
-  margin-top:50px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-.planets_table {
-  border-collapse: collapse;
-}
-
-.planets_table {
-  .table_position, 
-  .table_planet {
-  width: 30px;
-  }
-}
-  
-.planets_table th,
-.planets_table td {
-  padding: 5px;
-  text-align: center;
-  border: 1px solid #444444;
-}
-.truncate {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.planets_table th {
-  background-color: #414141;
-}
-
-.planets_table img {
-  min-width: 25px;
-  max-width: 25px;
-  height: auto;
-}
-
-.selected {
-  color: #8fd390;
-}
-
-.galaxy_selector {
-  a:link, a:visited, a:active {
-    color: white;
-    text-decoration:none;
-  }
-  a:hover{
-    color: rgb(182, 182, 182);
-  }
-  input {
-    width: 35px;
-  }
-  margin-bottom: 20px;
-}
-
-input[type=number] {
+input[type="number"] {
   width: 35px;
+}
+
+.notifications {
+  .accordion {
+    margin-top:50px;
+    background-color: #222;
+
+    .accordion-item {
+      margin-bottom: 10px;
+
+      .accordion-header {
+        height: 40px;
+        background-color: #444;
+        border: 1px solid #666;
+        display: flex;
+        justify-content: space-between;
+        h3 {
+          cursor: pointer;
+          margin: 0;
+          line-height: 40px;
+          padding: 0 10px;
+          color: #fff;
+          &:hover {
+            color: #cfcfcf;
+          }
+        }
+        i {
+          padding: 10px;
+          cursor: pointer;
+          &:hover {
+            color: #ff6565;
+          }
+        }
+      }
+
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        padding: 10px;
+        transition: max-height 0.3s ease-in-out;
+
+        p {
+          margin: 0;
+          color: #fff;
+        }
+      }
+
+      &.active {
+        .accordion-content {
+          max-height: 500px;
+        }
+      }
+
+      .accordion-resources {
+        margin-bottom: 10px;
+      }
+    }
+  }
 }

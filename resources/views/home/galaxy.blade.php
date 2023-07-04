@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            @for ($i = 1; $i <= env('RANDOM_SSP_MAX'); $i++)
+            @for ($i = 1; $i <= 12; $i++)
             @php
             $individualPlanet = $planets->firstWhere('solar_system_position', $i);
             @endphp
@@ -41,9 +41,17 @@
             </td>
             <td>
                 @if($individualPlanet && $individualPlanet->id != $planet->id)
-                    <button type="button">{{__("transport")}}</button>
-                    <button type="button">{{__("spy")}}</button>
-                    <button type="button">{{__("attack")}}</button>
+                
+                <form action="{{ route('fleet.spy') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="planet-id" value="{{$individualPlanet->id}}">
+                    <input type="hidden" name="galaxy-id" value="{{ $galaxy_position }}">
+                    
+                    <button class="galaxy_button" type="submit">{{__("spy")}}</button>
+                </form>
+                
+                <button class="galaxy_button" type="button">{{__("transport")}}</button>
+                    <button class="galaxy_button" type="button">{{__("attack")}}</button>
                 @endif
             </td>
         </tr>

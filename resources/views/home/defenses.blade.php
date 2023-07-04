@@ -11,7 +11,7 @@
         <div class="item-container">
             @foreach ($defensePlanets as $defensePlanet)
             <div class="defense-item">
-                <h4 class="item-name">{{ $defensePlanet->defense->getTranslation('name', config('app.locale')) }}</h4>
+                 <h4 class="item-name truncate">{{ $defensePlanet->defense->getTranslation('name', config('app.locale')) }}</h4>
                 <p>{{__('quantity')}}: {{$defensePlanet->quantity}}</p>                    
                 
                 @foreach ($defenseLevels as $defenseLevel)

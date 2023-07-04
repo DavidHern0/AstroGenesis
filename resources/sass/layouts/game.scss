@@ -1,0 +1,23 @@
+.notification-container {    
+    background-color: #444444ce;
+    width: 654px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+.fa-bell {
+    text-decoration:none;
+    padding: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      color: rgb(184, 184, 184);
+    }
+  }
+}
+
+.spy_arrival {
+    display: none;
+}
