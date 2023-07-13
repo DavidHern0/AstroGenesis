@@ -159,7 +159,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('DOMContentLoaded', function () {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const deleteButtons = document.querySelectorAll('.fas.fa-times');
+    const notifications = document.querySelectorAll('.accordion-header.unread');
 
+    
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             const notificationId = this.getAttribute('data-notification-id');
@@ -174,15 +176,29 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(function (response) {
                 if (response.ok) {
-                    // Eliminar la notificación del DOM
                     notificationItem.remove();
-                    console.log('Notificación eliminada');
                 } else {
-                    throw new Error('Error al eliminar la notificación');
+                    throw new Error('Error while deleting notification');
                 }
             })
             .catch(function (error) {
-                // Manejar errores
+                console.error(error);
+            });
+        });
+    });
+
+    notifications.forEach(function (notification) {
+        notification.addEventListener('click', function () {
+            const notificationId = this.getAttribute('data-notification-id');
+            
+            fetch('/notification-read/' + notificationId, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+            })
+            .catch(function (error) {
                 console.error(error);
             });
         });

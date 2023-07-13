@@ -39,6 +39,19 @@ class NotificationController extends Controller
         $notification = Notification::notificationSpy($resources, $defense, $coordinates);
     }
 
+    public function read($id)
+    {
+        try {
+            $notification = Notification::findOrFail($id);            
+            $notification->read = 1;
+            $notification->save();
+            
+            return response()->json(['message' => 'Notification readed succesfully']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error'], 500);
+        }
+    }
+
     public function destroy($id)
     {
         try {

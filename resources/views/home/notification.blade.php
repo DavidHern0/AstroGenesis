@@ -13,7 +13,7 @@
                 $defensePlanetsCount = count($defensePlanets);
                 @endphp
                 <div class="accordion-item">
-                    <div class="accordion-header">
+                    <div class="accordion-header @if($notification->read == 0)unread @endif" data-notification-id="{{$notification->id}}">
                         <h3>{{__($notification->title)}} [{{$notification->solar_system_position}}:{{$notification->galaxy_position}}]:</h3>
                         <i class="fas fa-times" data-notification-id="{{$notification->id}}"></i>
                     </div>

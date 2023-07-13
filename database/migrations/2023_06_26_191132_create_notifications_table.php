@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('solar_system_position');
             $table->integer('galaxy_position');
             $table->enum('type', ['spy', 'attack', 'defense','info'])->default('info');
+            $table->boolean('read')->default(0);
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
