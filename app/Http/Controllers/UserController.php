@@ -189,12 +189,16 @@ class UserController extends Controller
         $ship_number = $request->input('ship_number');
         
         $userID = auth()->id();
+        $planet = Planet::where('user_id', $userID)->first();
         
         $userGame = userGame::where('user_id', $userID)->first();
         
-        $selectedShip = shipPlanet::where('ship_id', $shipID)->first();
+        $selectedShip = shipPlanet::where('ship_id', $shipID)
+        ->where('planet_id', $planet->id)
+        ->first();
     
-        $currentShipLevel = shipLevel::where('ship_id', $shipID)->first();
+        $currentShipLevel = shipLevel::where('ship_id', $shipID)
+        ->first();
 
         if ($userGame->metal >= $currentShipLevel->metal_cost * $ship_number &&
         $userGame->crystal >= $currentShipLevel->crystal_cost * $ship_number &&
@@ -219,11 +223,14 @@ class UserController extends Controller
         $defense_number = $request->input('defense_number');
         
         $userID = auth()->id();
+        $planet = Planet::where('user_id', $userID)->first();
         
         $userGame = userGame::where('user_id', $userID)->first();
         
-        $selectedDefense = defensePlanet::where('defense_id', $defenseID)->first();
-    
+        $selectedDefense = defensePlanet::where('defense_id', $defenseID)
+        ->where('planet_id', $planet->id)
+        ->first();
+
         $currentDefenseLevel = defenseLevel::where('defense_id', $defenseID)->first();
 
         if ($userGame->metal >= $currentDefenseLevel->metal_cost * $defense_number &&
