@@ -36,6 +36,6 @@ class CreateBuildingPlanetTable extends Migration
             $table->dropForeign(['building_id']);
             $table->dropForeign(['planet_id']);
         });
-        Schema::dropIfExists('building_users');
+        Schema::dropIfExists('building_planets');
     }
 }
