@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class Planet extends Model
 {
-    protected $fillable = ['user_id', 'name', 'type', 'solar_system_position', 'galaxy_position', 'position', 'info'];
+    protected $fillable = ['user_id', 'name', 'type', 'solar_system_position', 'galaxy_position', 'position', 'info', 'variation'];
 
     /**
      * Crea un objeto Planet con valores por defecto.
