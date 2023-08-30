@@ -21,44 +21,48 @@ class UserController extends Controller
         $userID = auth()->id();
         
         $userGame = userGame::where('user_id', $userID)->first();
-        $planet = Planet::where('user_id', $userID)->first();
-        $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->get();
-        $buildingLevels = BuildingLevel::all();
-        
-        $metal_mine = BuildingPlanet::where('building_id', 1)->first();
-        $crystal_mine = BuildingPlanet::where('building_id', 2)->first();
-        $deuterium_mine = BuildingPlanet::where('building_id', 3)->first();
-
-        $metal_production = BuildingLevel::where('building_id', 1)
-        ->where('level', $metal_mine->level)
-        ->pluck('production_rate')
-        ->first();
-
-        $crystal_production = BuildingLevel::where('building_id', 2)
-        ->where('level', $crystal_mine->level)
-        ->pluck('production_rate')
-        ->first();
-
-        $deuterium_production = BuildingLevel::where('building_id', 3)
-        ->where('level', $deuterium_mine->level)
-        ->pluck('production_rate')
-        ->first();
-        
-
-        // BOOST ////////////////////////////////////////////////////////
-        $metal_production *= 10;
-        $crystal_production *= 10;
-        $deuterium_production *= 10;
-        /////////////////////////////////////////////////////////////////
-
-        if ($userGame->energy < 0) {
-            $metal_production *= 0.4;
-            $crystal_production *= 0.4;
-            $deuterium_production *= 0.4;
+        if ($userGame) {
+            $planet = Planet::where('user_id', $userID)->first();
+            if ($planet) {
+                $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->get();
+                $buildingLevels = BuildingLevel::all();
+                
+                $metal_mine = BuildingPlanet::where('building_id', 1)->first();
+                $crystal_mine = BuildingPlanet::where('building_id', 2)->first();
+                $deuterium_mine = BuildingPlanet::where('building_id', 3)->first();
+                
+                $metal_production = BuildingLevel::where('building_id', 1)
+                ->where('level', $metal_mine->level)
+                ->pluck('production_rate')
+                ->first();
+                
+                $crystal_production = BuildingLevel::where('building_id', 2)
+                ->where('level', $crystal_mine->level)
+                ->pluck('production_rate')
+                ->first();
+                
+                $deuterium_production = BuildingLevel::where('building_id', 3)
+                ->where('level', $deuterium_mine->level)
+                ->pluck('production_rate')
+                ->first();
+                
+                
+                // BOOST ////////////////////////////////////////////////////////
+                $metal_production *= 10;
+                $crystal_production *= 10;
+                $deuterium_production *= 10;
+                /////////////////////////////////////////////////////////////////
+                
+                if ($userGame->energy < 0) {
+                    $metal_production *= 0.4;
+                    $crystal_production *= 0.4;
+                    $deuterium_production *= 0.4;
+                }
+            return response()->json($userGame);
+            }
         }
-        return response()->json($userGame);
     }
-
+    
     public function updateBuilding(Request $request)
     {
         $buildingID = $request->input('buildingPlanet-id');
