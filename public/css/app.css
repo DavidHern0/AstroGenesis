@@ -16,9 +16,6 @@ p, button {
 body {
   color: #ffffff;
   background-image: url("/images/space-bg.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
 
 .game-title {
@@ -350,6 +347,47 @@ tr.selected {
 
 .spy_arrival {
   display: none;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #001f3f;
+  color: #ccc;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav a {
+  text-decoration: none;
+  color: #ccc;
+  margin: 0 10px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+nav a:hover {
+  color: #999;
+}
+
+form button {
+  padding: 10px 20px;
+  color: #001f3f;
+  background-color: #ccc;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+form button:hover {
+  background-color: #999;
 }
 
 /*# sourceMappingURL=app.css.map */

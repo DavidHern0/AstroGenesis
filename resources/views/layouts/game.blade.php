@@ -12,10 +12,12 @@
     <header>
         <nav>
             <ul>
-                <ul>
+                <li>
                     <a href="{{ route('locale', 'en') }}">EN</a>
+                </li>
+                <li>
                     <a href="{{ route('locale', 'es') }}">ES</a>
-                </ul>
+                </li>
             </ul>
         </nav>
         <form action="{{ route('logout') }}" method="POST">
