@@ -54,6 +54,8 @@
     "resource_transport": "Transporte de recursos",
     "send_fleet": "Enviar flota",
     "movement_fleet": "Tu flota está en camino",
+    "notification_title_expedition": "La flota ha regresado de su expedición",
+    "notification_body_expedition": "Hemos encontrado estos recursos",
 
     "(and :count more error)": "(y :count error más)",
     "(and :count more errors)": "(y :count errores más)",

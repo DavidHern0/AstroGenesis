@@ -233,3 +233,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 }
+
+//fleet
+const expeditionRadio = document.querySelector('input[value="expedition"]');
+const resourceTransportRadio = document.querySelector('input[value="resource_transport"]');
+const attackRadio = document.querySelector('input[value="attack"]');
+const expeditionContainer = document.getElementById('expedition_container');
+const attackResourceContainer = document.getElementById('attack_resource_container');
+
+function toggleElements() {
+    expeditionContainer.style.display = 'none';
+    attackResourceContainer.style.display = 'none';
+
+    if (expeditionRadio.checked) {
+        expeditionContainer.style.display = 'block';
+    } else if (attackRadio.checked || resourceTransportRadio.checked) {
+        attackResourceContainer.style.display = 'block';
+    }
+}
+if (expeditionRadio) {
+    expeditionRadio.addEventListener('change', toggleElements);
+    toggleElements();
+}
+if (resourceTransportRadio) {
+    resourceTransportRadio.addEventListener('change', toggleElements);
+}
+if (attackRadio) {
+    attackRadio.addEventListener('change', toggleElements);    
+}

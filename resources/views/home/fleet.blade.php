@@ -35,7 +35,6 @@
                                 @endif
                             @endforeach
                             <input type="hidden" name="shipPlanet_id[]" value="{{$shipPlanet->ship_id}}">
-                            {{-- <input type="number" name="ship_number[]" value="{{$shipPlanet->quantity}}"/> --}}
                             <input type="number" name="ship_number[]" value="0"/>
                         </div>
                     @endif
@@ -59,18 +58,18 @@
                 </label><br>
             </div>
             
-            <div>
-                <label>{{__("position")}}</label>
-                <input type="number" name="planet_ssp"/>
-                
-                <label>{{__("galaxy")}}</label>
-                <input type="number" name="planet_gp"/>
-
-                
+            <div id="expedition_container">
                 <label>{{__("expedition_hours")}}</label>
                 <input type="number" name="expedition_hours"/>
             </div>
             
+            <div id="attack_resource_container" style="display: none;">
+                <label>{{__("galaxy")}}</label>
+                <input type="number" name="planet_gp"/>
+
+                <label>{{__("position")}}</label>
+                <input type="number" name="planet_ssp"/>
+            </div>
             <button class="update-item-button" type="submit">{{__('send_fleet')}}</button>
         </form>
         @else
