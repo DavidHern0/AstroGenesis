@@ -13,6 +13,7 @@ use App\Models\ShipLevel;
 use App\Models\DefensePlanet;
 use App\Models\DefenseLevel;
 use App\Models\Spy;
+use App\Models\Fleet;
 use App\Models\Notification;
 use App\Models\Defense;
 use Carbon\Carbon;
@@ -32,10 +33,16 @@ class HomeController extends Controller
                 ->where('arrival', '>', Carbon::now()->addSeconds(1))
                 ->orderBy('arrival', 'ASC')
                 ->first();
+                
+            $fleets = Fleet::where('user_id', $userID)
+            ->where('arrival', '>', Carbon::now()->addSeconds(1))
+            ->orderBy('arrival', 'ASC')
+            ->first();
             return view('home.index', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'spies' => $spies,
+                'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -56,12 +63,18 @@ class HomeController extends Controller
                 ->where('arrival', '>', Carbon::now()->addSeconds(1))
                 ->orderBy('arrival', 'ASC')
                 ->first();
+                
+                $fleets = Fleet::where('user_id', $userID)
+                ->where('arrival', '>', Carbon::now()->addSeconds(1))
+                ->orderBy('arrival', 'ASC')
+                ->first();
             return view('home.resources', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
                 'buildingLevels' => $buildingLevels,
                 'spies' => $spies,
+                'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -82,12 +95,18 @@ class HomeController extends Controller
                 ->where('arrival', '>', Carbon::now()->addSeconds(1))
                 ->orderBy('arrival', 'ASC')
                 ->first();
+                
+                $fleets = Fleet::where('user_id', $userID)
+                ->where('arrival', '>', Carbon::now()->addSeconds(1))
+                ->orderBy('arrival', 'ASC')
+                ->first();
             return view('home.facilities', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
                 'buildingLevels' => $buildingLevels,
                 'spies' => $spies,
+                'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -108,12 +127,18 @@ class HomeController extends Controller
                 ->where('arrival', '>', Carbon::now()->addSeconds(1))
                 ->orderBy('arrival', 'ASC')
                 ->first();
+                
+                $fleets = Fleet::where('user_id', $userID)
+                ->where('arrival', '>', Carbon::now()->addSeconds(1))
+                ->orderBy('arrival', 'ASC')
+                ->first();
             return view('home.shipyard', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'shipPlanets' => $shipPlanets,
                 'shipLevels' => $shipLevels,
                 'spies' => $spies,
+                'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -134,12 +159,18 @@ class HomeController extends Controller
                 ->where('arrival', '>', Carbon::now()->addSeconds(1))
                 ->orderBy('arrival', 'ASC')
                 ->first();
+                
+                $fleets = Fleet::where('user_id', $userID)
+                ->where('arrival', '>', Carbon::now()->addSeconds(1))
+                ->orderBy('arrival', 'ASC')
+                ->first();
             return view('home.defenses', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'defensePlanets' => $defensePlanets,
                 'defenseLevels' => $defenseLevels,
                 'spies' => $spies,
+                'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -160,12 +191,18 @@ class HomeController extends Controller
                 ->where('arrival', '>', Carbon::now()->addSeconds(1))
                 ->orderBy('arrival', 'ASC')
                 ->first();
+                
+                $fleets = Fleet::where('user_id', $userID)
+                ->where('arrival', '>', Carbon::now()->addSeconds(1))
+                ->orderBy('arrival', 'ASC')
+                ->first();
             return view('home.fleet', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'shipPlanets' => $shipPlanets,
                 'shipLevels' => $shipLevels,
                 'spies' => $spies,
+                'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -186,12 +223,18 @@ class HomeController extends Controller
                 ->where('arrival', '>', Carbon::now()->addSeconds(1))
                 ->orderBy('arrival', 'ASC')
                 ->first();
+                
+                $fleets = Fleet::where('user_id', $userID)
+                ->where('arrival', '>', Carbon::now()->addSeconds(1))
+                ->orderBy('arrival', 'ASC')
+                ->first();
             return view('home.galaxy', [
                 'planet' => $planet,
                 'planets' => $planets,
                 'userGame' => $userGame,
                 'galaxy_position' => $galaxy_position,
                 'spies' => $spies,
+                'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -211,10 +254,16 @@ class HomeController extends Controller
                 ->where('arrival', '>', Carbon::now()->addSeconds(1))
                 ->orderBy('arrival', 'ASC')
                 ->first();
+                
+                $fleets = Fleet::where('user_id', $userID)
+                ->where('arrival', '>', Carbon::now()->addSeconds(1))
+                ->orderBy('arrival', 'ASC')
+                ->first();
             return view('home.notification', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'spies' => $spies,
+                'fleets' => $fleets,
                 'notifications' => $notifications,
                 'defensePlanets' => $defensePlanets
             ]);

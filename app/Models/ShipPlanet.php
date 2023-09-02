@@ -24,6 +24,18 @@ class ShipPlanet extends Model
             ]);
         }
     }
+    
+    public static function subtractShipsSent($shipPlanet_ids, $ship_numbers)
+    {
+        $userID = auth()->id();
+        $planet = Planet::where('user_id', $userID)->first();
+        $allShips = [];
+        foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
+            $ship = ShipPlanet::where('planet_id', $planet->id)->where('ship_id', $shipPlanet_id)->first();
+            $ship->quantity -= $ship_numbers[$i];
+            $ship->save();
+        }
+    }
 
     public function ship()
     {

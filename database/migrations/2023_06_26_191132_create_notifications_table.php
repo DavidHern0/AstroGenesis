@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('body');
             $table->string('resources');
-            $table->string('defenses');
-            $table->integer('solar_system_position');
-            $table->integer('galaxy_position');
-            $table->enum('type', ['spy', 'attack', 'defense','info'])->default('info');
+            $table->string('defenses')->nullable();
+            $table->integer('solar_system_position')->nullable();
+            $table->integer('galaxy_position')->nullable();
+            $table->enum('type', ['spy', 'attack', 'defense','info','expedition'])->default('info');
             $table->boolean('read')->default(0);
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();

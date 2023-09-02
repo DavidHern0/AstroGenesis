@@ -147,9 +147,9 @@ class UserController extends Controller
             
             
             // BOOST ////////////////////////////////////////////////////////
-            $metal_production *= 10;
-            $crystal_production *= 10;
-            $deuterium_production *= 10;
+            $metal_production *= env('BOOST');
+            $crystal_production *= env('BOOST');
+            $deuterium_production *= env('BOOST');
             /////////////////////////////////////////////////////////////////
             
             if ($userGame->energy < 0) {

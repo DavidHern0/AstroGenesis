@@ -61,6 +61,11 @@
                         @else
                         <p>{{__('movement_no')}}</p>
                         @endif
+                        @if($fleets)
+                        <p>&#128065; {{__('movement_fleet')}} <span id="arrival_coordinates">{{"[".$fleets->galaxy_position_arrival.":".$fleets->solar_system_position_arrival."]"}}</span>: <span id="spy_arrival" class="spy_arrival">{{$fleets->arrival}}</span></p>
+                        @else
+                        <p>{{__('movement_no')}}</p>
+                        @endif
                         <a class="fas fa-bell" href="{{route('home.notification')}}"></a>
                     </div>
                     <div id="resources" class="resources-container">

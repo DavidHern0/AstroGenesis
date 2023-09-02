@@ -24,13 +24,15 @@
                           <p>{{__('crystal')}}: {{$resources[1]}}</p>
                           <p>{{__('deuterium')}}: {{$resources[2]}}</p>
                         </div>
-                        <div class="accordion-defenses">
-                            @foreach ($defensePlanets as $index => $defensePlanet)
-                            @if ($index < $defensePlanetsCount && $index < count($defenses))
-                            <p>{{$defensePlanet->defense->getTranslation('name', config('app.locale'))}}: {{$defenses[$index]}}</p>
-                            @endif
-                            @endforeach
-                        </div>
+                        @if($notification->type === 'spy')
+                            <div class="accordion-defenses">
+                                @foreach ($defensePlanets as $index => $defensePlanet)
+                                @if ($index < $defensePlanetsCount && $index < count($defenses))
+                                <p>{{$defensePlanet->defense->getTranslation('name', config('app.locale'))}}: {{$defenses[$index]}}</p>
+                                @endif
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
                 @endforeach

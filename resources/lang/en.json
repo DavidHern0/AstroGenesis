@@ -50,6 +50,10 @@
     "movement_spy": "Your spy probe is on its way",
     "notification_title_spy": "The spy probe has reached the planet",
     "notification_body_spy": "This is the information obtained from the planet",
+    "expedition": "Expedition",
+    "resource_transport": "Resource transport",
+    "send_fleet": "Send fleet",
+    "movement_fleet": "Your fleet is on its way",
     
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",

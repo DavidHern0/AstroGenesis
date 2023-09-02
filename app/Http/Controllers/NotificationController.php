@@ -39,13 +39,26 @@ class NotificationController extends Controller
         $notification = Notification::notificationSpy($resources, $defense, $coordinates);
     }
 
+    // public function expedition(Request $Request)
+    // {
+    //     Notification::notificationExpedition($resources);
+    // }
+
     public function read($id)
     {
         try {
             $notification = Notification::findOrFail($id);            
             $notification->read = 1;
             $notification->save();
-            
+            if ($notification->type === 'expedition') {
+                $userID = auth()->id();
+                $userGame = userGame::where('user_id', $userID)->first();
+                $resources = json_decode($notification->resources);
+                $userGame->metal += $resources[0];
+                $userGame->crystal += $resources[1];
+                $userGame->deuterium += $resources[2];
+                $userGame->save();
+            }
             return response()->json(['message' => 'Notification readed succesfully']);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error'], 500);
