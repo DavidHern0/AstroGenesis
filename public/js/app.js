@@ -18,9 +18,6 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 const deleteButtons = document.querySelectorAll('.fas.fa-times');
 const notifications = document.querySelectorAll('.accordion-header.unread');
 
-console.log(spyArrival)
-console.log(arrivalCoordinates)
-
 if (metalElement && crystalElement && deuteriumElement && energyElement) {   
     function updateResources() {
         fetch('/update-resources')
@@ -107,8 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const accordionItems = document.querySelectorAll('.accordion-item');
-
     accordionItems.forEach(item => {
         const header = item.querySelector('.accordion-header h3');
         const content = item.querySelector('.accordion-content');
@@ -193,14 +188,15 @@ if (spyArrival && arrivalCoordinates) {
         spyArrival.innerText = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
 
         if (timeDifference <= 0) {
-            $.ajax({
-                url: '/notification-spy',
-                type: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    ssp_otherPlanet: arrivalCoordinates[0],
-                    gp_otherPlanet: arrivalCoordinates[1],
-                },
+            if (arrivalCoordinates) {
+                $.ajax({
+                    url: '/notification-spy',
+                    type: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        ssp_otherPlanet: arrivalCoordinates[0],
+                        gp_otherPlanet: arrivalCoordinates[1],
+                    },
                 success: function (response) {
                     console.log(response);
                 },
@@ -208,7 +204,24 @@ if (spyArrival && arrivalCoordinates) {
                     console.error(xhr);
                 }
             });
-            location.reload();
+        } else {
+            $.ajax({
+                url: '/notification-fleet',
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    type: "fleet",
+                },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr) {
+                console.error(xhr);
+            }
+        });
+            
+        }
+        location.reload();
         }
     };
 

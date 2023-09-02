@@ -56,6 +56,7 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     Route::post('/fleet-send', [FleetController::class, 'send'])->name('fleet.send');
     
     Route::post('/notification-spy', [NotificationController::class, 'spy'])->name('notification.spy');
+    Route::post('/notification-fleet', [NotificationController::class, 'fleet'])->name('notification.fleet');
     Route::post('/notification-read/{id}', [NotificationController::class, 'read'])->name('notification.read');
 
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');

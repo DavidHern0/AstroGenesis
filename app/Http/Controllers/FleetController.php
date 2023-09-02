@@ -81,8 +81,8 @@ class FleetController extends Controller
                     $crystal = round($randomCargo * 0.30);
                     $deuterium = round($randomCargo - $metal - $crystal);
                     
-                    $resources = [$metal, $crystal, $deuterium];
-                    Notification::notificationExpedition($resources);
+                    $exp_resources = [$metal, $crystal, $deuterium];
+                    session(['exp_resources' => $exp_resources]);
                 }
                 return redirect()->route("home.fleet")->with('success', __("fleet_succes"));
             break;

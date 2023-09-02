@@ -39,11 +39,15 @@ class NotificationController extends Controller
         $notification = Notification::notificationSpy($resources, $defense, $coordinates);
     }
 
-    // public function expedition(Request $Request)
-    // {
-    //     Notification::notificationExpedition($resources);
-    // }
+    public function fleet(Request $Request)
+    {
 
+        $resources = $Request->session()->get('exp_resources');
+
+        Notification::notificationExpedition($resources);
+        $Request->session()->forget('exp_resources');
+    }
+    
     public function read($id)
     {
         try {
