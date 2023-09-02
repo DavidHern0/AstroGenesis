@@ -12,15 +12,20 @@
     <header>
         <nav>
             <ul>
-                <ul>
+                <li>
                     <a href="{{ route('locale', 'en') }}">EN</a>
+                </li>
+                <li>
                     <a href="{{ route('locale', 'es') }}">ES</a>
-                </ul>
+                </li>
             </ul>
         </nav>
+
+        <h1 class="game-title">{{__('web.title')}}</h1>
+
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <button type="submit">{{__('Log Out')}}</button>
+            <button class="session-button" type="submit">{{__('Log Out')}}</button>
         </form>
     </header>
 
@@ -49,7 +54,7 @@
                         <h2 class="planet-name" id="planetName">{{$planet->name}}</h2>                 
                         <input type="text" id="editInput" style="display: none;" />
                     </div>
-                    <h1 class="game-title">{{__('web.title')}}</h1>
+                    
                     <div class="notification-container">
                         @if($spies)
                         <p>&#128065; {{__('movement_spy')}} <span id="arrival_coordinates">{{"[".$spies->galaxy_position.":".$spies->solar_system_position."]"}}</span>: <span id="spy_arrival" class="spy_arrival">{{$spies->arrival}}</span></p>

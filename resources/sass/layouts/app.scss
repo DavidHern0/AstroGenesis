@@ -1,0 +1,83 @@
+$space-background: #001f3f;
+$space-text: #ccc;
+$neutral-color: #999;
+
+.session {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: $space-background;
+  color: $space-text;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"] {
+  width: 75%;
+  padding: 10px;
+  margin: 0px 0px 30px 0px;
+  border: none;
+  border-radius: 4px;
+}
+
+.session-button{
+  padding: 10px 20px;
+  color: $space-background;
+  background-color: $space-text;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+
+  &:hover {
+    background-color: $neutral-color;
+  }
+}
+
+.login-link,
+.register-link {
+  text-decoration: none;
+  padding: 10px 20px;
+  color: $space-background;
+  background-color: $space-text;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  margin-right: 10px;
+  margin-block: 5px;
+
+  &:hover {
+    background-color: $neutral-color;
+  }
+}
+
+a.login-link {
+  @extend .login-link;
+}
+
+a.register-link {
+  @extend .register-link;
+}
+
+.error {
+  color: red;
+}
+
+.header-item {
+  width: min-content;
+}

@@ -19,9 +19,9 @@ const deleteButtons = document.querySelectorAll('.fas.fa-times');
 const notifications = document.querySelectorAll('.accordion-header.unread');
 
 
-
-function updateResources() {
-    fetch('/update-resources')
+if (metalElement && crystalElement && deuteriumElement && energyElement) {   
+    function updateResources() {
+        fetch('/update-resources')
         .then(response => response.json())
         .then(data => {
             const { metal, crystal, deuterium, energy } = data;
@@ -31,9 +31,8 @@ function updateResources() {
             energyElement.textContent = Math.floor(energy);
         })
         .catch(error => console.log(error));
-}
-
-setInterval(updateResources, 5000);
+    }   
+    setInterval(updateResources, 5000);
 
 const energyValue = parseInt(energyElement.textContent);
 if (energyValue < 0) {
@@ -71,14 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     planetName: newPlanetName
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                planetName.innerText = newPlanetName;
-                planetListName.innerText = newPlanetName;
-                planetName.style.display = 'inline-block';
-                editInput.style.display = 'none';
-            })
-            .catch(error => console.error(error));
+                .then(response => response.json())
+                .then(data => {
+                    planetName.innerText = newPlanetName;
+                    planetListName.innerText = newPlanetName;
+                    planetName.style.display = 'inline-block';
+                    editInput.style.display = 'none';
+                })
+                .catch(error => console.error(error));
         }
     });
 
@@ -105,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    
+
     const accordionItems = document.querySelectorAll('.accordion-item');
 
     accordionItems.forEach(item => {
@@ -134,16 +133,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json'
                 },
             })
-            .then(response => {
-                if (response.ok) {
-                    notificationItem.remove();
-                } else {
-                    throw new Error('Error while deleting notification');
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        notificationItem.remove();
+                    } else {
+                        throw new Error('Error while deleting notification');
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         });
     });
 
@@ -158,9 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json'
                 },
             })
-            .catch(error => {
-                console.error(error);
-            });
+                .catch(error => {
+                    console.error(error);
+                });
         });
     });
 });
@@ -201,10 +200,10 @@ if (spyArrival && arrivalCoordinates) {
                     ssp_otherPlanet: arrivalCoordinates[0],
                     gp_otherPlanet: arrivalCoordinates[1],
                 },
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     console.error(xhr);
                 }
             });
@@ -213,4 +212,24 @@ if (spyArrival && arrivalCoordinates) {
     };
 
     setInterval(updateSpy, 1000);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    let  itemCosts = document.querySelectorAll('.item-cost');
+
+    itemCosts.forEach(function (element) {
+        let value = parseInt(element.innerText);
+
+        let newValue;
+        if (value < 1000) {
+            newValue = value;
+        } else if (value < 1000000) {
+            newValue = (value / 1000) + 'K';
+        } else {
+            newValue = (value / 1000000) + 'M';
+        }
+
+        element.innerText = newValue;
+    });
+});
 }

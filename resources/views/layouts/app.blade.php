@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <nav>
+        <nav class="header-item">
             <ul>
                 <li>
                     <a href="{{ route('locale', 'en') }}">EN</a>
@@ -18,17 +18,13 @@
                     <a href="{{ route('locale', 'es') }}">ES</a>
                 </li>
             </ul>
-            <ul>
-                <li>
-                    <a href="{{ route('login') }}">{{__('Log In')}}</a>
-                </li>
-                <li>
-                    <a href="{{ route('register') }}">{{__('Register')}}</a>
-                </li>
-            </ul>
         </nav>
+        <h1 class="game-title header-item"><a href="/">{{__('web.title')}}</a></h1>
+        <div class="header-item">
+            <a href="{{ route('login') }}" class="login-link">{{__('Log In')}}</a>
+            <a href="{{ route('register') }}" class="register-link">{{__('Register')}}</a>
+        </div>
     </header>
-
     <main>
         @yield('content')
     </main>
