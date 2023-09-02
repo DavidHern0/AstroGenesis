@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Models\ShipPlanet;
 
 class fleet extends Model
 {
@@ -70,6 +71,30 @@ class fleet extends Model
             'solar_system_position_arrival' => $otherPlanet->solar_system_position,
             'galaxy_position_arrival' => $otherPlanet->galaxy_position
         ]);
+    }
+
+    public static function recoverFromExpedition()
+    {  
+        $userID = auth()->id();
+
+        $userPlanet = Planet::where('user_id', $userID)->first();
+
+        $lastFleet = Fleet::where('user_id', $userID)
+        ->latest('created_at')
+        ->first();
+
+        $ships = json_decode($lastFleet->shipsSent);
+        
+        $shipsId = array_shift($ships);
+        $quantity = array_pop($ships);
+
+        foreach ($shipsId as $i => $shipId) {
+            $shipPlanet = ShipPlanet::where('ship_id', $shipId)
+            ->where('planet_id', $userPlanet->id)
+            ->first();
+            $shipPlanet->quantity = $quantity[$i];
+            $shipPlanet->save();
+        }
     }
 
     public function user()

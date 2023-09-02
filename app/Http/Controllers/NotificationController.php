@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Planet;
 use App\Models\User;
 use App\Models\userGame;
+use App\Models\Fleet;
 use App\Models\DefensePlanet;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Log;
@@ -45,9 +46,10 @@ class NotificationController extends Controller
         $resources = $Request->session()->get('exp_resources');
 
         Notification::notificationExpedition($resources);
+        Fleet::recoverFromExpedition();
         $Request->session()->forget('exp_resources');
     }
-    
+
     public function read($id)
     {
         try {
