@@ -12,7 +12,6 @@ use App\Models\ShipLevel;
 use App\Models\ShipPlanet;
 use App\Models\DefensePlanet;
 use App\Models\Defense;
-use App\Models\Spy;
 use App\Models\Fleet;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Lang;
@@ -33,7 +32,7 @@ class FleetController extends Controller
         if ($spyProbes->quantity > 0) {
             $spyProbes->quantity--;
             $spyProbes->save();
-            $spy = Spy::createSpy($otherPlanet);
+            $spy = Fleet::createSpy($otherPlanet);
             return redirect()->route("home.galaxy", $galaxyID)->with('success', __("spy_succes"));
         } else {
         return redirect()->route("home.galaxy", $galaxyID)->with('error', __("spy_error"));

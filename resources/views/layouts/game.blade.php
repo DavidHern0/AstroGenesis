@@ -56,13 +56,8 @@
                     </div>
                     
                     <div class="notification-container">
-                        @if($spies)
-                        <p>&#128065; {{__('movement_spy')}} <span id="arrival_coordinates">{{"[".$spies->galaxy_position.":".$spies->solar_system_position."]"}}</span>: <span id="spy_arrival" class="spy_arrival">{{$spies->arrival}}</span></p>
-                        @else
-                        <p>{{__('movement_no')}}</p>
-                        @endif
                         @if($fleets)
-                        <p>&#128065; {{__('movement_fleet')}} <span id="arrival_coordinates">{{"[".$fleets->galaxy_position_arrival.":".$fleets->solar_system_position_arrival."]"}}</span>: <span id="spy_arrival" class="spy_arrival">{{$fleets->arrival}}</span></p>
+                        <p>&#128065; {{__('movement_fleet')}} <span id="arrival_coordinates">@if($fleets->type=="spy"){{"[".$fleets->galaxy_position_arrival.":".$fleets->solar_system_position_arrival."]"}}@endif</span>: <span id="spy_arrival" class="spy_arrival">{{$fleets->arrival}}</span></p>
                         @else
                         <p>{{__('movement_no')}}</p>
                         @endif

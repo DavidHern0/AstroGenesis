@@ -16,12 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->timestamp('departure')->useCurrent();
             $table->timestamp('arrival');
-            $table->string('shipsSent');
+            $table->string('shipsSent')->nullable();
             $table->integer('success')->default(100);
             $table->integer('solar_system_position_arrival')->nullable();
             $table->integer('galaxy_position_arrival')->nullable();
-            $table->integer('solar_system_position_departure');
-            $table->integer('galaxy_position_departure');
+            $table->integer('solar_system_position_departure')->nullable();
+            $table->integer('galaxy_position_departure')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });

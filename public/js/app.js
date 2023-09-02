@@ -18,6 +18,8 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 const deleteButtons = document.querySelectorAll('.fas.fa-times');
 const notifications = document.querySelectorAll('.accordion-header.unread');
 
+console.log(spyArrival)
+console.log(arrivalCoordinates)
 
 if (metalElement && crystalElement && deuteriumElement && energyElement) {   
     function updateResources() {
@@ -163,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
 if (spyArrival && arrivalCoordinates) {
     arrivalCoordinates = arrivalCoordinates.innerText;
     arrivalCoordinates = arrivalCoordinates.match(/\d+/g);

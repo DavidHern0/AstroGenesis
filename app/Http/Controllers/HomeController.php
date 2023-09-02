@@ -12,7 +12,6 @@ use App\Models\ShipPlanet;
 use App\Models\ShipLevel;
 use App\Models\DefensePlanet;
 use App\Models\DefenseLevel;
-use App\Models\Spy;
 use App\Models\Fleet;
 use App\Models\Notification;
 use App\Models\Defense;
@@ -29,19 +28,14 @@ class HomeController extends Controller
             
             $userGame = userGame::where('user_id', $userID)->first();
             $planet = Planet::where('user_id', $userID)->first();
-            $spies = Spy::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
-                
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
             ->first();
+
             return view('home.index', [
                 'planet' => $planet,
                 'userGame' => $userGame,
-                'spies' => $spies,
                 'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
@@ -58,22 +52,15 @@ class HomeController extends Controller
             $planet = Planet::where('user_id', $userID)->first();
             $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->where('type', "resources")->get();
             $buildingLevels = BuildingLevel::all();
-
-            $spies = Spy::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
-                
-                $fleets = Fleet::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
+            $fleets = Fleet::where('user_id', $userID)
+            ->where('arrival', '>', Carbon::now()->addSeconds(1))
+            ->orderBy('arrival', 'ASC')
+            ->first();
             return view('home.resources', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
                 'buildingLevels' => $buildingLevels,
-                'spies' => $spies,
                 'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
@@ -91,21 +78,15 @@ class HomeController extends Controller
             $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->where('type', "facilities")->get();
             $buildingLevels = BuildingLevel::all();
 
-            $spies = Spy::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
-                
-                $fleets = Fleet::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
+            $fleets = Fleet::where('user_id', $userID)
+            ->where('arrival', '>', Carbon::now()->addSeconds(1))
+            ->orderBy('arrival', 'ASC')
+            ->first();
             return view('home.facilities', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
                 'buildingLevels' => $buildingLevels,
-                'spies' => $spies,
                 'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
@@ -123,21 +104,15 @@ class HomeController extends Controller
             $shipPlanets = ShipPlanet::where('planet_id', $planet->id)->get();
             $shipLevels = ShipLevel::all();
             
-            $spies = Spy::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
-                
-                $fleets = Fleet::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
+            $fleets = Fleet::where('user_id', $userID)
+            ->where('arrival', '>', Carbon::now()->addSeconds(1))
+            ->orderBy('arrival', 'ASC')
+            ->first();
             return view('home.shipyard', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'shipPlanets' => $shipPlanets,
                 'shipLevels' => $shipLevels,
-                'spies' => $spies,
                 'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
@@ -155,21 +130,15 @@ class HomeController extends Controller
             $defensePlanets = DefensePlanet::where('planet_id', $planet->id)->get();
             $defenseLevels = DefenseLevel::all();
             
-            $spies = Spy::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
-                
-                $fleets = Fleet::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
+            $fleets = Fleet::where('user_id', $userID)
+            ->where('arrival', '>', Carbon::now()->addSeconds(1))
+            ->orderBy('arrival', 'ASC')
+            ->first();
             return view('home.defenses', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'defensePlanets' => $defensePlanets,
                 'defenseLevels' => $defenseLevels,
-                'spies' => $spies,
                 'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
@@ -187,21 +156,15 @@ class HomeController extends Controller
             $shipPlanets = ShipPlanet::where('planet_id', $planet->id)->get();
             $shipLevels = ShipLevel::all();
             
-            $spies = Spy::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
-                
-                $fleets = Fleet::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
+            $fleets = Fleet::where('user_id', $userID)
+            ->where('arrival', '>', Carbon::now()->addSeconds(1))
+            ->orderBy('arrival', 'ASC')
+            ->first();
             return view('home.fleet', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'shipPlanets' => $shipPlanets,
                 'shipLevels' => $shipLevels,
-                'spies' => $spies,
                 'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
@@ -216,24 +179,18 @@ class HomeController extends Controller
             $userGame = userGame::where('user_id', $userID)->first();
             $planet = Planet::where('user_id', $userID)->first();
             $planets = Planet::where('galaxy_position', $galaxy_position)
-                ->orderByRaw('CAST(solar_system_position AS UNSIGNED) ASC')
-                ->get();
+            ->orderByRaw('CAST(solar_system_position AS UNSIGNED) ASC')
+            ->get();
                 
-            $spies = Spy::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
-                
-                $fleets = Fleet::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
+            $fleets = Fleet::where('user_id', $userID)
+            ->where('arrival', '>', Carbon::now()->addSeconds(1))
+            ->orderBy('arrival', 'ASC')
+            ->first();
             return view('home.galaxy', [
                 'planet' => $planet,
                 'planets' => $planets,
                 'userGame' => $userGame,
                 'galaxy_position' => $galaxy_position,
-                'spies' => $spies,
                 'fleets' => $fleets,
             ]);
         } catch(\Exception $e) {
@@ -250,19 +207,14 @@ class HomeController extends Controller
             $userGame = userGame::where('user_id', $userID)->first();
             $planet = Planet::where('user_id', $userID)->first();
             $defensePlanets = DefensePlanet::where('planet_id', $planet->id)->get();
-            $spies = Spy::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
-                
-                $fleets = Fleet::where('user_id', $userID)
-                ->where('arrival', '>', Carbon::now()->addSeconds(1))
-                ->orderBy('arrival', 'ASC')
-                ->first();
+            
+            $fleets = Fleet::where('user_id', $userID)
+            ->where('arrival', '>', Carbon::now()->addSeconds(1))
+            ->orderBy('arrival', 'ASC')
+            ->first();
             return view('home.notification', [
                 'planet' => $planet,
                 'userGame' => $userGame,
-                'spies' => $spies,
                 'fleets' => $fleets,
                 'notifications' => $notifications,
                 'defensePlanets' => $defensePlanets
