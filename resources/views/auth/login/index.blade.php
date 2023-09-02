@@ -3,23 +3,16 @@
 @section('title', __('Log in'))
 
 @section('content')
-    <h1>{{ __('Log in') }}</h1>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<form class="session" method="POST" action="{{ route('login') }}">
+    @csrf
+        <h1>{{ __('Log in') }}</h1>
 
-        <div>
-            <label for="email">{{ __('Email') }}</label>
-            <input type="email" name="email" id="email" placeholder="{{ __('Email') }}" required>
-        </div>
+        <label for="email">{{ __('Email') }}</label>
+        <input type="email" name="email" id="email" placeholder="example@gmail.com" required>
+        <label for="password">{{ __('Password') }}</label>
+        <input type="password" name="password" id="password" placeholder="********" required>
 
-        <div>
-            <label for="password">{{ __('Password') }}</label>
-            <input type="password" name="password" id="password" placeholder="{{ __('Password') }}" required>
-        </div>
-
-        <div>
-            <button type="submit">{{ __('Log in') }}</button>
-        </div>
+        <button class="session-button" type="submit">{{ __('Log in') }}</button>
     </form>
 @endsection
