@@ -185,7 +185,7 @@ class UserController extends Controller
 
     public function updateShip(Request $request)
     {
-        $shipID = $request->input('shipPlanet-id');
+        $shipsID = $request->input('shipPlanet-id');
         $ship_number = $request->input('ship_number');
         
         $userID = auth()->id();
@@ -193,33 +193,34 @@ class UserController extends Controller
         
         $userGame = userGame::where('user_id', $userID)->first();
         
-        $selectedShip = shipPlanet::where('ship_id', $shipID)
-        ->where('planet_id', $planet->id)
-        ->first();
-    
-        $currentShipLevel = shipLevel::where('ship_id', $shipID)
-        ->first();
-
-        if ($userGame->metal >= $currentShipLevel->metal_cost * $ship_number &&
-        $userGame->crystal >= $currentShipLevel->crystal_cost * $ship_number &&
-        $userGame->deuterium >= $currentShipLevel->deuterium_cost * $ship_number) {
-            $userGame->metal -= $currentShipLevel->metal_cost * $ship_number;
-            $userGame->crystal -= $currentShipLevel->crystal_cost * $ship_number;
-            $userGame->deuterium -= $currentShipLevel->deuterium_cost * $ship_number;
-            $selectedShip->quantity =  ($selectedShip->quantity + 1) * $ship_number;
-            $selectedShip->save();
-            $userGame->save();
-            return redirect()->route("home.shipyard")->with('success', __("update_succes"));
-        } else{
-            $ship = $selectedShip->ship;
-            return redirect()->route("home.shipyard")->with('error', __("update_error"));
-
+        foreach ($shipsID as $i => $shipID) {
+            $selectedShip = shipPlanet::where('ship_id', $shipID)
+            ->where('planet_id', $planet->id)
+            ->first();
+            
+            $currentShipLevel = shipLevel::where('ship_id', $shipID)
+            ->first();
+            
+            if ($userGame->metal >= $currentShipLevel->metal_cost * $ship_number[$i] &&
+            $userGame->crystal >= $currentShipLevel->crystal_cost * $ship_number[$i] &&
+            $userGame->deuterium >= $currentShipLevel->deuterium_cost * $ship_number[$i]) {
+                $userGame->metal -= $currentShipLevel->metal_cost * $ship_number[$i];
+                $userGame->crystal -= $currentShipLevel->crystal_cost * $ship_number[$i];
+                $userGame->deuterium -= $currentShipLevel->deuterium_cost * $ship_number[$i];
+                $selectedShip->quantity += $ship_number[$i];
+                $selectedShip->save();
+                $userGame->save();
+            } else{
+                $ship = $selectedShip->ship;
+                return redirect()->route("home.shipyard")->with('error', __("update_error"));
+            }
         }
+        return redirect()->route("home.shipyard")->with('success', __("update_succes"));
     }
 
     public function updateDefense(Request $request)
     {
-        $defenseID = $request->input('defensePlanet-id');
+        $defensesID = $request->input('defensePlanet-id');
         $defense_number = $request->input('defense_number');
         
         $userID = auth()->id();
@@ -227,27 +228,27 @@ class UserController extends Controller
         
         $userGame = userGame::where('user_id', $userID)->first();
         
+        foreach ($defensesID as $i => $defenseID) {
         $selectedDefense = defensePlanet::where('defense_id', $defenseID)
         ->where('planet_id', $planet->id)
         ->first();
 
         $currentDefenseLevel = defenseLevel::where('defense_id', $defenseID)->first();
-
-        if ($userGame->metal >= $currentDefenseLevel->metal_cost * $defense_number &&
-        $userGame->crystal >= $currentDefenseLevel->crystal_cost * $defense_number &&
-        $userGame->deuterium >= $currentDefenseLevel->deuterium_cost * $defense_number) {
-            $userGame->metal -= $currentDefenseLevel->metal_cost * $defense_number;
-            $userGame->crystal -= $currentDefenseLevel->crystal_cost * $defense_number;
-            $userGame->deuterium -= $currentDefenseLevel->deuterium_cost * $defense_number;
-            $selectedDefense->quantity =  ($selectedDefense->quantity + 1) * $defense_number;
+        if ($userGame->metal >= $currentDefenseLevel->metal_cost * $defense_number[$i] &&
+        $userGame->crystal >= $currentDefenseLevel->crystal_cost * $defense_number[$i] &&
+        $userGame->deuterium >= $currentDefenseLevel->deuterium_cost * $defense_number[$i]) {
+            $userGame->metal -= $currentDefenseLevel->metal_cost * $defense_number[$i];
+            $userGame->crystal -= $currentDefenseLevel->crystal_cost * $defense_number[$i];
+            $userGame->deuterium -= $currentDefenseLevel->deuterium_cost * $defense_number[$i];
+            $selectedDefense->quantity += $defense_number[$i];
             $selectedDefense->save();
             $userGame->save();
-            return redirect()->route("home.defenses")->with('success', __("update_succes"));
         } else{
             $defense = $selectedDefense->defense;
             return redirect()->route("home.defenses")->with('error', __("update_error"));
-
         }
+    }
+    return redirect()->route("home.defenses")->with('success', __("update_succes"));
     }
 
     public function updatePlanetName(Request $request)

@@ -8,6 +8,8 @@
     </div>
     <hr class="separator">
     <section class="section_items">
+        <form action="{{ route('home.update-ship') }}" method="POST">
+            @csrf
         <div class="item-container">
             @foreach ($shipPlanets as $shipPlanet)
                 <div class="ship-item">
@@ -35,15 +37,13 @@
                         </div>
                         @endif
                         @endforeach
-                        <form action="{{ route('home.update-ship') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="shipPlanet-id" value="{{$shipPlanet->ship_id}}">
-                            <input type="hidden" name="shipPlanet-level" value="{{$shipPlanet->level}}">
-                            <input type="number" name="ship_number" value="1"/>
-                            <button class="update-item-button" type="submit">{{__('update_build')}}</button>
-                        </form>
-                </div>
-            @endforeach
-        </div>
+                            <input type="hidden" name="shipPlanet-id[]" value="{{$shipPlanet->ship_id}}">
+                            <input type="hidden" name="shipPlanet-level[]" value="{{$shipPlanet->level}}">
+                            <input type="number" name="ship_number[]" value="0"/>
+                        </div>
+                        @endforeach
+                    </div>
+                    <button class="update-item-button" type="submit">{{__('update_build')}}</button>
+                </form>
     </section>
 @endsection
