@@ -45,69 +45,70 @@ class FleetController extends Controller
         $typeSend = $Request->input('type');
         $shipPlanet_ids = $Request->input('shipPlanet_id');
         $ship_numbers = $Request->input('ship_number');
+        if (min($ship_numbers) >= 0) {
+            $shipsSent = [];
 
-        $shipsSent = [];
-
-        foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
-            $ship_number = $ship_numbers[$i];
-            $shipsSent[] = [$shipPlanet_id, $ship_number];
-        }
-        ShipPlanet::subtractShipsSent($shipPlanet_ids, $ship_numbers);
-
-
-        switch ($typeSend) {
-            case 'expedition':
-                $expedition_hours = $Request->input('expedition_hours');
-                Fleet::expedition($shipPlanet_ids, $ship_numbers,$expedition_hours);
-
-                // $random = rand(1,100);
-                $random = 80;
-                if ($random <= 10) {
-                    # loss of fleet...
-                } else if($random > 10 && $random <= 40){
-                    # nothing...
-                } else {
-                    # resources...
+            foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
+                $ship_number = $ship_numbers[$i];
+                $shipsSent[] = [$shipPlanet_id, $ship_number];
+            }
+            ShipPlanet::subtractShipsSent($shipPlanet_ids, $ship_numbers);
+            switch ($typeSend) {
+                case 'expedition':
+                    $expedition_hours = $Request->input('expedition_hours');
+                    Fleet::expedition($shipPlanet_ids, $ship_numbers,$expedition_hours);
                     
-                    $shipCargo = 0;
-                    foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
-                        $shipLevel = ShipLevel::where('ship_id', $shipPlanet_id)->first();
-                        $shipCargo += $shipLevel->cargo_capacity * $ship_numbers[$i];
+                    // $random = rand(1,100);
+                    $random = 80;
+                    if ($random <= 10) {
+                        # loss of fleet...
+                    } else if($random > 10 && $random <= 40){
+                        # nothing...
+                    } else {
+                        # resources...
+                        
+                        $shipCargo = 0;
+                        foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
+                            $shipLevel = ShipLevel::where('ship_id', $shipPlanet_id)->first();
+                            $shipCargo += $shipLevel->cargo_capacity * $ship_numbers[$i];
+                        }
+                        
+                        $randomCargo = rand($expedition_hours*($shipCargo/100), rand($shipCargo/25, $shipCargo));
+                        
+                        $metal = round($randomCargo * 0.60);
+                        $crystal = round($randomCargo * 0.30);
+                        $deuterium = round($randomCargo - $metal - $crystal);
+                        
+                        $exp_resources = [$metal, $crystal, $deuterium];
+                        session(['exp_resources' => $exp_resources]);
                     }
-
-                    $randomCargo = rand($shipCargo/100, rand($shipCargo/2, $shipCargo));
-
-                    $metal = round($randomCargo * 0.60);
-                    $crystal = round($randomCargo * 0.30);
-                    $deuterium = round($randomCargo - $metal - $crystal);
-                    
-                    $exp_resources = [$metal, $crystal, $deuterium];
-                    session(['exp_resources' => $exp_resources]);
-                }
-                return redirect()->route("home.fleet")->with('success', __("fleet_succes"));
-            break;
-            
-            case 'attack':
-                $planet_ssp = $Request->input('planet_ssp');
-                $planet_gp = $Request->input('planet_gp');
-                $otherPlanet = Planet::where('solar_system_position', $planet_ssp)
-                ->where('galaxy_position', $planet_gp)
-                ->first();
-                if ($otherPlanet) {
-                    Fleet::sendFleet($shipPlanet_ids, $ship_numbers, $otherPlanet);
                     return redirect()->route("home.fleet")->with('success', __("fleet_succes"));
-                } else {
-                return redirect()->route("home.fleet")->with('success', __("fleet_error"));
-                }
-            break;
-
-            case 'resource_transport':
+                break;
+                    
+                case 'attack':
+                    $planet_ssp = $Request->input('planet_ssp');
+                    $planet_gp = $Request->input('planet_gp');
+                    $otherPlanet = Planet::where('solar_system_position', $planet_ssp)
+                    ->where('galaxy_position', $planet_gp)
+                    ->first();
+                    if ($otherPlanet) {
+                        Fleet::sendFleet($shipPlanet_ids, $ship_numbers, $otherPlanet);
+                        return redirect()->route("home.fleet")->with('success', __("fleet_succes"));
+                    } else {
+                        return redirect()->route("home.fleet")->with('success', __("fleet_error"));
+                    }
+                break;
+                        
+                case 'resource_transport':
                 # code...
-            break;
-            
-            default:
+                break;
+                
+                default:
                 # code...
-            break;
+                break;
+            }
+        } else {
+            return redirect()->route("home.fleet")->with('error', __("update_error_negative"));
         }
     }
 }

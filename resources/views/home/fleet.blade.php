@@ -47,7 +47,7 @@
                     {{__('expedition')}}
                 </label><br>
                 
-                <label>
+                {{-- <label>
                     <input type="radio" name="type" value="resource_transport" required>
                     {{__('resource_transport')}}
                 </label><br>
@@ -55,7 +55,7 @@
                 <label>
                     <input type="radio" name="type" value="attack" required>
                     {{__('attack')}}
-                </label><br>
+                </label><br> --}}
             </div>
             
             <div id="expedition_container">

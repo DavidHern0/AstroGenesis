@@ -19,6 +19,7 @@
     "facilities": "Instalaciones",
     "update_level": "Necesario para subir a nivel",
     "update_error": "No tienes los recursos suficientes para hacer eso",
+    "update_error_negative": "No puedes escribir valores en negativo",
     "update_succes": "Se ha construido con éxito",
     "insufficient_energy": "No tienes energía suficiente",
     "planet_type": "Planeta tipo",
@@ -56,6 +57,7 @@
     "movement_fleet": "Tu flota está en camino",
     "notification_title_expedition": "La flota ha regresado de su expedición",
     "notification_body_expedition": "Hemos encontrado estos recursos",
+    "fleet_succes": "La flota ha sido enviada",
 
     "(and :count more error)": "(y :count error más)",
     "(and :count more errors)": "(y :count errores más)",

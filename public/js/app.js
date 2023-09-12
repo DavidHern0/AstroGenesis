@@ -10,6 +10,7 @@ const editInput = document.getElementById('editInput');
 
 const shipNumberInputs = document.querySelectorAll('input[name="ship_number"]');
 const defenseNumberInputs = document.querySelectorAll('input[name="defense_number"]');
+const numberInputs = document.querySelectorAll('input[type="number"]');
 
 let spyArrival = document.getElementById('spy_arrival');
 let arrivalCoordinates = document.getElementById('arrival_coordinates');
@@ -275,3 +276,12 @@ if (resourceTransportRadio) {
 if (attackRadio) {
     attackRadio.addEventListener('change', toggleElements);    
 }
+
+numberInputs.forEach(function(input) {
+    input.addEventListener('input', function() {
+      let valor = input.value;
+      if (valor < 0) {
+        input.value = 0;
+      }
+    });
+});

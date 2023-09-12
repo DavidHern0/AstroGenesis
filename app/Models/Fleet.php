@@ -92,7 +92,7 @@ class fleet extends Model
             $shipPlanet = ShipPlanet::where('ship_id', $shipId)
             ->where('planet_id', $userPlanet->id)
             ->first();
-            $shipPlanet->quantity = $quantity[$i];
+            $shipPlanet->quantity += $quantity[$i];
             $shipPlanet->save();
         }
     }
