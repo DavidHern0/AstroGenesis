@@ -10,6 +10,7 @@ const editInput = document.getElementById('editInput');
 
 const shipNumberInputs = document.querySelectorAll('input[name="ship_number"]');
 const defenseNumberInputs = document.querySelectorAll('input[name="defense_number"]');
+const numberInputs = document.querySelectorAll('input[type="number"]');
 
 let spyArrival = document.getElementById('spy_arrival');
 let arrivalCoordinates = document.getElementById('arrival_coordinates');
@@ -18,8 +19,7 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 const deleteButtons = document.querySelectorAll('.fas.fa-times');
 const notifications = document.querySelectorAll('.accordion-header.unread');
 
-
-if (metalElement) {   
+if (metalElement && crystalElement && deuteriumElement && energyElement) {   
     function updateResources() {
         fetch('/update-resources')
         .then(response => response.json())
@@ -105,8 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const accordionItems = document.querySelectorAll('.accordion-item');
-
     accordionItems.forEach(item => {
         const header = item.querySelector('.accordion-header h3');
         const content = item.querySelector('.accordion-content');
@@ -163,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
 if (spyArrival && arrivalCoordinates) {
     arrivalCoordinates = arrivalCoordinates.innerText;
     arrivalCoordinates = arrivalCoordinates.match(/\d+/g);
@@ -192,14 +189,15 @@ if (spyArrival && arrivalCoordinates) {
         spyArrival.innerText = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
 
         if (timeDifference <= 0) {
-            $.ajax({
-                url: '/notification-spy',
-                type: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    ssp_otherPlanet: arrivalCoordinates[0],
-                    gp_otherPlanet: arrivalCoordinates[1],
-                },
+            if (arrivalCoordinates) {
+                $.ajax({
+                    url: '/notification-spy',
+                    type: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        ssp_otherPlanet: arrivalCoordinates[0],
+                        gp_otherPlanet: arrivalCoordinates[1],
+                    },
                 success: function (response) {
                     console.log(response);
                 },
@@ -207,7 +205,24 @@ if (spyArrival && arrivalCoordinates) {
                     console.error(xhr);
                 }
             });
-            location.reload();
+        } else {
+            $.ajax({
+                url: '/notification-fleet',
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    type: "fleet",
+                },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr) {
+                console.error(xhr);
+            }
+        });
+            
+        }
+        location.reload();
         }
     };
 
@@ -233,3 +248,40 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 }
+
+//fleet
+const expeditionRadio = document.querySelector('input[value="expedition"]');
+const resourceTransportRadio = document.querySelector('input[value="resource_transport"]');
+const attackRadio = document.querySelector('input[value="attack"]');
+const expeditionContainer = document.getElementById('expedition_container');
+const attackResourceContainer = document.getElementById('attack_resource_container');
+
+function toggleElements() {
+    expeditionContainer.style.display = 'none';
+    attackResourceContainer.style.display = 'none';
+
+    if (expeditionRadio.checked) {
+        expeditionContainer.style.display = 'block';
+    } else if (attackRadio.checked || resourceTransportRadio.checked) {
+        attackResourceContainer.style.display = 'block';
+    }
+}
+if (expeditionRadio) {
+    expeditionRadio.addEventListener('change', toggleElements);
+    toggleElements();
+}
+if (resourceTransportRadio) {
+    resourceTransportRadio.addEventListener('change', toggleElements);
+}
+if (attackRadio) {
+    attackRadio.addEventListener('change', toggleElements);    
+}
+
+numberInputs.forEach(function(input) {
+    input.addEventListener('input', function() {
+      let valor = input.value;
+      if (valor < 0) {
+        input.value = 0;
+      }
+    });
+});

@@ -24,6 +24,17 @@ class Notification extends Model
         ]);
     }
 
+    public static function notificationExpedition($resources)
+    {
+        return self::create([
+            'user_id' => auth()->id(),
+            'title' => 'notification_title_expedition',
+            'body' => 'notification_body_expedition',
+            'resources' => json_encode($resources),
+            'type' => 'expedition',
+        ]);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

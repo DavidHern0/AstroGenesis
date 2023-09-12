@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('crystal_cost');
             $table->integer('deuterium_cost');
             $table->double('construction_time');
+            $table->integer('cargo_capacity');
             $table->foreign('ship_id')->references('id')->on('ships')->cascadeOnDelete();
             $table->timestamps();
         });

@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('spies', function (Blueprint $table) {
+        Schema::create('fleets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->timestamp('departure')->useCurrent();
             $table->timestamp('arrival');
+            $table->string('shipsSent')->nullable();
             $table->integer('success')->default(100);
-            $table->integer('solar_system_position');
-            $table->integer('galaxy_position');
+            $table->integer('solar_system_position_arrival')->nullable();
+            $table->integer('galaxy_position_arrival')->nullable();
+            $table->integer('solar_system_position_departure')->nullable();
+            $table->integer('galaxy_position_departure')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
@@ -29,9 +32,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('spies', function (Blueprint $table) {
+        Schema::table('fleets', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
         });
-        Schema::dropIfExists('spies');
+        Schema::dropIfExists('fleets');
     }
 };
