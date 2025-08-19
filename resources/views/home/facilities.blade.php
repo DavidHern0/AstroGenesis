@@ -11,7 +11,7 @@
             <div class="item-container">
                 @foreach ($buildingPlanets as $buildingPlanet)
                     <div class="building-item">
-                         <h4 class="item-name truncate">{{ $buildingPlanet->building->getTranslation('name', config('app.locale')) }}</h4>
+                         <h4 class="item-name">{{ $buildingPlanet->building->getTranslation('name', config('app.locale')) }}</h4>
                         
                         @foreach ($buildingLevels as $buildingLevel)
                         @if ($buildingLevel->building_id === $buildingPlanet->building->id && $buildingLevel->level === $buildingPlanet->level)

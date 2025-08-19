@@ -18,6 +18,10 @@ body {
   background-image: url("/images/space-bg.jpg");
 }
 
+img {
+  pointer-events: none;
+}
+
 .game-title {
   text-align: center;
   color: #00a2ff;
@@ -48,6 +52,11 @@ body {
 
 .item-name {
   color: #00a2ff;
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  width: 200px;
+  display: block;
 }
 
 .item-image {
