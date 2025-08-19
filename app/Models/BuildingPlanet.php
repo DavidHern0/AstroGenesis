@@ -9,12 +9,12 @@ use App\Models\Building;
 class BuildingPlanet extends Model
 {
     use HasFactory;
-    protected $fillable = ['building_id', 'planet_id', 'level'];
+    protected $fillable = ['building_id', 'planet_id', 'level', 'type'];
 
     public static function createDefault($planetId)
     {
         $buildings = Building::all();
-    
+        
         $resourcesBuildingIds = [1, 2, 3, 4, 5, 6, 7];
 
         foreach ($buildings as $building) { 
