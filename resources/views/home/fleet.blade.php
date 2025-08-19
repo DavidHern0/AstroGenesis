@@ -35,7 +35,8 @@
                                 @endif
                             @endforeach
                             <input type="hidden" name="shipPlanet_id[]" value="{{$shipPlanet->ship_id}}">
-                            <input type="number" name="ship_number[]" value="0"/>
+                            <input type="number" name="ship_number[]" value="0" min="0" max="{{$shipPlanet->quantity}}" />
+
                         </div>
                     @endif
                 @endforeach
@@ -60,7 +61,7 @@
             
             <div id="expedition_container">
                 <label>{{__("expedition_hours")}}</label>
-                <input type="number" name="expedition_hours"/>
+                <input type="number" name="expedition_hours" value="0" min="0" max="24"/>
             </div>
             
             <div id="attack_resource_container" style="display: none;">
