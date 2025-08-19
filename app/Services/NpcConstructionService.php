@@ -8,6 +8,7 @@ use App\Models\BuildingLevel;
 use App\Models\UserGame;
 use App\Models\DefensePlanet;
 use App\Models\DefenseLevel;
+use Illuminate\Support\Facades\Log;
 
 class NpcConstructionService
 {
@@ -50,7 +51,6 @@ class NpcConstructionService
         if ($building->building_id != 4) {
             $canBuild = $canBuild && $userGame->energy >= $cost->energy_cost;
         }
-
         return $canBuild;
     }
 
@@ -72,9 +72,21 @@ class NpcConstructionService
             $userGame->energy += $cost->production_rate;
         }
 
+        if ($building->building_id == 5) {
+            $userGame->metal_storage += $cost->production_rate;
+            Log::info("userGame->metal_storage" . $userGame->metal_storage);
+        } else if ($building->building_id == 6) {
+            $userGame->crystal_storage += $cost->production_rate;
+            Log::info("userGame->crystal_storage" . $userGame->crystal_storage);
+        } else if ($building->building_id == 7) {
+            $userGame->deuterium_storage += $cost->production_rate;
+            Log::info("userGame->deuterium_storage" . $userGame->deuterium_storage);
+        }
+
         $building->level = $nextLevel;
         $building->save();
         $userGame->save();
+        Log::info("PlanetID: " . $planet->id . " ha mejorado la mina " . $building->building_id . " a nivel " . $building->level);
     }
 
     protected function constructDefenses(Planet $planet, UserGame $userGame)
@@ -109,5 +121,6 @@ class NpcConstructionService
                 $userGame->save();
             }
         }
+        Log::info("PlanetID: " . $planet->id . "  ha mejorado la defensa " . $defense->defense_id . "(x" . $defense->quantity . ")");
     }
 }
