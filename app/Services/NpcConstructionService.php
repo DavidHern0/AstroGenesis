@@ -93,8 +93,10 @@ class NpcConstructionService
 
     protected function constructDefenses(Planet $planet, UserGame $userGame)
     {
-        // Solo defensas con defense_id 1 a 5
-        $defenseIds = range(1, 5);
+        // Solo defensas con defense_id 1 a 8
+        $defenseIds = range(1, 8);
+        
+        shuffle($defenseIds);
 
         foreach ($defenseIds as $defenseId) {
             // Obtenemos el primer nivel de esta defensa
