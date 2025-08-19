@@ -13,7 +13,7 @@ class UserGame extends Model
     public static function createDefault($userId)
     {
 
-        if ($userId != 1 && $userId <= (env('NUM_BOTS') + 1)) {
+        if ($userId != 1 && $userId <= env('NUM_BOTS')) {
             return self::create([
                 'user_id' => $userId,
                 'metal' => rand(500, 40000),
