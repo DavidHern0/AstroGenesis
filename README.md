@@ -7,17 +7,30 @@ AstroGenesis is a web game that recreates the experience of the popular game "OG
 AstroGenesis is an ongoing development project that aims to provide a similar experience to the game OGame. The main objective of the game is to build and expand a space empire, explore systems and planets, research technologies, and compete with other players.
 
 ## Features
+Manage your planet:
+- Upgrade mining facilities to earn more resources (/)
+- Build logistics buildings (WIP)
+- Build defenses (WIP)
 
-Empire management: construct and upgrade buildings, research new technologies, and manage resources.
-Space exploration: send probes to other systems to discover planets and resources.
+Fleet:
+- Build your fleet (/)
+- Send your fleets on resource expeditions (/)
+- Spy on other planets (/)
+- Attack other planets (WIP)
+- Collaborate with other planets (WIP)
+
+Other:
+- Implement functional AI (WIP)
+- Improve expeditions (WIP)
+- Improve HUD (WIP)
 
 ## Technologies used
 
-Laravel: PHP framework for backend development.
-JavaScript (Ajax): used for interactivity and real-time updates.
-HTML (Blade): view templates using the Laravel template engine.
-CSS (SASS): game styles and design.
-MySQL: relational database management system.
+- Laravel: PHP framework for backend development.
+- JavaScript (Ajax): used for interactivity and real-time updates.
+- HTML (Blade): view templates using the Laravel template engine.
+- CSS (SASS): game styles and design.
+- MySQL: relational database management system.
 
 ## Installation
 
