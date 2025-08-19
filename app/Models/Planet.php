@@ -17,28 +17,133 @@ class Planet extends Model
      * @param int $userId
      * @return Planet
      */
+
+    public static function generateAIPlanetName()
+    {
+        $prefixes = [
+            'Zor',
+            'Neb',
+            'Cry',
+            'Vel',
+            'Xan',
+            'Tor',
+            'Qua',
+            'Lum',
+            'Drak',
+            'Mor',
+            'Ael',
+            'Vor',
+            'Ser',
+            'Gal',
+            'Oph',
+            'Trin',
+            'Alt',
+            'Kry',
+            'Fen',
+            'Rho',
+            'Cen',
+            'Ery',
+            'Sol',
+            'Pol',
+            'Nym',
+            'Thal',
+            'Arg',
+            'Kor',
+            'Lys',
+            'Omn'
+        ];
+
+        $middles = [
+            'th',
+            'br',
+            'x',
+            'm',
+            'n',
+            'l',
+            'k',
+            'vr',
+            'st',
+            'dr',
+            'ph',
+            'gr',
+            'z',
+            'q',
+            'ch',
+            'sh',
+            'rk',
+            'gh',
+            'nt',
+            'pt',
+            'mn',
+            'lt',
+            'sk',
+            'tr'
+        ];
+
+        $suffixes = [
+            'ion',
+            'ara',
+            'on',
+            'aris',
+            'oria',
+            'eus',
+            'ar',
+            'us',
+            'ix',
+            'on',
+            'arae',
+            'ara',
+            'eus',
+            'ora',
+            'is',
+            'oth',
+            'ium',
+            'or',
+            'os',
+            'an',
+            'ara',
+            'yx',
+            'en',
+            'othis',
+            'ara',
+            'ae',
+            'araon',
+            'il',
+            'eus',
+            'orix'
+        ];
+
+        $prefix = $prefixes[array_rand($prefixes)];
+        $middle = $middles[array_rand($middles)];
+        $suffix = $suffixes[array_rand($suffixes)];
+
+        return $prefix . $middle . $suffix;
+    }
     public static function createDefault($userId)
     {
-    
-        if (App::getLocale() == 'es') {
-            $planetName = 'Planeta Principal';
-        } else if (App::getLocale() == 'en') {
-            $planetName = 'Main Planet';
+
+        if ($userId >= 1 || $userId <= (env('NUM_BOTS')+1)) { // AI planets
+            $planetName = self::generateAIPlanetName();
         } else {
-            $planetName = 'Planet';
+            if (App::getLocale() == 'es') {
+                $planetName = 'Planeta Principal';
+            } else if (App::getLocale() == 'en') {
+                $planetName = 'Main Planet';
+            } else {
+                $planetName = 'Planet';
+            }
         }
-    
         $randomVariation = rand(1, 10);
         $randomSSP = 0;
         $randomG = 0;
         $biome = '';
-    
+
         do {
             $randomSSP = rand(1, 12);
             $randomG = rand(1, 30);
-            $checkPosition = self::where('solar_system_position', $randomSSP)->where('galaxy_position', $randomG)->exists();            
+            $checkPosition = self::where('solar_system_position', $randomSSP)->where('galaxy_position', $randomG)->exists();
         } while ($checkPosition);
-        
+
         if ($randomSSP == 1) {
             $biome = "dry";
         } else if ($randomSSP >= 2 && $randomSSP <= 3) {
@@ -53,11 +158,11 @@ class Planet extends Model
         } else {
             $biome = 'ice';
         }
-        
+
         if (rand(1, 12) === 1) {
             $biome = 'gas';
         }
-    
+
         return self::create([
             'user_id' => $userId,
             'name' => $planetName,
