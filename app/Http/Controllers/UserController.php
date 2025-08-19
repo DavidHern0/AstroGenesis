@@ -170,19 +170,25 @@ class UserController extends Controller
                     $metal_production_per_hour = ($metal_production + 40) / 3600;
                     if ($userGame->metal < $userGame->metal_storage) {
                         $userGame->metal += round($metal_production_per_hour * 5, 3);
+                    } else {
+                        $userGame->metal = $userGame->metal_storage;
                     }
             }
             if ($crystal_production) {
                 $crystal_production_per_hour = ($crystal_production + 15) / 3600;
                 if ($userGame->crystal < $userGame->crystal_storage) {
                     $userGame->crystal += round($crystal_production_per_hour * 5, 3);
-                }
+                } else {
+                        $userGame->crystal = $userGame->crystal_storage;
+                    }
             }
             if ($deuterium_mine->level != 0) {
                 $deuterium_production_per_hour = ($deuterium_production + 15) / 3600;
                 if ($userGame->deuterium < $userGame->deuterium_storage) {
                     $userGame->deuterium += round($deuterium_production_per_hour * 5, 3);
-                }
+                } else {
+                        $userGame->deuterium = $userGame->deuterium_storage;
+                    }
             }
             $userGame->save();
         }       
