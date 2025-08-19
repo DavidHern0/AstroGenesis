@@ -195,8 +195,8 @@ if (spyArrival && arrivalCoordinates) {
                     type: 'POST',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'),
-                        ssp_otherPlanet: arrivalCoordinates[0],
-                        gp_otherPlanet: arrivalCoordinates[1],
+                        ssp_otherPlanet: arrivalCoordinates[1],
+                        gp_otherPlanet: arrivalCoordinates[0],
                     },
                 success: function (response) {
                     console.log(response);

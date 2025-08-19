@@ -21,9 +21,8 @@ class NotificationController extends Controller
 
         $coordinates = [$ssp_otherPlanet, $gp_otherPlanet];
         $otherPlanet = Planet::where('galaxy_position', $gp_otherPlanet)
-        // ->where('solar_system_position', $ssp_otherPlanet)
+        ->where('solar_system_position', $ssp_otherPlanet)
         ->first();
-
         
 
         $otherUserGame = userGame::where('user_id', $otherPlanet->user_id)->first();
