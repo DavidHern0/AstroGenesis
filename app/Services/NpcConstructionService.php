@@ -52,69 +52,7 @@ class NpcConstructionService
         if ($building->building_id != 4) {
             $canBuild = $canBuild && $userGame->energy >= $cost->energy_cost;
         }
-
-        // no más de 3 niveles de diferencia entre METAL y CRISTAL
-        if ($building->building_id == 1 || $building->building_id == 2) {
-            $metalMine   = BuildingPlanet::where('planet_id', $planet->id)->where('building_id', 1)->first();
-            $crystalMine = BuildingPlanet::where('planet_id', $planet->id)->where('building_id', 2)->first();
-
-            if ($metalMine && $crystalMine && abs($metalMine->level - $crystalMine->level) >= 3) {
-                // Solo se permite construir si ayuda a equilibrar
-                if ($building->building_id == 1 && $metalMine->level > $crystalMine->level) {
-                    return false;
-                }
-                if ($building->building_id == 2 && $crystalMine->level > $metalMine->level) {
-                    return false;
-                }
-            }
-        }
-
-        // no más de 3 niveles de diferencia entre CRISTAL y DEUTERIO
-        if ($building->building_id == 2 || $building->building_id == 3) {
-            $crystalMine   = BuildingPlanet::where('planet_id', $planet->id)->where('building_id', 2)->first();
-            $deuteriumMine = BuildingPlanet::where('planet_id', $planet->id)->where('building_id', 3)->first();
-
-            if ($crystalMine && $deuteriumMine && abs($crystalMine->level - $deuteriumMine->level) >= 3) {
-                // Solo se permite construir si ayuda a equilibrar
-                if ($building->building_id == 2 && $crystalMine->level > $deuteriumMine->level) {
-                    return false;
-                }
-                if ($building->building_id == 3 && $deuteriumMine->level > $crystalMine->level) {
-                    return false;
-                }
-            }
-        }
-
-        // Metal Mine (id 1) requiere Metal Storage (id 5) mínimo lvl2 si ya está lvl5+
-        if ($building->building_id == 1 && $building->level >= 5) {
-            $metalStorage = BuildingPlanet::where('planet_id', $planet->id)
-                ->where('building_id', 5)
-                ->first();
-            if ($metalStorage && $metalStorage->level < 2) {
-                return false;
-            }
-        }
-
-        // Crystal Mine (id 2) requiere Crystal Storage (id 6) mínimo lvl2 si ya está lvl5+
-        if ($building->building_id == 2 && $building->level >= 5) {
-            $crystalStorage = BuildingPlanet::where('planet_id', $planet->id)
-                ->where('building_id', 6)
-                ->first();
-            if ($crystalStorage && $crystalStorage->level < 2) {
-                return false;
-            }
-        }
-
-        // Deuterium Synthesizer (id 3) requiere Deuterium Storage (id 7) mínimo lvl2 si ya está lvl5+
-        if ($building->building_id == 3 && $building->level >= 5) {
-            $deuteriumStorage = BuildingPlanet::where('planet_id', $planet->id)
-                ->where('building_id', 7)
-                ->first();
-            if ($deuteriumStorage && $deuteriumStorage->level < 2) {
-                return false;
-            }
-        }
-        return $canBuild;
+       return $canBuild;
     }
 
 
