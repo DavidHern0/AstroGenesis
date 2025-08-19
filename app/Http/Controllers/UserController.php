@@ -70,10 +70,12 @@ class UserController extends Controller
     
         $userID = auth()->id();
         
+        $userPlanet = Planet::where('user_id', $userID)->first();
         $userGame = userGame::where('user_id', $userID)->first();
         
         $selectedBuilding = buildingPlanet::where('building_id', $buildingID)
-            ->where('level', $buildingLevel)->first();
+        ->where('level', $buildingLevel)
+        ->where('planet_id', $userPlanet->id)->first();
     
         $currentBuildingLevel = buildingLevel::where('building_id', $buildingID)
             ->where('level', $buildingLevel)->first();
@@ -126,9 +128,14 @@ class UserController extends Controller
             $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->get();
             $buildingLevels = BuildingLevel::all();
             
-            $metal_mine = BuildingPlanet::where('building_id', 1)->first();
-            $crystal_mine = BuildingPlanet::where('building_id', 2)->first();
-            $deuterium_mine = BuildingPlanet::where('building_id', 3)->first();
+            $metal_mine = BuildingPlanet::where('building_id', 1)
+            ->where('planet_id', $planet->id)->first();
+
+            $crystal_mine = BuildingPlanet::where('building_id', 2)
+            ->where('planet_id', $planet->id)->first();
+
+            $deuterium_mine = BuildingPlanet::where('building_id', 3)
+            ->where('planet_id', $planet->id)->first();
             
             $metal_production = BuildingLevel::where('building_id', 1)
             ->where('level', $metal_mine->level)
