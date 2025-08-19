@@ -39,7 +39,7 @@
                     @endforeach
                         <input type="hidden" name="defensePlanet-id[]" value="{{$defensePlanet->defense_id}}">
                         <input type="hidden" name="defensePlanet-level[]" value="{{$defensePlanet->level}}">
-                        <input type="number" name="defense_number[]" value="0"/>
+                        <input type="number" name="defense_number[]" value="0" min="0"/>
                     </div>
                     @endforeach
                 </div>
