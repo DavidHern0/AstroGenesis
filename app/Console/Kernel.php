@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('npc:construct')->everyMinute();       // Cada minuto
+        $schedule->command('resources:players')->everyMinute();       // Cada minuto
+
         // $schedule->command('npc:construct')->everyFiveMinutes();  // Cada 5 minutos
         // $schedule->command('npc:construct')->everyTenMinutes();   // Cada 10 minutos
         // $schedule->command('npc:construct')->everyFifteenMinutes(); // Cada 15 minutos

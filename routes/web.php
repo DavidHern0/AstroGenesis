@@ -43,8 +43,6 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         
     Route::get('/update-resources', [UserController::class, 'getUserResources'])->name('home.update-resources');
-    Route::get('/update-all', [UserController::class, 'updateAll'])->name('home.update-all');
-
     
     Route::post('/update-building', [UserController::class, 'updateBuilding'])->name('home.update-building');
     Route::post('/update-ship', [UserController::class, 'updateShip'])->name('home.update-ship');
