@@ -122,7 +122,7 @@ class Planet extends Model
     public static function createDefault($userId)
     {
 
-        if ($userId >= 1 || $userId <= (env('NUM_BOTS')+1)) { // AI planets
+        if ($userId === 1 || $userId <= (env('NUM_BOTS')+1)) { // AI planets
             $planetName = self::generateAIPlanetName();
         } else {
             if (App::getLocale() == 'es') {
