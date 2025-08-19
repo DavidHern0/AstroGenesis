@@ -46,9 +46,15 @@ Other:
 
 6. Run migrations and seeders: `php artisan migrate --seed`.
 
-7. Start the development server: `php artisan serve`.
+## Initialization
 
-8. Access AstroGenesis in your browser: `http://localhost:8000`.
+1. Start the server: `php artisan serve`.
+
+2. Open a new Terminal to run all CRONS: `php artisan schedule:work`.
+
+3. Access AstroGenesis in your browser: `http://localhost:8000`.
+
+4. Play!
 
 ## Author
 
