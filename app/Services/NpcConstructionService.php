@@ -34,15 +34,17 @@ class NpcConstructionService
         $inactivityChance = 0;
         if ($metalMine) {
             $inactivityChance = rand(1, 10);
-            if ($metalMine->level >= 8) {
-                $inactivityChance = min(99, ($metalMine->level / 8) * 99);
+            if ($metalMine->level >= 12) {
+                $inactivityChance = min(95, ($metalMine->level / 12) * 95);
+            } else if ($metalMine->level >= 8) {
+                $inactivityChance = min(90, ($metalMine->level / 8) * 90);
             } else if ($metalMine->level >= 5) {
                 $inactivityChance = min(50, ($metalMine->level / 5) * 50);
             }
         }
 
         if (rand(1, 100) <= $inactivityChance) {
-            Log::info("Planeta CPU: {$planet->id} INACTIVO. Probabilidad de inactividad: {$inactivityChance}%");
+            Log::info("Planeta CPU: {$planet->id} INACTIVO. Probabilidad: {$inactivityChance}%");
             return;
         }
 
@@ -137,8 +139,17 @@ class NpcConstructionService
         }
 
         if (!$canBuild) {
-            //Log::info("Planeta CPU: {$planet->id} recursos insuficientes para construir {$building->building_id} nivel {$nextLevel}.");
+            if (
+                $userGame->metal < $cost->metal_cost ||
+                $userGame->crystal < $cost->crystal_cost ||
+                $userGame->deuterium < $cost->deuterium_cost
+            ) {
+                Log::debug("Planeta CPU: {$planet->id} no tiene recursos para {$building->building_id} nivel {$nextLevel}");
+            } elseif ($building->building_id != 4 && $userGame->energy < $cost->energy_cost) {
+                Log::debug("Planeta CPU: {$planet->id} no tiene energía suficiente para {$building->building_id} nivel {$nextLevel}");
+            }
         }
+
 
         return $canBuild;
     }
@@ -211,54 +222,61 @@ class NpcConstructionService
         $availableDeuterium = $userGame->deuterium * (1 - $reserveFactor);
 
         $builtCount = 0;
-        $defenseIds = range(1, 8);
-        shuffle($defenseIds);
 
-        foreach ($defenseIds as $defenseId) {
-            $levelCost = DefenseLevel::where('defense_id', $defenseId)->orderBy('id')->first();
-            if (!$levelCost) continue;
+        // 🎲 Elegir SOLO un tipo de defensa aleatorio (1 a 8)
+        $defenseId = rand(1, 8);
+        $levelCost = DefenseLevel::where('defense_id', $defenseId)->orderBy('id')->first();
+        if (!$levelCost) return;
 
-            $isCheap = (
-                $levelCost->metal_cost <= 10000 &&
-                $levelCost->crystal_cost <= 10000 &&
-                $levelCost->deuterium_cost <= 5000
+        // Determinar batch máximo
+        $isCheap = (
+            $levelCost->metal_cost <= 10000 &&
+            $levelCost->crystal_cost <= 10000 &&
+            $levelCost->deuterium_cost <= 5000
+        );
+
+        $resourcePool = $availableMetal + $availableCrystal + $availableDeuterium;
+
+        $maxBatch = $isCheap
+            ? rand(3, min(20, intval($resourcePool / max(1000, ($levelCost->metal_cost + $levelCost->crystal_cost + $levelCost->deuterium_cost)))))
+            : rand(1, 3);
+
+
+        $currentBuilt = 0;
+        while (
+            $currentBuilt < $maxBatch &&
+            $availableMetal >= $levelCost->metal_cost * $costFactor &&
+            $availableCrystal >= $levelCost->crystal_cost * $costFactor &&
+            $availableDeuterium >= $levelCost->deuterium_cost * $costFactor
+        ) {
+            // Restar recursos disponibles
+            $availableMetal -= $levelCost->metal_cost * $costFactor;
+            $availableCrystal -= $levelCost->crystal_cost * $costFactor;
+            $availableDeuterium -= $levelCost->deuterium_cost * $costFactor;
+
+            // Restar recursos del jugador
+            $userGame->metal -= $levelCost->metal_cost * $costFactor;
+            $userGame->crystal -= $levelCost->crystal_cost * $costFactor;
+            $userGame->deuterium -= $levelCost->deuterium_cost * $costFactor;
+
+            // Crear o actualizar defensa
+            $defense = DefensePlanet::firstOrCreate(
+                ['planet_id' => $planet->id, 'defense_id' => $defenseId],
+                ['quantity' => 0]
             );
 
-            $maxBatch = $isCheap ? min(20, max(1, intval(($availableMetal + $availableCrystal + $availableDeuterium) / 20000))) : rand(1, 3);
+            $defense->quantity += 1;
+            $defense->save();
+            $userGame->save();
 
-            $currentBuilt = 0;
-            while (
-                $currentBuilt < $maxBatch &&
-                $availableMetal >= $levelCost->metal_cost * $costFactor &&
-                $availableCrystal >= $levelCost->crystal_cost * $costFactor &&
-                $availableDeuterium >= $levelCost->deuterium_cost * $costFactor
-            ) {
-                $availableMetal -= $levelCost->metal_cost * $costFactor;
-                $availableCrystal -= $levelCost->crystal_cost * $costFactor;
-                $availableDeuterium -= $levelCost->deuterium_cost * $costFactor;
-
-                $userGame->metal -= $levelCost->metal_cost * $costFactor;
-                $userGame->crystal -= $levelCost->crystal_cost * $costFactor;
-                $userGame->deuterium -= $levelCost->deuterium_cost * $costFactor;
-
-                $defense = DefensePlanet::firstOrCreate(
-                    ['planet_id' => $planet->id, 'defense_id' => $defenseId],
-                    ['quantity' => 0]
-                );
-
-                $defense->quantity += 1;
-                $defense->save();
-                $userGame->save();
-
-                $builtCount++;
-                $currentBuilt++;
-            }
+            $builtCount++;
+            $currentBuilt++;
         }
 
         if ($builtCount > 0) {
-            Log::info("Planeta CPU: {$planet->id} construyó {$builtCount} defensas en este turno (Reserva: ".($reserveFactor*100)."%)");
+            Log::info("Planeta CPU: {$planet->id} construyó {$builtCount} defensas tipo {$defenseId} (Reserva: " . ($reserveFactor * 100) . "%)");
         } else {
-            Log::info("Planeta CPU: {$planet->id} no pudo construir defensas por falta de recursos o batch limitado");
+            Log::info("Planeta CPU: {$planet->id} no pudo construir defensas (recursos insuficientes o batch limitado)" . $maxBatch);
         }
     }
 }
