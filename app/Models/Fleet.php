@@ -115,15 +115,14 @@ class fleet extends Model
 
     public static function calculatePlanetDefense($planet)
     {
-        $defenses = DefensePlanet::where('planet_id', $planet->id)->get();
+        $defenses = DefensePlanet::where('planet_id', $planet->id)
+            ->where('quantity', '>', 0)->get();
         $totalDefense = 0;
 
         foreach ($defenses as $defense) {
-            $defenseLevel = Defense::where('id', $defense->defense_id)->first();
-            if ($defenseLevel) {
-                // Usamos 'construction_time' como proxy de fuerza defensiva
-                $totalDefense += $defenseLevel->construction_time * $defense->quantity;
-            }
+
+            $defensesLevel = DefenseLevel::where('defense_id', $defense->defense_id)->first();
+            $totalDefense += $defensesLevel->construction_time * $defense->quantity;
         }
         return $totalDefense;
     }
@@ -134,10 +133,10 @@ class fleet extends Model
         $userPlanet = Planet::where('user_id', $userID)->first();
         $UserUserGame = userGame::where('user_id', $userID)->first();
         $otherUserGame = userGame::where('user_id', $otherPlanet->user_id)->first();
+        $otherPlanet = Planet::where('user_id', $otherPlanet->user_id)->first();
 
         $fleetAttack = self::calculateFleetAttack($shipPlanet_ids, $ship_numbers);
         $planetDefense = self::calculatePlanetDefense($otherPlanet);
-
         if ($fleetAttack > $planetDefense) {
             // Ataque exitoso
             $resourcesLooted = [
@@ -146,6 +145,44 @@ class fleet extends Model
                 'deuterium' => round($otherUserGame->deuterium * 0.8),
             ];
             $attackSuccess = true;
+
+            // Destruir defensas según ratio
+            $otherPlanet = Planet::where('user_id', $otherPlanet->user_id)->first();
+            $defenses = DefensePlanet::where('planet_id', $otherPlanet->id)->get();
+
+            // $damageRatio = ($planetDefense > 0) ? min(1, $fleetAttack / $planetDefense) : 1;
+            $damageRatio = min(1, $fleetAttack / $planetDefense); // Máximo 100%
+
+            $destroyedDefenses = [];
+
+            foreach ($defenses as $defense) {
+                $destroyedQuantity = 0;
+
+                if ($defense->quantity > 0) {
+                    for ($i = 0; $i < $defense->quantity; $i++) {
+                        if (rand(0, 100) / 100 < $damageRatio) {
+                            $destroyedQuantity++;
+                        }
+                    }
+                    $defense->quantity = max($defense->quantity - $destroyedQuantity, 0);
+                    $defense->save();
+                }
+
+                // Solo añadimos el número destruido
+                $destroyedDefenses[] = $destroyedQuantity;
+            }
+
+            // $destroyedDefenses ahora es algo como [0,0,3,0,0,1,0]
+
+
+            // Guardar info en session
+            session([
+                'resourcesLooted' => $resourcesLooted,
+                'destroyedDefenses' => $destroyedDefenses,
+                'otherPlanetID' => $otherPlanet->user_id,
+                'fleetAttack' => $fleetAttack,
+                'planetDefense' => $planetDefense
+            ]);
         } else {
             // Ataque fallido
             $resourcesLooted = [
@@ -154,13 +191,14 @@ class fleet extends Model
                 'deuterium' => 0,
             ];
             $attackSuccess = false;
+
+            session([
+                'resourcesLooted' => $resourcesLooted,
+                'destroyedDefenses' => [],
+                'otherPlanetID' => $otherPlanet->user_id
+            ]);
         }
 
-        // Guardar en sesión
-        session([
-            'resourcesLooted' => $resourcesLooted,
-            'otherPlanetID' => $otherPlanet->user_id
-        ]);
 
         // Crear registro de flota (como en expedition o sendFleet)
         $ssp_difference = abs($userPlanet->solar_system_position - $otherPlanet->solar_system_position);

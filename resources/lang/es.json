@@ -59,6 +59,9 @@
     "notification_body_expedition": "Hemos encontrado estos recursos",
     "fleet_succes": "La flota ha sido enviada",
     "expedition_hours": "Horas de expedición",
+    "notification_title_attack": "Nuestra flota de ataque ha regresado",
+    "notification_body_attack": "Estos son los recursos saqueados del planeta",
+    "destroyed_defenses": "Estos son las defensas que hemos destruido",
 
     "(and :count more error)": "(y :count error más)",
     "(and :count more errors)": "(y :count errores más)",

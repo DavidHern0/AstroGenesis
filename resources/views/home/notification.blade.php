@@ -15,7 +15,7 @@
                     @endphp             
                     <div class="accordion-item">
                         <div class="accordion-header {{$unreadClass}}" data-notification-id="{{$notification->id}}">
-                            <h3>{{__($notification->title)}} @if($notification->type === 'spy') [{{$notification->solar_system_position}}:{{$notification->galaxy_position}}] @endif:</h3>
+                            <h3>{{__($notification->title)}} [{{$notification->solar_system_position}}:{{$notification->galaxy_position}}]:</h3>
                             <i class="fas fa-times" data-notification-id="{{$notification->id}}"></i>
                         </div>
                         <div class="accordion-content">
@@ -26,6 +26,16 @@
                                 <p>{{__('deuterium')}}: {{$resources[2]}}</p>
                             </div>
                             @if ($notification->type === 'spy')
+                                <div class="accordion-defenses">
+                                    @foreach ($defensePlanets as $index => $defensePlanet)
+                                        @if ($index < $defensePlanetsCount && $index < count($defenses))
+                                            <p>{{$defensePlanet->defense->getTranslation('name', config('app.locale'))}}: {{$defenses[$index]}}</p>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
+                            @if ($notification->type === 'attack')
+                            <h4>{{__('destroyed_defenses')}}:</h4>
                                 <div class="accordion-defenses">
                                     @foreach ($defensePlanets as $index => $defensePlanet)
                                         @if ($index < $defensePlanetsCount && $index < count($defenses))

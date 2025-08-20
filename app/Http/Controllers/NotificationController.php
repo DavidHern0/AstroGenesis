@@ -49,15 +49,17 @@ class NotificationController extends Controller
             $userID = auth()->id();
             $UserUserGame = userGame::where('user_id', $userID)->first();
             $resourcesLooted = $Request->session()->get('resourcesLooted');
+            $destroyedDefenses = $Request->session()->get('destroyedDefenses');
             $otherPlanetID = $Request->session()->get('otherPlanetID');
             $userPlanet = Planet::where('id', $otherPlanetID)->first();
             $otherUserGame = userGame::where('user_id', $userPlanet->user_id)->first();
             
             Notification::notificationAttack(
                 array_values($resourcesLooted),
-                $attack_fleet_data['defenses'],
+                array_values($destroyedDefenses),
                 $attack_fleet_data['coordinates']
             );
+            
             $Request->session()->forget('attack_fleet_data');
 
             $otherUserGame->metal -= $resourcesLooted['metal'];
@@ -73,6 +75,7 @@ class NotificationController extends Controller
 
             $Request->session()->forget('resourcesLooted');
             $Request->session()->forget('otherPlanetID');
+            $Request->session()->forget('destroyedDefenses');
         } else {
             Notification::notificationExpedition($resources);
         }
