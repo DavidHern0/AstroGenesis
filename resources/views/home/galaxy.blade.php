@@ -51,7 +51,14 @@
                 </form>
                 
                 <button class="galaxy_button" type="button">{{__("transport")}}</button>
-                    <button class="galaxy_button" type="button">{{__("attack")}}</button>
+
+                <form action="{{ route('fleet.attack') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="planet-id" value="{{$individualPlanet->id}}">
+                    <input type="hidden" name="galaxy-id" value="{{ $galaxy_position }}">
+                    
+                    <button class="galaxy_button" type="submit">{{__("attack")}}</button>
+                </form>
                 @endif
             </td>
         </tr>

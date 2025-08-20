@@ -51,6 +51,7 @@ Route::middleware(LocaleMiddleware::class)->group(function () {
     
     
     Route::post('/fleet-spy', [FleetController::class, 'spy'])->name('fleet.spy');
+    Route::post('/fleet-attack', [FleetController::class, 'attack'])->name('fleet.attack');
     Route::post('/fleet-send', [FleetController::class, 'send'])->name('fleet.send');
     
     Route::post('/notification-spy', [NotificationController::class, 'spy'])->name('notification.spy');
