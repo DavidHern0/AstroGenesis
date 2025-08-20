@@ -137,7 +137,7 @@ class fleet extends Model
 
         $fleetAttack = self::calculateFleetAttack($shipPlanet_ids, $ship_numbers);
         $planetDefense = self::calculatePlanetDefense($otherPlanet);
-        $ratio = $fleetAttack / $planetDefense;
+        $ratio = ($planetDefense > 0) ? $fleetAttack / $planetDefense : 1;
         if ($fleetAttack > $planetDefense) {
 
             $lootRatio = 0.8;
