@@ -31,56 +31,8 @@ class NpcConstructionService
         $crystalStorage = $buildings->where('building_id', 6)->first();
         $deuteriumStorage = $buildings->where('building_id', 7)->first();
 
-        $inactivityChance = 0;
-        if ($metalMine) {
-            $inactivityChance = rand(1, 10);
-            if ($metalMine->level >= 12) {
-                $inactivityChance = min(95, ($metalMine->level / 12) * 95);
-            } else if ($metalMine->level >= 8) {
-                $inactivityChance = min(90, ($metalMine->level / 8) * 90);
-            } else if ($metalMine->level >= 5) {
-                $inactivityChance = min(50, ($metalMine->level / 5) * 50);
-            }
-        }
 
-        if (rand(1, 100) <= $inactivityChance) {
-            Log::info("Planeta CPU: {$planet->id} INACTIVO. Probabilidad: {$inactivityChance}%");
-            return;
-        }
-
-        // 1. Prioridad absoluta: mina de metal
-        if ($metalMine && $this->canBuild($planet, $metalMine, $userGame)) {
-            Log::info("Planeta CPU: {$planet->id} mejorando mina de metal (nivel anterior: {$metalMine->level})");
-            $this->constructBuilding($planet, $metalMine, $userGame);
-        }
-
-        // 2. Construir defensas si mina de metal >= 8
-        if ($metalMine && $metalMine->level >= 8) {
-            $this->maybeConstructDefenses($planet, $userGame);
-        }
-
-        // 3. Equilibrar minas de cristal y deuterio
-        if ($crystalMine && $metalMine && ($metalMine->level - $crystalMine->level > 2)) {
-            if ($this->canBuild($planet, $crystalMine, $userGame)) {
-                Log::info("Planeta CPU: {$planet->id} equilibrando minas: mejorando mina de cristal (nivel anterior: {$crystalMine->level})");
-                $this->constructBuilding($planet, $crystalMine, $userGame);
-                return;
-            } else {
-                Log::info("Planeta CPU: {$planet->id} no hay recursos suficientes para mina de cristal.");
-            }
-        }
-
-        if ($deuteriumMine && $crystalMine && ($crystalMine->level - $deuteriumMine->level > 2)) {
-            if ($this->canBuild($planet, $deuteriumMine, $userGame)) {
-                Log::info("Planeta CPU: {$planet->id} equilibrando minas: mejorando mina de deuterio (nivel anterior: {$deuteriumMine->level})");
-                $this->constructBuilding($planet, $deuteriumMine, $userGame);
-                return;
-            } else {
-                Log::info("Planeta CPU: {$planet->id} no hay recursos suficientes para mina de deuterio.");
-            }
-        }
-
-        // 4. Construir almacenes si recursos > 80%
+        // 1. Construir almacenes si recursos > 80%
         if ($metalStorage && $userGame->metal / $userGame->metal_storage > 0.8) {
             if ($this->canBuild($planet, $metalStorage, $userGame)) {
                 Log::info("Planeta CPU: {$planet->id} mejorando almacén de metal (nivel anterior: {$metalStorage->level})");
@@ -105,9 +57,59 @@ class NpcConstructionService
             }
         }
 
-        // 5. Construir cualquier otro edificio normal (excepto mina de metal)
+        // 2. Construir defensas si mina de metal >= 8
+        if ($metalMine && $metalMine->level >= 8) {
+            $this->maybeConstructDefenses($planet, $userGame);
+        }
+
+        // 3. INACTIVIDAD
+        $inactivityChance = 0;
+        if ($metalMine) {
+            $inactivityChance = rand(1, 10);
+            if ($metalMine->level >= 12) {
+                $inactivityChance = min(95, ($metalMine->level / 12) * 95);
+            } else if ($metalMine->level >= 8) {
+                $inactivityChance = min(90, ($metalMine->level / 8) * 90);
+            } else if ($metalMine->level >= 5) {
+                $inactivityChance = min(50, ($metalMine->level / 5) * 50);
+            }
+        }
+        if (rand(1, 100) <= $inactivityChance) {
+            Log::info("Planeta CPU: {$planet->id} INACTIVO. Probabilidad: {$inactivityChance}%");
+            return;
+        }
+
+        // 4. Prioridad: mina de metal
+        if ($metalMine && $this->canBuild($planet, $metalMine, $userGame)) {
+            Log::info("Planeta CPU: {$planet->id} mejorando mina de metal (nivel anterior: {$metalMine->level})");
+            $this->constructBuilding($planet, $metalMine, $userGame);
+        }
+
+
+        // 5. Equilibrar minas de cristal y deuterio
+        if ($crystalMine && $metalMine && ($metalMine->level - $crystalMine->level > 2)) {
+            if ($this->canBuild($planet, $crystalMine, $userGame)) {
+                Log::info("Planeta CPU: {$planet->id} equilibrando minas: mejorando mina de cristal (nivel anterior: {$crystalMine->level})");
+                $this->constructBuilding($planet, $crystalMine, $userGame);
+                return;
+            } else {
+                Log::info("Planeta CPU: {$planet->id} no hay recursos suficientes para mina de cristal.");
+            }
+        }
+
+        if ($deuteriumMine && $metalMine && ($metalMine->level - $deuteriumMine->level > 4)) {
+            if ($this->canBuild($planet, $deuteriumMine, $userGame)) {
+                Log::info("Planeta CPU: {$planet->id} equilibrando minas: mejorando mina de deuterio (nivel anterior: {$deuteriumMine->level})");
+                $this->constructBuilding($planet, $deuteriumMine, $userGame);
+                return;
+            } else {
+                Log::info("Planeta CPU: {$planet->id} no hay recursos suficientes para mina de deuterio.");
+            }
+        }
+
+        // 6. Construir cualquier otro edificio normal
         foreach ($buildings as $building) {
-            if ($building->building_id == 1) continue;
+            if ($building->building_id == 1 || $building->building_id == 2 || $building->building_id == 3) continue;
             if ($this->canBuild($planet, $building, $userGame)) {
                 Log::info("Planeta CPU: {$planet->id} mejorando edificio {$building->building_id} (nivel anterior: {$building->level})");
                 $this->constructBuilding($planet, $building, $userGame);
@@ -205,10 +207,10 @@ class NpcConstructionService
         }
 
         if (rand(1, 100) <= $chance) {
-            Log::info("Planeta CPU: {$planet->id} probabilidad de construir defensas: {$chance}% - se procederá");
+            Log::info("Planeta CPU: {$planet->id} - Probabilidad de construir defensas: {$chance}% - SE construirá");
             $this->constructDefenses($planet, $userGame);
         } else {
-            Log::info("Planeta CPU: {$planet->id} probabilidad de construir defensas: {$chance}% - no se construirá");
+            Log::info("Planeta CPU: {$planet->id} - Probabilidad de construir defensas: {" . (100 - $chance) . "}% - NO se construirá");
         }
     }
 
