@@ -182,7 +182,6 @@ class fleet extends Model
                 'otherPlanetID' => $otherPlanet->user_id,
                 'fleetAttack' => $fleetAttack,
                 'planetDefense' => $planetDefense,
-                'shipsLost' => []
             ]);
         } else {
             // Ataque fallido
@@ -196,33 +195,30 @@ class fleet extends Model
             $userFleet = Fleet::where('user_id', $userID)
                 ->latest('created_at')
                 ->first();
-
             if ($userFleet) {
                 $shipsData = json_decode($userFleet->shipsSent, true);
 
                 $shipIds = $shipsData[0];
-                $quantities = $shipsData[1];
+                $newQuantities = $shipsData[1];
 
 
                 $lossRatio = 1 / (1 + exp(- ((($ratio ** -1) - 1))));
 
-                foreach ($quantities as $i => $qty) {
+                foreach ($newQuantities as $i => $qty) {
                     $lost = round($qty * $lossRatio);
-                    $shipsLost[] = $lost;
-                    $quantities[$i] = max(0, $qty - $lost);
+                    $newQuantities[$i] = max(0, $qty - $lost);
                 }
 
                 // Volver a guardar el array actualizado en la flota
-                $userFleet->shipsSent = json_encode([$shipIds, $quantities]);
+                $userFleet->shipsSent = json_encode([$shipIds, $newQuantities]);
                 $userFleet->save();
+                $ship_numbers = $newQuantities;
             }
             session([
                 'resourcesLooted' => $resourcesLooted,
                 'destroyedDefenses' => [],
                 'otherPlanetID' => $otherPlanet->user_id,
-                'shipsLost' => $shipsLost
             ]);
-            // dd($shipsLost);
         }
 
 
