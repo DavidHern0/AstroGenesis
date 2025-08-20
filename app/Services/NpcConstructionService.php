@@ -16,7 +16,7 @@ class NpcConstructionService
     {
         $userGame = UserGame::where('user_id', $planet->user_id)->first();
         if (!$userGame) {
-            Log::warning("Planeta CPU: {$planet->id} no tiene un UserGame asociado. build() abortado.");
+            Log::channel('cpuinfo')->warning("Planeta CPU: {$planet->id} no tiene un UserGame asociado. build() abortado.");
             return;
         }
 
@@ -31,11 +31,10 @@ class NpcConstructionService
         $crystalStorage = $buildings->where('building_id', 6)->first();
         $deuteriumStorage = $buildings->where('building_id', 7)->first();
 
-
         // 1. Construir almacenes si recursos > 80%
         if ($metalStorage && $userGame->metal / $userGame->metal_storage > 0.8) {
             if ($this->canBuild($planet, $metalStorage, $userGame)) {
-                Log::info("Planeta CPU: {$planet->id} mejorando almacén de metal (nivel anterior: {$metalStorage->level})");
+                Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} mejorando almacén de metal (nivel anterior: {$metalStorage->level})");
                 $this->constructBuilding($planet, $metalStorage, $userGame);
                 return;
             }
@@ -43,7 +42,7 @@ class NpcConstructionService
 
         if ($crystalStorage && $userGame->crystal / $userGame->crystal_storage > 0.8) {
             if ($this->canBuild($planet, $crystalStorage, $userGame)) {
-                Log::info("Planeta CPU: {$planet->id} mejorando almacén de cristal (nivel anterior: {$crystalStorage->level})");
+                Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} mejorando almacén de cristal (nivel anterior: {$crystalStorage->level})");
                 $this->constructBuilding($planet, $crystalStorage, $userGame);
                 return;
             }
@@ -51,7 +50,7 @@ class NpcConstructionService
 
         if ($deuteriumStorage && $userGame->deuterium / $userGame->deuterium_storage > 0.8) {
             if ($this->canBuild($planet, $deuteriumStorage, $userGame)) {
-                Log::info("Planeta CPU: {$planet->id} mejorando almacén de deuterio (nivel anterior: {$deuteriumStorage->level})");
+                Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} mejorando almacén de deuterio (nivel anterior: {$deuteriumStorage->level})");
                 $this->constructBuilding($planet, $deuteriumStorage, $userGame);
                 return;
             }
@@ -75,35 +74,34 @@ class NpcConstructionService
             }
         }
         if (rand(1, 100) <= $inactivityChance) {
-            Log::info("Planeta CPU: {$planet->id} INACTIVO. Probabilidad: {$inactivityChance}%");
+            Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} INACTIVO. Probabilidad: {$inactivityChance}%");
             return;
         }
 
         // 4. Prioridad: mina de metal
         if ($metalMine && $this->canBuild($planet, $metalMine, $userGame)) {
-            Log::info("Planeta CPU: {$planet->id} mejorando mina de metal (nivel anterior: {$metalMine->level})");
+            Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} mejorando mina de metal (nivel anterior: {$metalMine->level})");
             $this->constructBuilding($planet, $metalMine, $userGame);
         }
-
 
         // 5. Equilibrar minas de cristal y deuterio
         if ($crystalMine && $metalMine && ($metalMine->level - $crystalMine->level > 2)) {
             if ($this->canBuild($planet, $crystalMine, $userGame)) {
-                Log::info("Planeta CPU: {$planet->id} equilibrando minas: mejorando mina de cristal (nivel anterior: {$crystalMine->level})");
+                Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} equilibrando minas: mejorando mina de cristal (nivel anterior: {$crystalMine->level})");
                 $this->constructBuilding($planet, $crystalMine, $userGame);
                 return;
             } else {
-                Log::info("Planeta CPU: {$planet->id} no hay recursos suficientes para mina de cristal.");
+                Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} no hay recursos suficientes para mina de cristal.");
             }
         }
 
         if ($deuteriumMine && $metalMine && ($metalMine->level - $deuteriumMine->level > 4)) {
             if ($this->canBuild($planet, $deuteriumMine, $userGame)) {
-                Log::info("Planeta CPU: {$planet->id} equilibrando minas: mejorando mina de deuterio (nivel anterior: {$deuteriumMine->level})");
+                Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} equilibrando minas: mejorando mina de deuterio (nivel anterior: {$deuteriumMine->level})");
                 $this->constructBuilding($planet, $deuteriumMine, $userGame);
                 return;
             } else {
-                Log::info("Planeta CPU: {$planet->id} no hay recursos suficientes para mina de deuterio.");
+                Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} no hay recursos suficientes para mina de deuterio.");
             }
         }
 
@@ -111,13 +109,13 @@ class NpcConstructionService
         foreach ($buildings as $building) {
             if ($building->building_id == 1 || $building->building_id == 2 || $building->building_id == 3) continue;
             if ($this->canBuild($planet, $building, $userGame)) {
-                Log::info("Planeta CPU: {$planet->id} mejorando edificio {$building->building_id} (nivel anterior: {$building->level})");
+                Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} mejorando edificio {$building->building_id} (nivel anterior: {$building->level})");
                 $this->constructBuilding($planet, $building, $userGame);
                 return;
             }
         }
 
-        Log::info("Planeta CPU: {$planet->id} no construye este turno.");
+        Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} no construye este turno.");
     }
 
     protected function canBuild(Planet $planet, BuildingPlanet $building, UserGame $userGame)
@@ -128,7 +126,7 @@ class NpcConstructionService
             ->first();
 
         if (!$cost) {
-            Log::warning("Planeta CPU: {$planet->id} no existe costo para la construcción {$building->building_id} nivel {$nextLevel}");
+            Log::channel('cpuinfo')->warning("Planeta CPU: {$planet->id} no existe costo para la construcción {$building->building_id} nivel {$nextLevel}");
             return false;
         }
 
@@ -146,12 +144,11 @@ class NpcConstructionService
                 $userGame->crystal < $cost->crystal_cost ||
                 $userGame->deuterium < $cost->deuterium_cost
             ) {
-                Log::debug("Planeta CPU: {$planet->id} no tiene recursos para {$building->building_id} nivel {$nextLevel}");
+                Log::channel('cpuinfo')->debug("Planeta CPU: {$planet->id} no tiene recursos para {$building->building_id} nivel {$nextLevel}");
             } elseif ($building->building_id != 4 && $userGame->energy < $cost->energy_cost) {
-                Log::debug("Planeta CPU: {$planet->id} no tiene energía suficiente para {$building->building_id} nivel {$nextLevel}");
+                Log::channel('cpuinfo')->debug("Planeta CPU: {$planet->id} no tiene energía suficiente para {$building->building_id} nivel {$nextLevel}");
             }
         }
-
 
         return $canBuild;
     }
@@ -181,8 +178,6 @@ class NpcConstructionService
         $building->level = $nextLevel;
         $building->save();
         $userGame->save();
-
-        // Log::info("Planeta CPU: {$planet->id} mejoró {$building->building_id} a nivel {$building->level}");
     }
 
     protected function maybeConstructDefenses(Planet $planet, UserGame $userGame)
@@ -201,16 +196,16 @@ class NpcConstructionService
         if ($hasDefenses) {
             $inactivityChance = min(80, ($mineLevel / 10) * 80);
             if (rand(1, 100) <= $inactivityChance) {
-                Log::info("Planeta CPU: {$planet->id} defensas existentes. INACTIVO en construcción de defensas (Prob: {$inactivityChance}%)");
+                Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} defensas existentes. INACTIVO en construcción de defensas (Prob: {$inactivityChance}%)");
                 return;
             }
         }
 
         if (rand(1, 100) <= $chance) {
-            Log::info("Planeta CPU: {$planet->id} - Probabilidad de construir defensas: {$chance}% - SE construirá");
+            Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} - Probabilidad de construir defensas: {$chance}% - SE construirá");
             $this->constructDefenses($planet, $userGame);
         } else {
-            Log::info("Planeta CPU: {$planet->id} - Probabilidad de construir defensas: {" . (100 - $chance) . "}% - NO se construirá");
+            Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} - Probabilidad de construir defensas: {" . (100 - $chance) . "}% - NO se construirá");
         }
     }
 
@@ -242,7 +237,6 @@ class NpcConstructionService
         $maxBatch = $isCheap
             ? rand(3, min(20, intval($resourcePool / max(1000, ($levelCost->metal_cost + $levelCost->crystal_cost + $levelCost->deuterium_cost)))))
             : rand(1, 3);
-
 
         $currentBuilt = 0;
         while (
@@ -276,9 +270,9 @@ class NpcConstructionService
         }
 
         if ($builtCount > 0) {
-            Log::info("Planeta CPU: {$planet->id} construyó {$builtCount} defensas tipo {$defenseId} (Reserva: " . ($reserveFactor * 100) . "%)");
+            Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} construyó {$builtCount} defensas tipo {$defenseId} (Reserva: " . ($reserveFactor * 100) . "%)");
         } else {
-            Log::info("Planeta CPU: {$planet->id} no pudo construir defensas (recursos insuficientes o batch limitado)" . $maxBatch);
+            Log::channel('cpuinfo')->info("Planeta CPU: {$planet->id} no pudo construir defensas (recursos insuficientes o batch limitado: {$maxBatch})");
         }
     }
 }
