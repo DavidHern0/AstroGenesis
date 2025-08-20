@@ -17,32 +17,88 @@ class NpcConstructionService
         $userGame = UserGame::where('user_id', $planet->user_id)->first();
         if (!$userGame) return;
 
-        $buildings = BuildingPlanet::where('planet_id', $planet->id)->get();
+        $buildings = BuildingPlanet::where('planet_id', $planet->id)->where('type', 'resources')->get();
 
-        $metalMine = BuildingPlanet::where('planet_id', $planet->id)
-            ->where("building_id", 1)->first();
+        $metalMine = $buildings->where('building_id', 1)->first();
+        $crystalMine = $buildings->where('building_id', 2)->first();
+        $deuteriumMine = $buildings->where('building_id', 3)->first();
+        $metalStorage = $buildings->where('building_id', 5)->first();
+        $crystalStorage = $buildings->where('building_id', 6)->first();
+        $deuteriumStorage = $buildings->where('building_id', 7)->first();
 
-        if ($metalMine->level >= 8) {
-            if (rand(1, 100) <= 90) {
-                Log::info("PlanetID: " . $planet->id . " está inactivo en este ciclo.");
-                return;
+
+        if ($metalMine) {
+            $inactivityChance = rand(1, 10);
+            if ($metalMine->level >= 8) {
+                $inactivityChance = min(99, ($metalMine->level / 8) * 99);
+            } else if ($metalMine->level >= 5) {
+                $inactivityChance = min(50, ($metalMine->level / 5) * 50);
             }
         }
 
+        if (rand(1, 100) <= $inactivityChance) {
+            Log::info("PlanetID: " . $planet->id . " inactivo. build()");
+        } else {
 
-        foreach ($buildings as $building) {
-            if ($this->canBuild($planet, $building, $userGame)) {
-                $this->constructBuilding($planet, $building, $userGame);
+            // 1. Prioridad absoluta: mina de metal
+            if ($metalMine && $this->canBuild($planet, $metalMine, $userGame)) {
+                $this->constructBuilding($planet, $metalMine, $userGame);
+            }
 
-                // Evaluamos defensas solo si mina de metal >= 8
-                if ($building->building_id == 1 && $building->level >= 8) {
-                    $this->maybeConstructDefenses($planet, $userGame);
+            // 2. Construir defensas si mina de metal >= 8
+            if ($metalMine && $metalMine->level >= 8) {
+                $this->maybeConstructDefenses($planet, $userGame);
+            }
+
+            // 3. Equilibrar minas de cristal y deuterio
+            if ($crystalMine && $metalMine && ($metalMine->level - $crystalMine->level > 2)) {
+                if ($this->canBuild($planet, $crystalMine, $userGame)) {
+                    $this->constructBuilding($planet, $crystalMine, $userGame);
+                    return;
                 }
+            }
 
-                break; // solo construimos un edificio por evaluación
+            if ($deuteriumMine && $crystalMine && ($crystalMine->level - $deuteriumMine->level > 2)) {
+                if ($this->canBuild($planet, $deuteriumMine, $userGame)) {
+                    $this->constructBuilding($planet, $deuteriumMine, $userGame);
+                    return;
+                }
+            }
+
+            // 4. Construir almacenes si recursos > 80%
+            if ($metalStorage && $userGame->metal / $userGame->metal_storage > 0.8) {
+                if ($this->canBuild($planet, $metalStorage, $userGame)) {
+                    $this->constructBuilding($planet, $metalStorage, $userGame);
+                    return;
+                }
+            }
+
+            if ($crystalStorage && $userGame->crystal / $userGame->crystal_storage > 0.8) {
+                if ($this->canBuild($planet, $crystalStorage, $userGame)) {
+                    $this->constructBuilding($planet, $crystalStorage, $userGame);
+                    return;
+                }
+            }
+
+            if ($deuteriumStorage && $userGame->deuterium / $userGame->deuterium_storage > 0.8) {
+                if ($this->canBuild($planet, $deuteriumStorage, $userGame)) {
+                    $this->constructBuilding($planet, $deuteriumStorage, $userGame);
+                    return;
+                }
+            }
+
+            // 5. Construir cualquier otro edificio normal (excepto mina de metal)
+            foreach ($buildings as $building) {
+                if ($building->building_id == 1) continue; // mina de metal ya construida arriba
+                if ($this->canBuild($planet, $building, $userGame)) {
+                    $this->constructBuilding($planet, $building, $userGame);
+                    return; // solo uno por evaluación
+                }
             }
         }
+        return;
     }
+
 
     protected function canBuild(Planet $planet, BuildingPlanet $building, UserGame $userGame)
     {
@@ -123,15 +179,12 @@ class NpcConstructionService
             $inactivityChance = min(80, ($mineLevel / 10) * 80);
 
             if (rand(1, 100) <= $inactivityChance) {
-                Log::info("PlanetID: " . $planet->id . " decidió estar inactivo este turno. (Mina $mineLevel, Inactividad $inactivityChance%)");
                 return;
             }
         }
 
         if (rand(1, 100) <= $chance) {
             $this->constructDefenses($planet, $userGame);
-        } else {
-            Log::info("PlanetID: " . $planet->id . " no construyó defensas este turno. (Chance $chance%)");
         }
     }
 
@@ -208,9 +261,8 @@ class NpcConstructionService
                 $currentBuilt++;
             }
         }
-
         if ($builtCount > 0) {
-            Log::info("PlanetID: " . $planet->id . " construyó $builtCount defensas en este ciclo (ID:" . $defense->defense_id . "), Reserva: " . ($reserveFactor * 100) . "%)");
+            Log::info("PlanetID: " . $planet->id . " construyó $builtCount defensas en este ciclo, Reserva: " . ($reserveFactor * 100) . "%)");
         }
     }
 }
