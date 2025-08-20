@@ -138,30 +138,53 @@ class fleet extends Model
         $fleetAttack = self::calculateFleetAttack($shipPlanet_ids, $ship_numbers);
         $planetDefense = self::calculatePlanetDefense($otherPlanet);
         $ratio = ($planetDefense > 0) ? $fleetAttack / $planetDefense : 1;
+
         if ($fleetAttack > $planetDefense) {
 
+            // Calcular capacidad total de carga de la flota
+            $totalCargo = 0;
+            foreach ($shipPlanet_ids as $i => $shipId) {
+                $shipLevel = ShipLevel::where('ship_id', $shipId)->first();
+                if ($shipLevel) {
+                    $totalCargo += $shipLevel->cargo_capacity * $ship_numbers[$i];
+                }
+            }
+
+            // Loot ratio según fuerza de ataque
             $lootRatio = 0.8;
             if ($ratio > 1) {
                 $lootRatio = min(0.8, 1 - 0.8 * (1 / $ratio));
             }
 
-            $resourcesLooted = [
+            // Recursos "brutos" a robar
+            $resourcesLootedRaw = [
                 'metal' => round($otherUserGame->metal * $lootRatio),
                 'crystal' => round($otherUserGame->crystal * $lootRatio),
                 'deuterium' => round($otherUserGame->deuterium * $lootRatio),
             ];
+
+            // Ajustar loot a la capacidad de la flota
+            $totalResources = array_sum($resourcesLootedRaw);
+            if ($totalResources > $totalCargo) {
+                $scale = $totalCargo / $totalResources;
+                $resourcesLooted = [
+                    'metal' => floor($resourcesLootedRaw['metal'] * $scale),
+                    'crystal' => floor($resourcesLootedRaw['crystal'] * $scale),
+                    'deuterium' => floor($resourcesLootedRaw['deuterium'] * $scale),
+                ];
+            } else {
+                $resourcesLooted = $resourcesLootedRaw;
+            }
+
             $attackSuccess = true;
 
-            $otherPlanet = Planet::where('user_id', $otherPlanet->user_id)->first();
+            // Destruir defensas
             $defenses = DefensePlanet::where('planet_id', $otherPlanet->id)->get();
-
             $damageRatio = 1 / (1 + exp(- ($ratio - 1)));
-
             $destroyedDefenses = [];
 
             foreach ($defenses as $defense) {
                 $destroyedQuantity = 0;
-
                 if ($defense->quantity > 0) {
                     for ($i = 0; $i < $defense->quantity; $i++) {
                         if (rand(0, 100) / 100 < $damageRatio) {
@@ -173,7 +196,6 @@ class fleet extends Model
                 }
                 $destroyedDefenses[] = $destroyedQuantity;
             }
-
 
             // Guardar info en session
             session([
@@ -197,23 +219,21 @@ class fleet extends Model
                 ->first();
             if ($userFleet) {
                 $shipsData = json_decode($userFleet->shipsSent, true);
-
                 $shipIds = $shipsData[0];
                 $newQuantities = $shipsData[1];
 
-
                 $lossRatio = 1 / (1 + exp(- ((($ratio ** -1) - 1))));
-
                 foreach ($newQuantities as $i => $qty) {
                     $lost = round($qty * $lossRatio);
                     $newQuantities[$i] = max(0, $qty - $lost);
                 }
 
-                // Volver a guardar el array actualizado en la flota
+                // Guardar cantidades actualizadas
                 $userFleet->shipsSent = json_encode([$shipIds, $newQuantities]);
                 $userFleet->save();
                 $ship_numbers = $newQuantities;
             }
+
             session([
                 'resourcesLooted' => $resourcesLooted,
                 'destroyedDefenses' => [],
@@ -221,15 +241,11 @@ class fleet extends Model
             ]);
         }
 
-
-        // Crear registro de flota (como en expedition o sendFleet)
+        // Crear registro de flota
         $ssp_difference = abs($userPlanet->solar_system_position - $otherPlanet->solar_system_position);
         $gp_difference = abs($userPlanet->galaxy_position - $otherPlanet->galaxy_position);
         $seconds_diff = $ssp_difference * 5 + $gp_difference * 30;
         $arrival = Carbon::now()->addSeconds($seconds_diff);
-
-        $arrayShips = [];
-        array_push($arrayShips, $shipPlanet_ids, $ship_numbers);
 
         return self::create([
             'user_id' => $userID,
