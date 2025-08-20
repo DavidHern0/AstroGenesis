@@ -58,6 +58,7 @@
     "notification_title_expedition": "La flota ha regresado de su expedición",
     "notification_body_expedition": "Hemos encontrado estos recursos",
     "fleet_succes": "La flota ha sido enviada",
+    "expedition_hours": "Horas de expedición",
 
     "(and :count more error)": "(y :count error más)",
     "(and :count more errors)": "(y :count errores más)",

@@ -508,4 +508,13 @@ nav a:hover {
     gap: 15px;
     margin-top: 10px;
 }
+
+.ship-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ship-item input {
+    margin-top: 5px;
+}
 /*# sourceMappingURL=app.css.map */
