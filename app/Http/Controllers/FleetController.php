@@ -73,11 +73,19 @@ class FleetController extends Controller
                             $shipCargo += $shipLevel->cargo_capacity * $ship_numbers[$i];
                         }
                         
-                        $randomCargo = rand($expedition_hours*($shipCargo/100), rand($shipCargo/25, $shipCargo));
+                        
+                        $minCargo = max(1, $shipCargo * 0.1);
+                        $maxCargo = min($shipCargo, $shipCargo * 0.9 * min(1, $expedition_hours/24));
+                        $randomCargo = rand($minCargo, $maxCargo);
                         
                         $metal = round($randomCargo * 0.60);
                         $crystal = round($randomCargo * 0.30);
                         $deuterium = round($randomCargo - $metal - $crystal);
+
+                        // ±5% variation
+                        $metal = round($metal * (0.95 + rand(0, 10)/100));
+                        $crystal = round($crystal * (0.95 + rand(0, 10)/100));
+                        $deuterium = round($deuterium * (0.95 + rand(0, 10)/100));
                         
                         $exp_resources = [$metal, $crystal, $deuterium];
                         session(['exp_resources' => $exp_resources]);
