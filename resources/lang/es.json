@@ -62,6 +62,7 @@
     "notification_title_attack": "Nuestra flota de ataque ha regresado",
     "notification_body_attack": "Estos son los recursos saqueados del planeta",
     "destroyed_defenses": "Estos son las defensas que hemos destruido",
+    "no_destroyed_defenses": "No hemos destruido ninguna defensa",    
     "failed_attack": "El ataque ha sido un fracaso. Hemos perdido algunas de/todas nuestras naves",
     "succeed_attack": "El ataque ha sido un éxito. Hemos logrado saquear estos recursos",
 

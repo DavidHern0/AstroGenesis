@@ -62,6 +62,7 @@
     "notification_title_attack": "Our attack fleet has returned",
     "notification_body_attack": "These are the resources plundered from the planet",
     "destroyed_defenses": "These are the defenses we have destroyed",
+    "no_destroyed_defenses": "We have not destroyed any defenses",    
     "failed_attack": "The attack has failed. We have lost some/all of our ships",
     "succeed_attack": "The attack was a success. We managed to loot these resources",
     
