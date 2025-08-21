@@ -21,6 +21,11 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         try {
+        $maxPositions = 12 * env('MAX_GALAXY_POS');
+        if (env('NUM_BOTS') + 1 > $maxPositions) {
+            throw new \Exception("NUM_BOTS (".env('NUM_BOTS').") cannot be greater than $maxPositions (maximum positions in galaxies).");
+        }
+
         $user = \App\Models\User::factory()->create([
             'name' => 'Jugador',
             'email' => 'test@example.com',
