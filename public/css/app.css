@@ -205,10 +205,6 @@ img {
   cursor: pointer;
 }
 
-input[type=number] {
-  width: 35px;
-}
-
 .notifications .accordion {
   margin-top: 50px;
   background-color: #222;
@@ -598,6 +594,30 @@ nav a:hover {
 .disabled_galaxy_selector {
   pointer-events: none; 
   opacity: 0.2;
+}
+
+input[type=number] {
+  width: 35px;
+  padding: 5px;
+  border: 1px solid #00a2ff;
+  border-radius: 4px;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  text-align: center;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: bold;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input[type=number]:hover {
+  border-color: #0082cc;
+  background-color: #222;
+}
+
+input[type=number]:focus {
+  outline: none;
+  border-color: #00a2ff;
+  box-shadow: 0 0 5px #00a2ff;
 }
 
 /*# sourceMappingURL=app.css.map */

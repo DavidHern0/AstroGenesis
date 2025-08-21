@@ -200,9 +200,28 @@ img {
   cursor: pointer;
 }
 
-input[type="number"] {
+input[type=number] {
   width: 35px;
+  padding: 5px;
+  border: 1px solid #00a2ff;
+  border-radius: 4px;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  text-align: center;
+  font-family: "Titillium Web", sans-serif;
+  font-weight: bold;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  &:hover {
+    border-color: #0082cc;
+    background-color: #222;
+  }
+  &:focus {
+    outline: none;
+    border-color: #00a2ff;
+    box-shadow: 0 0 5px #00a2ff;
+  }
 }
+
 
 .notifications {
   .accordion {
