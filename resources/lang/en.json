@@ -68,6 +68,9 @@
     "total_cargo": "Cargo capacity",
     "total_construction_time": "Attack power",
     "total_construction_def_time": "Defense power",
+    "attack_error": "You have no ships available",
+    "attack_succes": "The fleet has been sent",
+    "expedition_error": "No ships selected for the expedition",
     
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",

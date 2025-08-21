@@ -158,12 +158,14 @@ class HomeController extends Controller
 
             $totalCargo = ShipPlanet::where('planet_id', $planet->id)
                 ->where('quantity', '>', 0)
+                ->whereNotIn('ship_planets.ship_id', [11, 12, 13, 14]) // no Colony Ship / Recycler / Espionage / Solar Satelite
                 ->join('ship_levels', 'ship_planets.ship_id', '=', 'ship_levels.ship_id')
                 ->selectRaw('SUM(quantity * cargo_capacity) as totalCargo')
                 ->value('totalCargo');
 
             $totalConstructionTime = ShipPlanet::where('planet_id', $planet->id)
                 ->where('quantity', '>', 0)
+                ->whereNotIn('ship_planets.ship_id', [11, 12, 13, 14]) // no Colony Ship / Recycler / Espionage / Solar Satelite
                 ->join('ship_levels', 'ship_planets.ship_id', '=', 'ship_levels.ship_id')
                 ->selectRaw('SUM(quantity * construction_time) as totalConstruction')
                 ->value('totalConstruction');

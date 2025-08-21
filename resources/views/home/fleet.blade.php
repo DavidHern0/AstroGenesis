@@ -42,8 +42,8 @@
                 @endforeach
             </div>
             <div>
-                <p>{{__('total_cargo')}} {{__('total')}}: {{$totalCargo}}</p>   
-                <p>{{__('total_construction_time')}} {{__('total')}}: {{$totalConstructionTime}}</p>   
+                <p>{{__('total_cargo')}} {{__('total')}}: {{$totalCargo ?? 0}}</p>   
+                <p>{{__('total_construction_time')}} {{__('total')}}: {{$totalConstructionTime ?? 0}}</p>   
             </div>
             <div>
                 <label>

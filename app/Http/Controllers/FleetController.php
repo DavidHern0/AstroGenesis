@@ -48,33 +48,32 @@ class FleetController extends Controller
         $userPlanet = Planet::where('user_id', $userID)->first();
         $userShips = ShipPlanet::where('planet_id', $userPlanet->id)
             ->where('quantity', '!=', 0)
+            ->whereNotIn('id', [11, 12, 13, 14]) // no Colony Ship / Recycler / Espionage / Solar Satelite
             ->get();
+            if ($userShips->isEmpty()) {
+                return redirect()->route("home.galaxy", $galaxyID)->with('error', __("attack_error"));
+            } else {
+                $shipPlanet_ids = $userShips->pluck('id')->toArray();
+                $ship_numbers = $userShips->pluck('quantity')->toArray();
 
-        $shipPlanet_ids = $userShips->pluck('id')->toArray();
-        $ship_numbers = $userShips->pluck('quantity')->toArray();
+                session([
+                    'attack_fleet_data' => [
+                        'resources' => $resources,
+                        'defenses' => $defense,
+                        'coordinates' => $coordinates,
+                        'shipPlanet_ids' => $shipPlanet_ids,
+                        'ship_numbers' => $ship_numbers,
+                    ]
+                ]);
 
+                Fleet::attackPlanet($shipPlanet_ids, $ship_numbers, $otherPlanet);
 
+                ShipPlanet::where('planet_id', $userPlanet->id)
+                    ->whereNotIn('id', [11, 12, 13, 14]) // no Colony Ship / Recycler / Espionage / Solar Satelite
+                    ->update(['quantity' => 0]);
 
-
-        session([
-            'attack_fleet_data' => [
-                'resources' => $resources,
-                'defenses' => $defense,
-                'coordinates' => $coordinates,
-                'shipPlanet_ids' => $shipPlanet_ids,
-                'ship_numbers' => $ship_numbers,
-            ]
-        ]);
-
-        Fleet::attackPlanet($shipPlanet_ids, $ship_numbers, $otherPlanet);
-
-        ShipPlanet::where('planet_id', $userPlanet->id)
-            ->update(['quantity' => 0]);
-            
-        // Genera la notificación de ataque
-        // $notification = Notification::notificationAttack($resources, $defense, $coordinates);
-
-        return redirect()->route("home.galaxy", $galaxyID)->with('success', __("attack"));
+                return redirect()->route("home.galaxy", $galaxyID)->with('success', __("attack_succes"));
+            }
     }
 
 
@@ -105,8 +104,10 @@ class FleetController extends Controller
     {
         $typeSend = $Request->input('type');
         $shipPlanet_ids = $Request->input('shipPlanet_id');
+
         $ship_numbers = $Request->input('ship_number');
-        if (min($ship_numbers) >= 0) {
+
+        if (count(array_unique($ship_numbers)) != 1) {
             $shipsSent = [];
 
             foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
@@ -167,7 +168,7 @@ class FleetController extends Controller
                     break;
             }
         } else {
-            return redirect()->route("home.fleet")->with('error', __("update_error_negative"));
+            return redirect()->route("home.fleet")->with('error', __("expedition_error"));
         }
     }
 }
