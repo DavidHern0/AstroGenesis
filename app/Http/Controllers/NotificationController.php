@@ -103,9 +103,9 @@ class NotificationController extends Controller
                 $userID = auth()->id();
                 $userGame = userGame::where('user_id', $userID)->first();
                 $resources = json_decode($notification->resources);
-                $userGame->metal += $resources[0];
-                $userGame->crystal += $resources[1];
-                $userGame->deuterium += $resources[2];
+                $userGame->metal = min($userGame->metal + $resources[0], $userGame->metal_storage);
+                $userGame->crystal = min($userGame->crystal + $resources[1], $userGame->crystal_storage);
+                $userGame->deuterium = min($userGame->deuterium + $resources[2], $userGame->deuterium_storage);
                 $userGame->save();
             }
 
