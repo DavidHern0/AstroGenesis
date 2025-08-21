@@ -65,6 +65,9 @@
     "no_destroyed_defenses": "We have not destroyed any defenses",    
     "failed_attack": "The attack has failed. We have lost some/all of our ships",
     "succeed_attack": "The attack was a success. We managed to loot these resources",
+    "total_cargo": "Cargo capacity",
+    "total_construction_time": "Attack power",
+    "total_construction_def_time": "Defense power",
     
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",

@@ -155,7 +155,19 @@ class HomeController extends Controller
             $planet = Planet::where('user_id', $userID)->first();
             $shipPlanets = ShipPlanet::where('planet_id', $planet->id)->get();
             $shipLevels = ShipLevel::all();
-            
+
+            $totalCargo = ShipPlanet::where('planet_id', $planet->id)
+                ->where('quantity', '>', 0)
+                ->join('ship_levels', 'ship_planets.ship_id', '=', 'ship_levels.ship_id')
+                ->selectRaw('SUM(quantity * cargo_capacity) as totalCargo')
+                ->value('totalCargo');
+
+            $totalConstructionTime = ShipPlanet::where('planet_id', $planet->id)
+                ->where('quantity', '>', 0)
+                ->join('ship_levels', 'ship_planets.ship_id', '=', 'ship_levels.ship_id')
+                ->selectRaw('SUM(quantity * construction_time) as totalConstruction')
+                ->value('totalConstruction');
+
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
@@ -166,6 +178,8 @@ class HomeController extends Controller
                 'shipPlanets' => $shipPlanets,
                 'shipLevels' => $shipLevels,
                 'fleets' => $fleets,
+                'totalCargo' => $totalCargo,
+                'totalConstructionTime' => $totalConstructionTime
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -207,7 +221,7 @@ class HomeController extends Controller
             $userGame = userGame::where('user_id', $userID)->first();
             $planet = Planet::where('user_id', $userID)->first();
             $defensePlanets = DefensePlanet::where('planet_id', $planet->id)->get();
-            
+                
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')

@@ -18,8 +18,8 @@ class Notification extends Model
             'body' => 'notification_body_attack',
             'resources' => json_encode($resources),
             'defenses' => json_encode($defense),
-            'solar_system_position' => $coordinates[1],
-            'galaxy_position' => $coordinates[0],
+            'solar_system_position' => $coordinates[0],
+            'galaxy_position' => $coordinates[1],
             'type' => 'attack',
         ]);
     }
@@ -32,8 +32,8 @@ class Notification extends Model
             'body' => 'notification_body_spy',
             'resources' => json_encode($resources),
             'defenses' => json_encode($defense),
-            'solar_system_position' => $coordinates[1],
-            'galaxy_position' => $coordinates[0],
+            'solar_system_position' => $coordinates[0],
+            'galaxy_position' => $coordinates[1],
             'type' => 'spy',
         ]);
     }

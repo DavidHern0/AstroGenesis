@@ -65,6 +65,9 @@
     "no_destroyed_defenses": "No hemos destruido ninguna defensa",    
     "failed_attack": "El ataque ha sido un fracaso. Hemos perdido algunas de/todas nuestras naves",
     "succeed_attack": "El ataque ha sido un éxito. Hemos logrado saquear estos recursos",
+    "total_cargo": "Capacidad de carga",
+    "total_construction_time": "Potencia de ataque",
+    "total_construction_def_time": "Potencia de defensa",
 
     "(and :count more error)": "(y :count error más)",
     "(and :count more errors)": "(y :count errores más)",

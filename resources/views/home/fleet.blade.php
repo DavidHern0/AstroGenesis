@@ -40,7 +40,10 @@
                         </div>
                     @endif
                 @endforeach
-
+            </div>
+            <div>
+                <p>{{__('total_cargo')}} {{__('total')}}: {{$totalCargo}}</p>   
+                <p>{{__('total_construction_time')}} {{__('total')}}: {{$totalConstructionTime}}</p>   
             </div>
             <div>
                 <label>

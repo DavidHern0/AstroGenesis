@@ -139,7 +139,7 @@ class BuildingLevelSeeder extends Seeder
         }
 
         //Metal storage
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             $energy_cost = 0;
             $base_cost = [1000, 0];
             $metal_cost = round($base_cost[0] * (2 ** ($i - 1)));
@@ -160,7 +160,7 @@ class BuildingLevelSeeder extends Seeder
         }
 
         //Crystal storage
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             $energy_cost = 0;
             $base_cost = [0, 1000];
             $metal_cost = 0;
