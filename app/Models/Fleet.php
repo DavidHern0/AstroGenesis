@@ -220,9 +220,9 @@ class fleet extends Model
             if ($userFleet) {
                 $newQuantities = $ship_numbers;
 
-                $lossRatio = 1 / (1 + exp(- ((($ratio ** -1) - 1))));
+                $lossRatio = max(0, pow(1 - $ratio, 1.5));
                 foreach ($newQuantities as $i => $qty) {
-                    $lost = round($qty * $lossRatio);
+                    $lost = $qty * $lossRatio;
                     $newQuantities[$i] = max(0, $qty - $lost);
                 }
 
