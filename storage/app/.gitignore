@@ -1,3 +1,4 @@
 *
 !public/
 !.gitignore
+!planet_names.json

@@ -1,0 +1,17 @@
+{
+  "prefixes": [
+    "Zor","Neb","Cry","Vel","Xan","Tor","Qua","Lum","Drak","Mor",
+    "Ael","Vor","Ser","Gal","Oph","Trin","Alt","Kry","Fen","Rho",
+    "Cen","Ery","Sol","Pol","Nym","Thal","Arg","Kor","Lys","Omn"
+  ],
+  "middles": [
+    "th","br","x","m","n","l","k","vr","st","dr",
+    "ph","gr","z","q","ch","sh","rk","gh","nt","pt",
+    "mn","lt","sk","tr"
+  ],
+  "suffixes": [
+    "ion","ara","on","aris","oria","eus","ar","us","ix","on",
+    "arae","ara","eus","ora","is","oth","ium","or","os","an",
+    "ara","yx","en","othis","ara","ae","araon","il","eus","orix"
+  ]
+}

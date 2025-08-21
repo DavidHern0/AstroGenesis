@@ -20,98 +20,12 @@ class Planet extends Model
 
     public static function generateAIPlanetName()
     {
-        $prefixes = [
-            'Zor',
-            'Neb',
-            'Cry',
-            'Vel',
-            'Xan',
-            'Tor',
-            'Qua',
-            'Lum',
-            'Drak',
-            'Mor',
-            'Ael',
-            'Vor',
-            'Ser',
-            'Gal',
-            'Oph',
-            'Trin',
-            'Alt',
-            'Kry',
-            'Fen',
-            'Rho',
-            'Cen',
-            'Ery',
-            'Sol',
-            'Pol',
-            'Nym',
-            'Thal',
-            'Arg',
-            'Kor',
-            'Lys',
-            'Omn'
-        ];
+        // Cargar archivo JSON (solo una vez en la request, para performance)
+        $data = json_decode(file_get_contents(storage_path('app/planet_names.json')), true);
 
-        $middles = [
-            'th',
-            'br',
-            'x',
-            'm',
-            'n',
-            'l',
-            'k',
-            'vr',
-            'st',
-            'dr',
-            'ph',
-            'gr',
-            'z',
-            'q',
-            'ch',
-            'sh',
-            'rk',
-            'gh',
-            'nt',
-            'pt',
-            'mn',
-            'lt',
-            'sk',
-            'tr'
-        ];
-
-        $suffixes = [
-            'ion',
-            'ara',
-            'on',
-            'aris',
-            'oria',
-            'eus',
-            'ar',
-            'us',
-            'ix',
-            'on',
-            'arae',
-            'ara',
-            'eus',
-            'ora',
-            'is',
-            'oth',
-            'ium',
-            'or',
-            'os',
-            'an',
-            'ara',
-            'yx',
-            'en',
-            'othis',
-            'ara',
-            'ae',
-            'araon',
-            'il',
-            'eus',
-            'orix'
-        ];
+        $prefixes = $data['prefixes'] ?? [];
+        $middles  = $data['middles'] ?? [];
+        $suffixes = $data['suffixes'] ?? [];
 
         $prefix = $prefixes[array_rand($prefixes)];
         $middle = $middles[array_rand($middles)];
@@ -119,10 +33,11 @@ class Planet extends Model
 
         return $prefix . $middle . $suffix;
     }
+
     public static function createDefault($userId)
     {
 
-        if ($userId === 1 || $userId <= (env('NUM_BOTS')+1)) { // AI planets
+        if ($userId === 1 || $userId <= (env('NUM_BOTS') + 1)) { // AI planets
             $planetName = self::generateAIPlanetName();
         } else {
             if (App::getLocale() == 'es') {
