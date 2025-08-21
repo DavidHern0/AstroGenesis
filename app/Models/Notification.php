@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'title', 'body', 'resources', 'defenses', 'solar_system_position', 'galaxy_position', 'type'];
+    protected $fillable = ['user_id', 'title', 'body', 'resources', 'defenses', 'solar_system_position', 'galaxy_position', 'type', 'totalLost'];
 
-    public static function notificationAttack($resources, $defense, $coordinates)
+    public static function notificationAttack($resources, $defense, $coordinates, $totalLost)
     {
         return self::create([
             'user_id' => auth()->id(),
@@ -21,6 +21,7 @@ class Notification extends Model
             'solar_system_position' => $coordinates[0],
             'galaxy_position' => $coordinates[1],
             'type' => 'attack',
+            'totalLost' => $totalLost
         ]);
     }
 

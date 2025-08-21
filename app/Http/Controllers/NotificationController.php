@@ -52,13 +52,15 @@ class NotificationController extends Controller
             $resourcesLooted = $Request->session()->get('resourcesLooted');
             $destroyedDefenses = $Request->session()->get('destroyedDefenses');
             $otherPlanetID = $Request->session()->get('otherPlanetID');
+            $totalLost = $Request->session()->get('totalLost');
             $userPlanet = Planet::where('id', $otherPlanetID)->first();
             $otherUserGame = userGame::where('user_id', $userPlanet->user_id)->first();
-
+            
             Notification::notificationAttack(
                 array_values($resourcesLooted),
                 array_values($destroyedDefenses),
-                $attack_fleet_data['coordinates']
+                $attack_fleet_data['coordinates'],
+                $totalLost
             );
 
             $Request->session()->forget('attack_fleet_data');
@@ -77,6 +79,7 @@ class NotificationController extends Controller
             $Request->session()->forget('resourcesLooted');
             $Request->session()->forget('otherPlanetID');
             $Request->session()->forget('destroyedDefenses');
+            $Request->session()->forget('totalLost');
         }
         
         

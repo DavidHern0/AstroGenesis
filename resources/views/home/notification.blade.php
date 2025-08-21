@@ -70,11 +70,19 @@
                                 <hr>
                             @endif
                             @if ($notification->type === 'attack')
+                                <h3>
+                                    {{
+                                        [
+                                            'all' => __('all_lost_ships'),
+                                            'partial' => __('partial_lost_ships'),
+                                            'none' => __('none_lost_ships'),
+                                        ][$notification->totalLost] ?? ''
+                                    }}
+                                    </h3>
                                 @if ($resources[0] === 0 && $resources[1] === 0 && $resources[2] === 0)
-                                    <h3>{{ __('failed_attack') }}</h3>
-                                    <hr>
+                                    <h3>{{ __('failed_attack') }}
                                 @else
-                                    <h3>{{ __('succeed_attack') }}</h3>
+                                    <h3>{{ __('succeed_attack') }}
                                     <hr>
                                     <div class="accordion-resources">
                                         <h4>{{ __($notification->body) }}:</h4>

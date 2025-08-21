@@ -139,6 +139,7 @@ class fleet extends Model
         $fleetAttack = self::calculateFleetAttack($shipPlanet_ids, $ship_numbers);
         $planetDefense = self::calculatePlanetDefense($otherPlanet);
         $ratio = ($planetDefense > 0) ? $fleetAttack / $planetDefense : 1;
+        $status = 'none';
 
         if ($fleetAttack > $planetDefense) {
             $attackSuccess = true;
@@ -213,10 +214,12 @@ class fleet extends Model
             ->first();
         if ($userFleet) {
             $newQuantities = $ship_numbers;
+            $totalLost = 0;
 
             $lossRatio = 1 / (1 + pow($ratio, 5));
             foreach ($newQuantities as $i => $qty) {
                 $lost = $qty * $lossRatio;
+                $totalLost += $lost;
                 $newQuantities[$i] = round(max(0, $qty - $lost));
                 $shipPlanetId = $shipPlanet_ids[$i];
                 if ($lost > 0) {
@@ -229,8 +232,13 @@ class fleet extends Model
                 }
             }
             $otherUserGame->save();
-
-
+             if ($totalLost == 0) {
+                $status = 'none';
+            } elseif (round($totalLost) >= array_sum($ship_numbers)) {
+                $status = 'all';
+            } else {
+                $status = 'partial';
+            }
             // Guardar cantidades actualizadas
             $userFleet->shipsSent = json_encode([$shipPlanet_ids, $newQuantities]);
             $userFleet->save();
@@ -243,8 +251,8 @@ class fleet extends Model
             'otherPlanetID' => $otherPlanet->user_id,
             'fleetAttack' => $fleetAttack,
             'planetDefense' => $planetDefense,
+            'totalLost' => $status
         ]);
-        
         // Crear registro de flota
         $ssp_difference = abs($userPlanet->solar_system_position - $otherPlanet->solar_system_position);
         $gp_difference = abs($userPlanet->galaxy_position - $otherPlanet->galaxy_position);
