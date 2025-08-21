@@ -595,4 +595,9 @@ nav a:hover {
   color: #ff6565;
 }
 
+.disabled_galaxy_selector {
+  pointer-events: none; 
+  opacity: 0.2;
+}
+
 /*# sourceMappingURL=app.css.map */

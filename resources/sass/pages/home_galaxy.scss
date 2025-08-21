@@ -88,3 +88,8 @@ tr {
     cursor: not-allowed;
   }
 }
+
+.disabled_galaxy_selector {
+  pointer-events: none; 
+  opacity: 0.2;
+}
