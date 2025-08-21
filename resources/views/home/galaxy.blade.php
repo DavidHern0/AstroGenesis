@@ -50,7 +50,7 @@
                     <button class="galaxy_button" type="submit">{{__("spy")}}</button>
                 </form>
                 
-                <button class="galaxy_button" type="button">{{__("transport")}}</button>
+                <button class="galaxy_button" type="button" disabled>{{__("transport")}}</button>
 
                 <form action="{{ route('fleet.attack') }}" method="POST">
                     @csrf

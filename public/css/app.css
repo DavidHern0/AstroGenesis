@@ -82,6 +82,11 @@ img {
   background-color: #0082cc;
 }
 
+.info-button:disabled {
+    background-color: #e69d9d;
+    cursor: not-allowed;
+}
+
 .container {
   display: flex;
 }

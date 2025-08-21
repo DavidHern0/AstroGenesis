@@ -64,6 +64,10 @@ img {
   &:hover {
     background-color: darken($primary-color, 10%);
   }
+    &:disabled {
+    background-color: #e69d9d;
+    cursor: not-allowed;
+  }
 }
 
 .container {

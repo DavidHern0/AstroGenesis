@@ -53,7 +53,7 @@
                     @endif
                 @endforeach
 
-                <button class="info-button" type="button">{{__('update_building')}}</button>
+                <button class="info-button" type="button" disabled>{{__('update_building')}}</button>
             </div>
         @endforeach
     </div>
