@@ -44,33 +44,16 @@
             </div>
             <div>
                 <label>
-                    <input type="radio" name="type" value="expedition" required>
+                    <input type="radio" name="type" value="expedition" required checked>
                     {{__('expedition')}}
-                </label><br>
-                
-                {{-- <label>
-                    <input type="radio" name="type" value="resource_transport" required>
-                    {{__('resource_transport')}}
-                </label><br> --}}
-                
-                <label>
-                    <input type="radio" name="type" value="attack" required>
-                    {{__('attack')}}
                 </label><br>
             </div>
             
-            <div id="expedition_container" style="display: none;">
+            <div id="expedition_container" style="">
                 <label>{{__("expedition_hours")}}</label>
                 <input type="number" name="expedition_hours" value="1" min="1" max="24"/>
             </div>
-            
-            <div id="attack_resource_container" style="display: none;">
-                <label>{{__("galaxy")}}</label>
-                <input type="number" name="planet_gp" value="1" min="1" />
 
-                <label>{{__("position")}}</label>
-                <input type="number" name="planet_ssp" value="1" min="1" />
-            </div>
             <button class="update-item-button" type="submit">{{__('send_fleet')}}</button>
         </form>
         @else
