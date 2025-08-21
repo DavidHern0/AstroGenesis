@@ -415,7 +415,7 @@ a.register-link {
   width: min-content;
 }
 
-.notification-container {
+.section_notification {
   background-color: rgba(68, 68, 68, 0.8078431373);
   width: 654px;
   border-radius: 5px;
@@ -423,16 +423,33 @@ a.register-link {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
-.notification-container .fa-bell {
+
+.section_notification .fa-bell {
   text-decoration: none;
   padding: 10px;
   color: #fff;
   cursor: pointer;
   transition: color 0.2s ease-in-out;
 }
-.notification-container .fa-bell:hover {
+
+.section_notification .fa-bell:hover {
   color: rgb(184, 184, 184);
+}
+
+.fleet_p {
+  margin: 0;
+}
+
+.fleet_p_dots {
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.hidden-fleet {
+  display: none;
 }
 
 .spy_arrival {

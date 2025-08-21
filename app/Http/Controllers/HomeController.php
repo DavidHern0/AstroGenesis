@@ -31,7 +31,7 @@ class HomeController extends Controller
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
-            ->first();
+            ->get();
 
             return view('home.index', [
                 'planet' => $planet,
@@ -55,7 +55,7 @@ class HomeController extends Controller
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
-            ->first();
+            ->get();
             return view('home.resources', [
                 'planet' => $planet,
                 'userGame' => $userGame,
@@ -81,7 +81,7 @@ class HomeController extends Controller
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
-            ->first();
+            ->get();
             return view('home.facilities', [
                 'planet' => $planet,
                 'userGame' => $userGame,
@@ -107,7 +107,7 @@ class HomeController extends Controller
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
-            ->first();
+            ->get();
             return view('home.shipyard', [
                 'planet' => $planet,
                 'userGame' => $userGame,
@@ -133,7 +133,7 @@ class HomeController extends Controller
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
-            ->first();
+            ->get();
             return view('home.defenses', [
                 'planet' => $planet,
                 'userGame' => $userGame,
@@ -173,7 +173,7 @@ class HomeController extends Controller
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
-            ->first();
+            ->get();
             return view('home.fleet', [
                 'planet' => $planet,
                 'userGame' => $userGame,
@@ -201,7 +201,7 @@ class HomeController extends Controller
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
-            ->first();
+            ->get();
             return view('home.galaxy', [
                 'planet' => $planet,
                 'planets' => $planets,
@@ -227,7 +227,7 @@ class HomeController extends Controller
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
-            ->first();
+            ->get();
             return view('home.notification', [
                 'planet' => $planet,
                 'userGame' => $userGame,

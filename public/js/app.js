@@ -161,6 +161,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+//UPDATE NOTIFICACIONES (SOLO VISUAL)
+document.querySelectorAll('.spy_arrival').forEach((spyArrival, index) => {
+    let arrivalCoordinates = document.querySelectorAll('#arrival_coordinates')[index];
+    if (spyArrival && arrivalCoordinates) {
+        arrivalCoordinates = arrivalCoordinates.innerText.match(/\d+/g);
+        const arrival_time = spyArrival.innerText;
+
+        const intervalID = setInterval(() => {
+            const now = new Date();
+            const timeDifference = -(now - new Date(arrival_time)) / 1000;
+
+            if (timeDifference > 0) {
+                const hoursDiff = Math.floor(timeDifference / 3600);
+                const minutesDiff = Math.floor((timeDifference % 3600) / 60);
+                const secondsDiff = Math.floor(timeDifference % 60);
+
+                spyArrival.style.display = "initial";
+                spyArrival.innerText = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
+            } else {
+                // DETENER EL INTERVALO (sale de la "iteración")
+                clearInterval(intervalID);
+                const parentP = spyArrival.closest('p');
+                if (parentP) parentP.remove();
+            }
+        }, 1000);
+    }
+});
+
+//UPDATE NOTIFICACIONES
 if (spyArrival && arrivalCoordinates) {
     arrivalCoordinates = arrivalCoordinates.innerText;
     arrivalCoordinates = arrivalCoordinates.match(/\d+/g);
@@ -285,4 +315,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateSelectedCargo();
     updateConstructionTime();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const showMoreBtn = document.querySelector(".show-more");
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener("click", () => {
+            document.querySelectorAll(".hidden-fleet").forEach(el => {
+                el.style.display = "block"; // mostrar las ocultas
+            });
+            showMoreBtn.remove(); // quitar los "..."
+        });
+    }
 });

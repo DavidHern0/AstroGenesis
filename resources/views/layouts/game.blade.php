@@ -54,15 +54,28 @@
                         <h2 class="planet-name" id="planetName">{{$planet->name}}</h2>                 
                         <input type="text" id="editInput" style="display: none;" />
                     </div>
-                    
-                    <div class="notification-container">
-                        @if($fleets)
-                        <p>&#128065; {{__('movement_fleet')}} <span id="arrival_coordinates">{{"[".$fleets->galaxy_position_arrival.":".$fleets->solar_system_position_arrival."]"}}</span>: <span id="spy_arrival" class="spy_arrival">{{$fleets->arrival}}</span></p>
-                        @else
-                        <p>{{__('movement_no')}}</p>
-                        @endif
-                        <a class="fas fa-bell" href="{{route('home.notification')}}"></a>
-                    </div>
+                    <section class="section_notification">
+                        <div class="notification-container">
+                            @if($fleets->count() > 0)
+                                @foreach($fleets as $index => $fleet)
+                                    <p class="fleet_p {{ $index >= 3 ? 'hidden-fleet' : '' }}">
+                                        &#128065; {{ __('movement_fleet') }} 
+                                        <span id="arrival_coordinates">
+                                            [{{ $fleet->galaxy_position_arrival }}:{{ $fleet->solar_system_position_arrival }}]
+                                        </span>: 
+                                        <span id="spy_arrival" class="spy_arrival">{{ $fleet->arrival }}</span>
+                                    </p>
+                                @endforeach
+
+                                @if($fleets->count() > 3)
+                                    <p class="fleet_p show-more" style="cursor:pointer;">...</p>
+                                @endif
+                            @else
+                                <p>{{ __('movement_no') }}</p>
+                            @endif
+                            <a class="fas fa-bell" href="{{route('home.notification')}}"></a>
+                        </div>
+                    </section>
                     <div id="resources" class="resources-container">
                         <div class="resource">
                             <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">

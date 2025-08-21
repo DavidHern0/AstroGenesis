@@ -1,4 +1,4 @@
-.notification-container {    
+.section_notification {    
     background-color: #444444ce;
     width: 654px;
     border-radius: 5px;
@@ -6,6 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 .fa-bell {
     text-decoration:none;
     padding: 10px;
@@ -16,6 +17,19 @@
       color: rgb(184, 184, 184);
     }
   }
+}
+
+.fleet_p {
+  margin: 0;
+}
+
+.fleet_p_dots {
+  font-weight: bold;
+  text-align: center;
+}
+
+.hidden-fleet {
+  display: none;
 }
 
 .spy_arrival {
