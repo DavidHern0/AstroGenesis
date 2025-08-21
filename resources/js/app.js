@@ -248,3 +248,41 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('.ship-number');
+    const selectedCargoDisplay = document.getElementById('selectedCargo');
+    const selectedconstructionTimeDisplay = document.getElementById('constructionTime');
+    
+    function updateSelectedCargo() {
+        let total = 0;
+        inputs.forEach(input => {
+            const quantity = parseInt(input.value) || 0;
+            const cargo = parseInt(input.dataset.cargo) || 0;
+            total += quantity * cargo;
+        });
+        if (selectedCargoDisplay) {
+            selectedCargoDisplay.textContent = total;
+        }
+    }
+    function updateConstructionTime() {
+        let total = 0;
+        inputs.forEach(input => {
+            const quantity = parseInt(input.value) || 0;
+            const constructionTime = parseInt(input.dataset.constructiontime) || 0;
+            total += quantity * constructionTime;
+        });
+        
+        if (selectedconstructionTimeDisplay) {
+            selectedconstructionTimeDisplay.textContent = total;
+        }
+    }
+    if (inputs) {   
+        inputs.forEach(input => {
+            input.addEventListener('input', updateSelectedCargo);
+            input.addEventListener('input', updateConstructionTime);
+        });
+    }
+    updateSelectedCargo();
+    updateConstructionTime();
+});

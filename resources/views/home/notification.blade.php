@@ -60,7 +60,7 @@
                                                 {{ $defenses[$index] }}</p>
                                         @endif
                                     @endforeach
-                                    <h4>{{ __('total_construction_def_time') }} {{ __('total') }}:
+                                    <h4>{{ __('construction_def_time') }} {{ __('total') }}:
                                         {{ $totalConstructionTime }}</h4>
                                 </div>
                                 <hr>

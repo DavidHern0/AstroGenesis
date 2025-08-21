@@ -522,4 +522,9 @@ nav a:hover {
 .ship-item input {
     margin-top: 5px;
 }
+
+#expedition_container {
+  padding: 10px;
+}
+
 /*# sourceMappingURL=app.css.map */

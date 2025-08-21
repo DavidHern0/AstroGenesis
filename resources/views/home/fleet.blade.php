@@ -35,24 +35,27 @@
                                 @endif
                             @endforeach
                             <input type="hidden" name="shipPlanet_id[]" value="{{$shipPlanet->ship_id}}">
-                            <input type="number" name="ship_number[]" value="0" min="0" max="{{$shipPlanet->quantity}}" />
+                            <input type="number" class="ship-number" name="ship_number[]" value="0" min="0" max="{{$shipPlanet->quantity}}" data-cargo="{{$shipPlanet->shipLevel->cargo_capacity}}" data-constructiontime="{{$shipPlanet->shipLevel->construction_time}}"/>
 
+                            
                         </div>
                     @endif
                 @endforeach
             </div>
+                <hr>
             <div>
-                <p>{{__('total_cargo')}} {{__('total')}}: {{$totalCargo ?? 0}}</p>   
-                <p>{{__('total_construction_time')}} {{__('total')}}: {{$totalConstructionTime ?? 0}}</p>   
+                <h3>{{__('construction_time')}} {{__('selected')}}: <span id="constructionTime">0</span></h3>
+                <h3>{{__('cargo')}} {{__('selected')}}: <span id="selectedCargo">0</span></h3>
+                <p>{{__('construction_time')}} {{__('total')}}: {{$totalConstructionTime ?? 0}}</p>   
+                <p>{{__('cargo')}} {{__('total')}}: {{$totalCargo ?? 0}}</p>   
             </div>
-            <div>
+                <hr>
+            <div id="expedition_container">
                 <label>
                     <input type="radio" name="type" value="expedition" required checked>
                     {{__('expedition')}}
                 </label><br>
-            </div>
             
-            <div id="expedition_container" style="">
                 <label>{{__("expedition_hours")}}</label>
                 <input type="number" name="expedition_hours" value="1" min="1" max="24"/>
             </div>

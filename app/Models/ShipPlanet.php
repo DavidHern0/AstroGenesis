@@ -46,4 +46,9 @@ class ShipPlanet extends Model
     {
         return $this->belongsTo(Planet::class);
     }
+
+    public function shipLevel()
+    {
+        return $this->hasOne(ShipLevel::class, 'ship_id', 'ship_id');
+    }
 }
