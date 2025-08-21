@@ -91,11 +91,13 @@ class fleet extends Model
         $quantity = array_pop($ships);
 
         foreach ($shipsId as $i => $shipId) {
-            $shipPlanet = ShipPlanet::where('ship_id', $shipId)
+            $ship = ShipPlanet::where('ship_id', $shipId)
                 ->where('planet_id', $userPlanet->id)
-                ->first();
-            $shipPlanet->quantity += $quantity[$i];
-            $shipPlanet->save();
+                ->whereNotIn('id', [11, 12, 13, 14])->first();
+            if ($ship) {
+                $ship->quantity += $quantity[$i];
+                $ship->save();
+            }
         }
     }
 

@@ -105,21 +105,25 @@ class FleetController extends Controller
         $typeSend = $Request->input('type');
         $shipPlanet_ids = $Request->input('shipPlanet_id');
 
-        $ship_numbers = $Request->input('ship_number');
-
-        if (count(array_unique($ship_numbers)) != 1 || max($ship_numbers) > 0) {
+        $ship_numbers = $Request->input('ship_number');   
+        $adjustedNumbers = [];
+        foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
+            if (in_array($shipPlanet_id, [11, 12, 13, 14])) {
+                $adjustedNumbers[] = 0;
+            } else {
+                $adjustedNumbers[] = $ship_numbers[$i];
+            }
+        }
+        $allZero = count(array_filter($adjustedNumbers, fn($num) => $num != 0)) === 0;
+        if ((count(array_unique($ship_numbers)) != 1 || max($ship_numbers) > 0) && !$allZero) {
             $shipsSent = [];
 
-            foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
-                $ship_number = $ship_numbers[$i];
-                $shipsSent[] = [$shipPlanet_id, $ship_number];
-            }
-            ShipPlanet::subtractShipsSent($shipPlanet_ids, $ship_numbers);
+            ShipPlanet::subtractShipsSent($shipPlanet_ids, $adjustedNumbers);
             switch ($typeSend) {
                 case 'expedition':
                     session(['fleet_type' => 'expedition']);
                     $expedition_hours = $Request->input('expedition_hours');
-                    Fleet::expedition($shipPlanet_ids, $ship_numbers, $expedition_hours);
+                    Fleet::expedition($shipPlanet_ids, $adjustedNumbers, $expedition_hours);
 
                     // $random = rand(1,100);
                     $random = 80;

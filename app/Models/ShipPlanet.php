@@ -31,9 +31,13 @@ class ShipPlanet extends Model
         $planet = Planet::where('user_id', $userID)->first();
         $allShips = [];
         foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
-            $ship = ShipPlanet::where('planet_id', $planet->id)->where('ship_id', $shipPlanet_id)->first();
-            $ship->quantity -= $ship_numbers[$i];
-            $ship->save();
+            $ship = ShipPlanet::where('planet_id', $planet->id)
+            ->where('ship_id', $shipPlanet_id)
+            ->whereNotIn('id', [11, 12, 13, 14])->first();
+            if ($ship) {
+                $ship->quantity -= $ship_numbers[$i];
+                $ship->save();
+            }
         }
     }
 
