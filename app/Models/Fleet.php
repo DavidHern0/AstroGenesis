@@ -11,7 +11,7 @@ use App\Models\ShipPlanet;
 class fleet extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'departure', 'arrival', 'solar_system_position_departure', 'galaxy_position_departure', 'solar_system_position_arrival', 'galaxy_position_arrival', 'shipsSent'];
+    protected $fillable = ['user_id', 'type', 'departure', 'arrival', 'solar_system_position_departure', 'galaxy_position_departure', 'solar_system_position_arrival', 'galaxy_position_arrival', 'shipsSent'];
 
 
     public static function sendFleet($shipPlanet_ids, $ship_numbers, $otherPlanet)
@@ -48,6 +48,7 @@ class fleet extends Model
         return self::create([
             'user_id' => $userID,
             'arrival' => $arrival,
+            'type' => "expedition",
             'solar_system_position_departure' => $userPlanet->solar_system_position,
             'galaxy_position_departure' => $userPlanet->galaxy_position,
             'shipsSent' => json_encode($arrayShips)
@@ -68,6 +69,7 @@ class fleet extends Model
         return self::create([
             'user_id' => $userID,
             'arrival' => $arrival,
+            'type' => "spy",
             'solar_system_position_arrival' => $otherPlanet->solar_system_position,
             'galaxy_position_arrival' => $otherPlanet->galaxy_position
         ]);
@@ -175,7 +177,7 @@ class fleet extends Model
             } else {
                 $resourcesLooted = $resourcesLootedRaw;
             }
-            
+
             $damageRatio = 1;
         } else {
             // Ataque fallido
@@ -215,7 +217,7 @@ class fleet extends Model
             $lossRatio = 1 / (1 + pow($ratio, 5));
             foreach ($newQuantities as $i => $qty) {
                 $lost = $qty * $lossRatio;
-                $newQuantities[$i] = max(0, $qty - $lost);
+                $newQuantities[$i] = round(max(0, $qty - $lost));
                 $shipPlanetId = $shipPlanet_ids[$i];
                 if ($lost > 0) {
                     $shipLevel = ShipLevel::where('ship_id', $shipPlanetId)->first();
@@ -242,7 +244,7 @@ class fleet extends Model
             'fleetAttack' => $fleetAttack,
             'planetDefense' => $planetDefense,
         ]);
-
+        
         // Crear registro de flota
         $ssp_difference = abs($userPlanet->solar_system_position - $otherPlanet->solar_system_position);
         $gp_difference = abs($userPlanet->galaxy_position - $otherPlanet->galaxy_position);
@@ -252,6 +254,9 @@ class fleet extends Model
         return self::create([
             'user_id' => $userID,
             'arrival' => $arrival,
+            'type' => "attack",
+            'solar_system_position_arrival' => $otherPlanet->solar_system_position,
+            'galaxy_position_arrival' => $otherPlanet->galaxy_position,
             'solar_system_position_departure' => $userPlanet->solar_system_position,
             'galaxy_position_departure' => $userPlanet->galaxy_position,
             'shipsSent' => json_encode([$shipPlanet_ids, $ship_numbers]),

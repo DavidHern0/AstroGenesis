@@ -14,6 +14,7 @@ const numberInputs = document.querySelectorAll('input[type="number"]');
 
 let spyArrival = document.getElementById('spy_arrival');
 let arrivalCoordinates = document.getElementById('arrival_coordinates');
+let arrivalType = document.getElementById('arrival_type');
 const accordionItems = document.querySelectorAll('.accordion-item');
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 const deleteButtons = document.querySelectorAll('.fas.fa-times');
@@ -219,7 +220,7 @@ if (spyArrival && arrivalCoordinates) {
         spyArrival.innerText = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
 
         if (timeDifference <= 0) {
-            if (arrivalCoordinates) {
+            if (arrivalType == "spy") {
                 $.ajax({
                     url: '/notification-spy',
                     type: 'POST',

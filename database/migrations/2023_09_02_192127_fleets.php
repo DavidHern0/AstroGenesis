@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('fleets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('type')->nullable();
             $table->timestamp('departure')->useCurrent();
             $table->timestamp('arrival');
             $table->string('shipsSent')->nullable();
