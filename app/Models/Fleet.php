@@ -220,11 +220,23 @@ class fleet extends Model
             if ($userFleet) {
                 $newQuantities = $ship_numbers;
 
-                $lossRatio = max(0, pow(1 - $ratio, 1.5));
+                $lossRatio = 1 / (1 + pow($ratio, 5));
+
                 foreach ($newQuantities as $i => $qty) {
                     $lost = $qty * $lossRatio;
                     $newQuantities[$i] = max(0, $qty - $lost);
+                    $shipPlanetId = $shipPlanet_ids[$i];
+                    if ($lost > 0) {
+                        $shipLevel = ShipLevel::where('ship_id', $shipPlanetId)->first();
+
+                        $shipValue = round($lost) * (0.01 + mt_rand() / mt_getrandmax() * (0.05 - 0.01)); //random entre 0,01 y 0,05
+                        $otherUserGame->metal += $shipValue * $shipLevel->metal_cost;
+                        $otherUserGame->crystal += $shipValue * $shipLevel->crystal_cost;
+                        $otherUserGame->deuterium += $shipValue * $shipLevel->deuterium_cost;
+                    }
                 }
+                $otherUserGame->save();
+
 
                 // Guardar cantidades actualizadas
                 $userFleet->shipsSent = json_encode([$shipPlanet_ids, $newQuantities]);
