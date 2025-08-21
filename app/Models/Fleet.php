@@ -140,8 +140,13 @@ class fleet extends Model
 
         $fleetAttack = self::calculateFleetAttack($shipPlanet_ids, $ship_numbers);
         $planetDefense = self::calculatePlanetDefense($otherPlanet);
-        $ratio = ($planetDefense > 0) ? $fleetAttack / $planetDefense : 1;
-        $status = 'none';
+        $ratio = 0;
+        if ($planetDefense == 0) {
+                $lossRatio = 0;
+            } else {
+                $ratio = $fleetAttack / $planetDefense;
+                $lossRatio = 1 / (1 + pow($ratio, 5));
+            }
 
         if ($fleetAttack > $planetDefense) {
             $attackSuccess = true;
@@ -218,7 +223,6 @@ class fleet extends Model
             $newQuantities = $ship_numbers;
             $totalLost = 0;
 
-            $lossRatio = 1 / (1 + pow($ratio, 5));
             foreach ($newQuantities as $i => $qty) {
                 $lost = $qty * $lossRatio;
                 $totalLost += $lost;
