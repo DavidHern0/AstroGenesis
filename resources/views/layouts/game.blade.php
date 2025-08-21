@@ -63,9 +63,7 @@
                                         <span id="arrival_coordinates">
                                             [{{ $fleet->galaxy_position_arrival }}:{{ $fleet->solar_system_position_arrival }}]
                                         </span>
-                                        <span id="arrival_type">
-                                            ({{ $fleet->type }})
-                                        </span>: 
+                                        (<span id="arrival_type">{{ $fleet->type }}</span>): 
                                         <span id="spy_arrival" class="spy_arrival">{{ $fleet->arrival }}</span>
                                     </p>
                                 @endforeach
