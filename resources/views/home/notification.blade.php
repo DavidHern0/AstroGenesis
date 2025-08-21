@@ -39,6 +39,10 @@
                         <div class="accordion-header {{ $unreadClass }}" data-notification-id="{{ $notification->id }}">
                             <h3>{{ __($notification->title) }}
                                 [{{ $notification->solar_system_position }}:{{ $notification->galaxy_position }}]:</h3>
+                            <div class="notification-time">
+                                <span class="time">{{ $notification->created_at->format('H:i') }}</span>
+                                <span class="date">{{ $notification->created_at->format('d/m/Y') }}</span>
+                            </div>
                             <i class="fas fa-times" data-notification-id="{{ $notification->id }}"></i>
                         </div>
                         <div class="accordion-content">

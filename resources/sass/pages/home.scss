@@ -318,3 +318,54 @@ input[type="number"] {
 #expedition_container {
   padding: 10px;
 }
+
+.accordion-item .accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 8px;
+  background-color: #2c2c2c;
+  border: 1px solid #666;
+}
+
+.accordion-item .accordion-header h3 {
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  flex: 1;
+  font-family: "Exo", sans-serif;
+}
+
+.accordion-item .accordion-header .notification-time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 10px;
+  line-height: 1.2;
+}
+
+.accordion-item .accordion-header .notification-time .time {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  font-family: "Exo", sans-serif;
+}
+
+.accordion-item .accordion-header .notification-time .date {
+  font-size: 0.8rem;
+  color: #bbb;
+  font-family: "Titillium Web", sans-serif;
+  margin-top: 2px;
+}
+
+.accordion-item .accordion-header i {
+  cursor: pointer;
+  padding: 6px;
+  transition: color 0.2s ease;
+}
+
+.accordion-item .accordion-header i:hover {
+  color: #ff6565;
+}
