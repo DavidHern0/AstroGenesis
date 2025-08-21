@@ -268,42 +268,69 @@ document.addEventListener('DOMContentLoaded', function () {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const inputs = document.querySelectorAll('.ship-number');
+    // Seleccionamos todos los inputs type="number"
+    const numberInputs = document.querySelectorAll('input[type="number"]');
     const selectedCargoDisplay = document.getElementById('selectedCargo');
     const selectedconstructionTimeDisplay = document.getElementById('constructionTime');
-    
+
+    // Funciones de actualización de Cargo y ConstructionTime
     function updateSelectedCargo() {
         let total = 0;
-        inputs.forEach(input => {
+        document.querySelectorAll('.ship-number').forEach(input => {
             const quantity = parseInt(input.value) || 0;
             const cargo = parseInt(input.dataset.cargo) || 0;
             total += quantity * cargo;
         });
-        if (selectedCargoDisplay) {
-            selectedCargoDisplay.textContent = total;
-        }
+        if (selectedCargoDisplay) selectedCargoDisplay.textContent = total;
     }
+
     function updateConstructionTime() {
         let total = 0;
-        inputs.forEach(input => {
+        document.querySelectorAll('.ship-number').forEach(input => {
             const quantity = parseInt(input.value) || 0;
             const constructionTime = parseInt(input.dataset.constructiontime) || 0;
             total += quantity * constructionTime;
         });
-        
-        if (selectedconstructionTimeDisplay) {
-            selectedconstructionTimeDisplay.textContent = total;
-        }
+        if (selectedconstructionTimeDisplay) selectedconstructionTimeDisplay.textContent = total;
     }
-    if (inputs) {   
-        inputs.forEach(input => {
-            input.addEventListener('input', updateSelectedCargo);
-            input.addEventListener('input', updateConstructionTime);
+
+    // Función genérica para forzar min y max
+    function enforceMinMax(input) {
+        const min = parseInt(input.min);
+        const max = parseInt(input.max);
+        let value = parseInt(input.value) || min;
+        if (value < min) value = min;
+        if (value > max) value = max;
+        input.value = value;
+    }
+
+    // Aplicar validación a todos los inputs type="number"
+    numberInputs.forEach(input => {
+        input.addEventListener('input', () => {
+            enforceMinMax(input);
+
+            // Solo actualizar cargo y construcción si es ship-number
+            if (input.classList.contains('ship-number')) {
+                updateSelectedCargo();
+                updateConstructionTime();
+            }
         });
-    }
+
+        input.addEventListener('blur', () => {
+            enforceMinMax(input);
+
+            if (input.classList.contains('ship-number')) {
+                updateSelectedCargo();
+                updateConstructionTime();
+            }
+        });
+    });
+
+    // Inicializamos los valores
     updateSelectedCargo();
     updateConstructionTime();
 });
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const showMoreBtn = document.querySelector(".show-more");

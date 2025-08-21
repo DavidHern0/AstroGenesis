@@ -39,7 +39,7 @@
                         @endforeach
                             <input type="hidden" name="shipPlanet-id[]" value="{{$shipPlanet->ship_id}}">
                             <input type="hidden" name="shipPlanet-level[]" value="{{$shipPlanet->level}}">
-                            <input type="number" name="ship_number[]" value="0" min="0"/>
+                            <input type="number" name="ship_number[]" value="0" min="0" max=99/>
                         </div>
                         @endforeach
                     </div>
