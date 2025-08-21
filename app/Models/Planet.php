@@ -140,7 +140,7 @@ class Planet extends Model
 
         do {
             $randomSSP = rand(1, 12);
-            $randomG = rand(1, 30);
+            $randomG = rand(1, env('MAX_GALAXY_POS'));
             $checkPosition = self::where('solar_system_position', $randomSSP)->where('galaxy_position', $randomG)->exists();
         } while ($checkPosition);
 

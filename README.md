@@ -41,10 +41,21 @@ Other:
 3. Install project dependencies: `composer install`.
 
 4. Configure the environment file: duplicate the .env.example file and rename it to .env. Adjust the configuration as needed.
+ 
+5. .env has 3 configurations for Astrogenesis: BOOST, NUM_BOTS, MAX_GALAXY_POS
 
-5. Generate an application key: `php artisan key:generate`.
+- BOOST: The larger this number, the more resources will be generated. Default: 50
 
-6. Run migrations and seeders: `php artisan migrate --seed`.
+- NUM_BOTS: Number of CPU or bots. Default: 75
+
+- MAX_GALAXY_POS: Maximum number of solar systems available for spawning (CPU and Player). Default: 30
+
+- NUM_BOTS / MAX_GALAXY_POS > 2 is recommended to create a galaxy with sufficient life.
+
+
+6. Generate an application key: `php artisan key:generate`.
+
+7. Run migrations and seeders: `php artisan migrate --seed`.
 
 ## Initialization
 
