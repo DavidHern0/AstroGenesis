@@ -2,16 +2,24 @@
   "prefixes": [
     "Zor","Neb","Cry","Vel","Xan","Tor","Qua","Lum","Drak","Mor",
     "Ael","Vor","Ser","Gal","Oph","Trin","Alt","Kry","Fen","Rho",
-    "Cen","Ery","Sol","Pol","Nym","Thal","Arg","Kor","Lys","Omn"
+    "Cen","Ery","Sol","Pol","Nym","Thal","Arg","Kor","Lys","Omn",
+    "Tar","Xor","Bel","Nex","Orv","Pra","Sil","Var","Hel","Yor",
+    "Dam","Ket","Wor","Ith","Mol","Zen","Ral","Thyr","Orr","Fyn",
+    "Gor","Quen","Syr","Jor","Myth","Tyr","Obl","Vey","Cyr","Nyx"
   ],
   "middles": [
     "th","br","x","m","n","l","k","vr","st","dr",
     "ph","gr","z","q","ch","sh","rk","gh","nt","pt",
-    "mn","lt","sk","tr"
+    "mn","lt","sk","tr","kr","zl","phr","gn","cl","sn",
+    "thr","str","dl","kt","lm","dz","fr","pr","vl","rk","rr"
   ],
   "suffixes": [
     "ion","ara","on","aris","oria","eus","ar","us","ix","on",
     "arae","ara","eus","ora","is","oth","ium","or","os","an",
-    "ara","yx","en","othis","ara","ae","araon","il","eus","orix"
+    "yx","en","othis","ae","araon","il","orix","adis","yra","yros",
+    "orae","yxis","yron","yraon","ythus","yros","orael","yrion","aris","yros",
+    "alis","yros","yrian","yros","ethis","yraen","yronis","yral","yros","yrix",
+    "arion","yros","ath","yronis","yrian","yros","yxis","oraen","uth","yra",
+    "es","in","un","uk","kis"
   ]
 }
