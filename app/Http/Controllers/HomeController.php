@@ -194,6 +194,7 @@ class HomeController extends Controller
             $userID = auth()->id();
             $userGame = userGame::where('user_id', $userID)->first();
             $planet = Planet::where('user_id', $userID)->first();
+            $galaxy_position = ($galaxy_position < 1 || $galaxy_position > env('MAX_GALAXY_POS')) ? $planet->galaxy_position : $galaxy_position;
             $planets = Planet::where('galaxy_position', $galaxy_position)
             ->orderByRaw('CAST(solar_system_position AS UNSIGNED) ASC')
             ->get();
