@@ -218,9 +218,7 @@ class fleet extends Model
                 ->latest('created_at')
                 ->first();
             if ($userFleet) {
-                $shipsData = json_decode($userFleet->shipsSent, true);
-                $shipIds = $shipsData[0];
-                $newQuantities = $shipsData[1];
+                $newQuantities = $ship_numbers;
 
                 $lossRatio = 1 / (1 + exp(- ((($ratio ** -1) - 1))));
                 foreach ($newQuantities as $i => $qty) {
@@ -229,7 +227,7 @@ class fleet extends Model
                 }
 
                 // Guardar cantidades actualizadas
-                $userFleet->shipsSent = json_encode([$shipIds, $newQuantities]);
+                $userFleet->shipsSent = json_encode([$shipPlanet_ids, $newQuantities]);
                 $userFleet->save();
                 $ship_numbers = $newQuantities;
             }
