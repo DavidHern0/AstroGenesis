@@ -90,13 +90,13 @@ class UserController extends Controller
                     $userGame->energy += $currentBuildingLevel->production_rate;
                 }
                 else if ($buildingID == 5) {
-                    $userGame->metal_storage += $currentBuildingLevel->production_rate;
+                    $userGame->metal_storage = $currentBuildingLevel->production_rate;
                 }
                 else if ($buildingID == 6) {
-                    $userGame->crystal_storage += $currentBuildingLevel->production_rate;
+                    $userGame->crystal_storage = $currentBuildingLevel->production_rate;
                 }
                 else if ($buildingID == 7) {
-                    $userGame->deuterium_storage += $currentBuildingLevel->production_rate;
+                    $userGame->deuterium_storage = $currentBuildingLevel->production_rate;
                 }
                 $userGame->metal -= $currentBuildingLevel->metal_cost;
                 $userGame->crystal -= $currentBuildingLevel->crystal_cost;

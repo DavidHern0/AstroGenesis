@@ -171,9 +171,9 @@ class NpcConstructionService
             $userGame->energy += $cost->production_rate;
         }
 
-        if ($building->building_id == 5) $userGame->metal_storage += $cost->production_rate;
-        if ($building->building_id == 6) $userGame->crystal_storage += $cost->production_rate;
-        if ($building->building_id == 7) $userGame->deuterium_storage += $cost->production_rate;
+        if ($building->building_id == 5) $userGame->metal_storage = $cost->production_rate;
+        if ($building->building_id == 6) $userGame->crystal_storage = $cost->production_rate;
+        if ($building->building_id == 7) $userGame->deuterium_storage = $cost->production_rate;
 
         $building->level = $nextLevel;
         $building->save();
