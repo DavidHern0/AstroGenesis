@@ -8,7 +8,6 @@ const planetName = document.getElementById('planetName');
 const editIcon = document.getElementById('editIcon');
 const editInput = document.getElementById('editInput');
 
-const shipNumberInputs = document.querySelectorAll('input[name="ship_number"]');
 const defenseNumberInputs = document.querySelectorAll('input[name="defense_number"]');
 const numberInputs = document.querySelectorAll('input[type="number"]');
 
@@ -81,18 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(error => console.error(error));
         }
-    });
-
-    const shipNumberInputs = document.querySelectorAll('input[name="ship_number"]');
-
-    shipNumberInputs.forEach((shipNumberInput) => {
-        shipNumberInput.addEventListener('input', () => {
-            let shipNumber = parseInt(shipNumberInput.value);
-
-            if (shipNumber <= 0) {
-                shipNumberInput.value = 1;
-            }
-        });
     });
 
     const defenseNumberInputs = document.querySelectorAll('input[name="defense_number"]');

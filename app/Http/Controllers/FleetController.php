@@ -107,7 +107,7 @@ class FleetController extends Controller
 
         $ship_numbers = $Request->input('ship_number');
 
-        if (count(array_unique($ship_numbers)) != 1) {
+        if (count(array_unique($ship_numbers)) != 1 || max($ship_numbers) > 0) {
             $shipsSent = [];
 
             foreach ($shipPlanet_ids as $i => $shipPlanet_id) {
