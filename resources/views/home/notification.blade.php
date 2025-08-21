@@ -38,7 +38,7 @@
                     <div class="accordion-item">
                         <div class="accordion-header {{ $unreadClass }}" data-notification-id="{{ $notification->id }}">
                             <h3>{{ __($notification->title) }}
-                                [{{ $notification->solar_system_position }}:{{ $notification->galaxy_position }}]:</h3>
+                                [{{ $notification->galaxy_position ?? '??'}}:{{ $notification->solar_system_position  ?? '??'}}]:</h3>
                             <div class="notification-time">
                                 <span class="time">{{ $notification->created_at->format('H:i') }}</span>
                                 <span class="date">{{ $notification->created_at->format('d/m/Y') }}</span>
@@ -98,6 +98,12 @@
                                     @endif
                                     <hr>
                                 </div>
+                            @endif
+                            @if ($notification->type === 'expedition')
+                                <h4>{{ __($notification->body) }}:</h4>
+                                <p>{{ __('metal') }}: {{ $resources[0] }}</p>
+                                <p>{{ __('crystal') }}: {{ $resources[1] }}</p>
+                                <p>{{ __('deuterium') }}: {{ $resources[2] }}</p>
                             @endif
                         </div>
                     </div>

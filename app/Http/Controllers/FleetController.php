@@ -117,6 +117,7 @@ class FleetController extends Controller
             ShipPlanet::subtractShipsSent($shipPlanet_ids, $ship_numbers);
             switch ($typeSend) {
                 case 'expedition':
+                    session(['fleet_type' => 'expedition']);
                     $expedition_hours = $Request->input('expedition_hours');
                     Fleet::expedition($shipPlanet_ids, $ship_numbers, $expedition_hours);
 

@@ -43,9 +43,10 @@ class NotificationController extends Controller
     {
         $attack_fleet_data = $Request->session()->get('attack_fleet_data');
         $resources = $Request->session()->get('exp_resources');
-
+        
         if ($attack_fleet_data) {
-
+            session(['fleet_type' => 'attack']);
+            
             $userID = auth()->id();
             $UserUserGame = userGame::where('user_id', $userID)->first();
             $resourcesLooted = $Request->session()->get('resourcesLooted');
@@ -53,13 +54,13 @@ class NotificationController extends Controller
             $otherPlanetID = $Request->session()->get('otherPlanetID');
             $userPlanet = Planet::where('id', $otherPlanetID)->first();
             $otherUserGame = userGame::where('user_id', $userPlanet->user_id)->first();
-            
+
             Notification::notificationAttack(
                 array_values($resourcesLooted),
                 array_values($destroyedDefenses),
                 $attack_fleet_data['coordinates']
             );
-            
+
             $Request->session()->forget('attack_fleet_data');
 
             $otherUserGame->metal -= $resourcesLooted['metal'];
@@ -76,12 +77,19 @@ class NotificationController extends Controller
             $Request->session()->forget('resourcesLooted');
             $Request->session()->forget('otherPlanetID');
             $Request->session()->forget('destroyedDefenses');
-        } else {
-            Notification::notificationExpedition($resources);
         }
+        
+        
+        if (session('fleet_type') != 'attack') {
+            Notification::notificationExpedition($resources);
+            $Request->session()->forget('expedition');
+            $Request->session()->forget('exp_resources');
+            $Request->session()->forget('fleet_type');
+            
+            session(['fleet_type' => 'expedition']);
+        } 
 
         Fleet::recoverFromExpedition();
-        $Request->session()->forget('exp_resources');
     }
 
     public function read($id)
