@@ -17,7 +17,9 @@
                 @foreach ($buildingLevels as $buildingLevel)
                     @if ($buildingLevel->building_id === $buildingPlanet->building->id && $buildingLevel->level === $buildingPlanet->level)
                         <p class="building-cost">{{__('level')}}: {{ $buildingLevel->level }}</p>
-                        <img class="item-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$buildingPlanet->building->getTranslation('name', config('app.locale'))}}">
+                            <button class="info-button" type="button">
+                                <img class="item-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$buildingPlanet->building->getTranslation('name', config('app.locale'))}}">
+                            </button>
 
                         <div class="building-info-template" style="display:none;">
                             <h4 class="item-name">{{ $buildingPlanet->building->getTranslation('name', config('app.locale')) }}</h4>

@@ -23,7 +23,9 @@
                         <div class="building-info-template" style="display:none;">
                             <h4 class="item-name">{{ $buildingPlanet->building->getTranslation('name', config('app.locale')) }}</h4>
                             <p class="building-cost">{{__('level')}}: {{ $buildingLevel->level }}</p>
-                            <img class="item-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$buildingPlanet->building->getTranslation('name', config('app.locale'))}}">
+                            <button class="info-button" type="button" disabled>
+                                <img class="item-image" src="{{ asset($buildingPlanet->building->image) }}" alt="{{$buildingPlanet->building->getTranslation('name', config('app.locale'))}}">
+                            </button>
                         </div>
 
                         <div class="update-container-template" style="display:none;">
