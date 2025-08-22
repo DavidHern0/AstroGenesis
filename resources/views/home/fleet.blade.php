@@ -35,7 +35,7 @@
                                 @endif
                             @endforeach
                             <input type="hidden" name="shipPlanet_id[]" value="{{$shipPlanet->ship_id}}">
-                            <input type="number" class="ship-number" name="ship_number[]" value="0" min="0" max="{{$shipPlanet->quantity}}" data-cargo="{{$shipPlanet->shipLevel->cargo_capacity}}" data-constructiontime="{{$shipPlanet->shipLevel->construction_time}}"/>
+                            <input type="number" class="ship-number" name="ship_number[]" value="{{$shipPlanet->quantity}}" min="0" max="{{$shipPlanet->quantity}}" data-cargo="{{$shipPlanet->shipLevel->cargo_capacity}}" data-constructiontime="{{$shipPlanet->shipLevel->construction_time}}"/>
 
                             
                         </div>
