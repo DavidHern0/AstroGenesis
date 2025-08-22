@@ -44,7 +44,7 @@
     "quantity": "Quantity",
     "defenses": "Defenses",
     "fleet": "Fleet",
-    "no_ship_message": "There are not ships available in this planet",
+    "no_ship_message": "There are not ships available in your planet",
     "spy_succes": "The spy probe has been sent successfully",
     "spy_error": "You have no spy probes",
     "movement_no": "Currently there are no fleet movements",

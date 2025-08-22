@@ -146,6 +146,30 @@ class HomeController extends Controller
         }
     }
 
+    public function totalAttackFleet($planetID) {
+
+        $totalAttackFleet = [];
+        $totalCargo = ShipPlanet::where('planet_id', $planetID)
+            ->where('quantity', '>', 0)
+            ->whereNotIn('ship_planets.ship_id', [11, 12, 13, 14]) // no Colony Ship / Recycler / Espionage / Solar Satelite
+            ->join('ship_levels', 'ship_planets.ship_id', '=', 'ship_levels.ship_id')
+            ->selectRaw('SUM(quantity * cargo_capacity) as totalCargo')
+            ->value('totalCargo');
+
+        $totalConstructionTime = ShipPlanet::where('planet_id', $planetID)
+            ->where('quantity', '>', 0)
+            ->whereNotIn('ship_planets.ship_id', [11, 12, 13, 14]) // no Colony Ship / Recycler / Espionage / Solar Satelite
+            ->join('ship_levels', 'ship_planets.ship_id', '=', 'ship_levels.ship_id')
+            ->selectRaw('SUM(quantity * construction_time) as totalConstruction')
+            ->value('totalConstruction');  
+            
+        $totalAttackFleet = [
+            'cargo' => $totalCargo,
+            'constructionTime' => $totalConstructionTime
+        ];
+        return $totalAttackFleet;
+    }
+
     public function fleet()
     {  
         try {
@@ -156,19 +180,7 @@ class HomeController extends Controller
             $shipPlanets = ShipPlanet::where('planet_id', $planet->id)->get();
             $shipLevels = ShipLevel::all();
 
-            $totalCargo = ShipPlanet::where('planet_id', $planet->id)
-                ->where('quantity', '>', 0)
-                ->whereNotIn('ship_planets.ship_id', [11, 12, 13, 14]) // no Colony Ship / Recycler / Espionage / Solar Satelite
-                ->join('ship_levels', 'ship_planets.ship_id', '=', 'ship_levels.ship_id')
-                ->selectRaw('SUM(quantity * cargo_capacity) as totalCargo')
-                ->value('totalCargo');
-
-            $totalConstructionTime = ShipPlanet::where('planet_id', $planet->id)
-                ->where('quantity', '>', 0)
-                ->whereNotIn('ship_planets.ship_id', [11, 12, 13, 14]) // no Colony Ship / Recycler / Espionage / Solar Satelite
-                ->join('ship_levels', 'ship_planets.ship_id', '=', 'ship_levels.ship_id')
-                ->selectRaw('SUM(quantity * construction_time) as totalConstruction')
-                ->value('totalConstruction');
+            $totalAttackFleet = self::totalAttackFleet($planet->id);
 
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
@@ -180,8 +192,8 @@ class HomeController extends Controller
                 'shipPlanets' => $shipPlanets,
                 'shipLevels' => $shipLevels,
                 'fleets' => $fleets,
-                'totalCargo' => $totalCargo,
-                'totalConstructionTime' => $totalConstructionTime
+                'totalCargo' => $totalAttackFleet['cargo'],
+                'totalConstructionTime' => $totalAttackFleet['constructionTime']
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -198,6 +210,13 @@ class HomeController extends Controller
             $planets = Planet::where('galaxy_position', $galaxy_position)
             ->orderByRaw('CAST(solar_system_position AS UNSIGNED) ASC')
             ->get();
+            $shipPlanets = ShipPlanet::where('planet_id', $planet->id)
+            ->whereNotIn('ship_planets.ship_id', [11, 12, 13, 14])
+            ->get();
+            $shipLevels = ShipLevel::all();
+            $hasShip = $shipPlanets->where('quantity', '>', 0)->whereNotIn('ship_planets.ship_id', [11, 12, 13, 14])->count() > 0;
+            
+            $totalAttackFleet = self::totalAttackFleet($planet->id);
                 
             $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
@@ -209,6 +228,12 @@ class HomeController extends Controller
                 'userGame' => $userGame,
                 'galaxy_position' => $galaxy_position,
                 'fleets' => $fleets,
+                'hasShip' => $hasShip,
+                
+                'shipPlanets' => $shipPlanets,
+                'shipLevels' => $shipLevels,
+                'totalCargo' => $totalAttackFleet['cargo'],
+                'totalConstructionTime' => $totalAttackFleet['constructionTime']
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);

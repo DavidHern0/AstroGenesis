@@ -44,7 +44,7 @@
     "quantity": "Cantidad",
     "defenses": "Defensas",
     "fleet": "Flota",
-    "no_ship_message": "No hay naves disponibles en este planeta",
+    "no_ship_message": "No hay naves disponibles en tu planeta",
     "spy_succes": "Se ha enviado la sonda de espionaje con éxito",
     "spy_error": "No tienes sondas de espionaje",
     "movement_no": "Actualmente no hay movimientos de flota",

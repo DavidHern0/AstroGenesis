@@ -141,6 +141,8 @@ class fleet extends Model
         $fleetAttack = self::calculateFleetAttack($shipPlanet_ids, $ship_numbers);
         $planetDefense = self::calculatePlanetDefense($otherPlanet);
         $ratio = 0;
+        $status = 'none';
+        
         if ($planetDefense == 0) {
                 $lossRatio = 0;
             } else {
@@ -227,9 +229,8 @@ class fleet extends Model
                 $lost = $qty * $lossRatio;
                 $totalLost += $lost;
                 $newQuantities[$i] = round(max(0, $qty - $lost));
-                $shipPlanetId = $shipPlanet_ids[$i];
                 if ($lost > 0) {
-                    $shipLevel = ShipLevel::where('ship_id', $shipPlanetId)->first();
+                    $shipLevel = ShipLevel::where('ship_id', $shipPlanet_ids[$i])->first();
 
                     $shipValue = round($lost) * (0.01 + mt_rand() / mt_getrandmax() * (0.05 - 0.01)); //random entre 0,01 y 0,05
                     $otherUserGame->metal += $shipValue * $shipLevel->metal_cost;

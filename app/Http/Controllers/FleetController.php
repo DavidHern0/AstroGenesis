@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Lang;
 
 class FleetController extends Controller
 {
-    public function attack(Request $Request)
+    public function attack(Request $Request, $adjustedNumbers)
     {
         $planetID = $Request->input('planet-id');
         $galaxyID = $Request->input('galaxy-id');
@@ -54,7 +54,7 @@ class FleetController extends Controller
                 return redirect()->route("home.galaxy", $galaxyID)->with('error', __("attack_error"));
             } else {
                 $shipPlanet_ids = $userShips->pluck('id')->toArray();
-                $ship_numbers = $userShips->pluck('quantity')->toArray();
+                $ship_numbers = $adjustedNumbers;
 
                 session([
                     'attack_fleet_data' => [
@@ -65,14 +65,8 @@ class FleetController extends Controller
                         'ship_numbers' => $ship_numbers,
                     ]
                 ]);
-
                 Fleet::attackPlanet($shipPlanet_ids, $ship_numbers, $otherPlanet);
-
-                ShipPlanet::where('planet_id', $userPlanet->id)
-                    ->whereNotIn('id', [11, 12, 13, 14]) // no Colony Ship / Recycler / Espionage / Solar Satelite
-                    ->update(['quantity' => 0]);
-
-                return redirect()->route("home.galaxy", $galaxyID)->with('success', __("attack_succes"));
+                return;
             }
     }
 
@@ -102,6 +96,7 @@ class FleetController extends Controller
 
     public function send(Request $Request)
     {
+        $galaxyID = $Request->input('galaxy-id');
         $typeSend = $Request->input('type');
         $shipPlanet_ids = $Request->input('shipPlanet_id');
 
@@ -116,9 +111,7 @@ class FleetController extends Controller
         }
         $allZero = count(array_filter($adjustedNumbers, fn($num) => $num != 0)) === 0;
         if ((count(array_unique($ship_numbers)) != 1 || max($ship_numbers) > 0) && !$allZero) {
-            $shipsSent = [];
 
-            ShipPlanet::subtractShipsSent($shipPlanet_ids, $adjustedNumbers);
             switch ($typeSend) {
                 case 'expedition':
                     session(['fleet_type' => 'expedition']);
@@ -157,11 +150,15 @@ class FleetController extends Controller
                         $exp_resources = [$metal, $crystal, $deuterium];
                         session(['exp_resources' => $exp_resources]);
                     }
+                    
+                    ShipPlanet::subtractShipsSent($shipPlanet_ids, $adjustedNumbers);
                     return redirect()->route("home.fleet")->with('success', __("fleet_succes"));
                     break;
 
                 case 'attack':
-                    self::attack($Request);
+                    self::attack($Request, $adjustedNumbers);
+                    ShipPlanet::subtractShipsSent($shipPlanet_ids, $adjustedNumbers);
+                    return redirect()->route("home.galaxy", $galaxyID)->with('success', __("attack_succes"));
                     break;
 
                 case 'resource_transport':
