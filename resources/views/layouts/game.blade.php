@@ -9,6 +9,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+    @php
+        function formatNumber($number) {
+            if($number >= 1000000) {
+                $formatted = $number / 1000000;
+                return ($formatted == intval($formatted) ? intval($formatted) : round($formatted, 1)) . 'M';
+            } elseif($number >= 1000) {
+                $formatted = $number / 1000;
+                return ($formatted == intval($formatted) ? intval($formatted) : round($formatted, 1)) . 'K';
+            } else {
+                return $number;
+            }
+        }
+    @endphp
+
     <header>
         <nav>
             <ul>
@@ -77,25 +91,40 @@
                             <a class="fas fa-bell" href="{{route('home.notification')}}"></a>
                         </div>
                     </section>
+
                     <div id="resources" class="resources-container">
                         <div class="resource">
                             <img src="{{ asset('images/resources/metal.gif') }}" alt="{{__('metal')}}">
-                            <span id="metal">{{intval($userGame->metal)}}</span>
-                            <span>{{$userGame->metal_storage}}</span>
+                            <span id="metal" title="{{ number_format(intval($userGame->metal), 0, ',', '.') }}">
+                                {{ formatNumber(intval($userGame->metal)) }}
+                            </span>
+                            <span title="{{ number_format($userGame->metal_storage, 0, ',', '.') }}">
+                                {{ formatNumber($userGame->metal_storage) }}
+                            </span>
                         </div>
                         <div class="resource">
                             <img src="{{ asset('images/resources/crystal.gif') }}" alt="{{__('crystal')}}">
-                            <span id="crystal">{{intval($userGame->crystal)}}</span>
-                            <span>{{$userGame->crystal_storage}}</span>
+                            <span id="crystal" title="{{ number_format(intval($userGame->crystal), 0, ',', '.') }}">
+                                {{ formatNumber(intval($userGame->crystal)) }}
+                            </span>
+                            <span title="{{ number_format($userGame->crystal_storage, 0, ',', '.') }}">
+                                {{ formatNumber($userGame->crystal_storage) }}
+                            </span>
                         </div>
                         <div class="resource">
                             <img src="{{ asset('images/resources/deuterium.gif') }}" alt="{{__('deuterium')}}">
-                            <span id="deuterium">{{intval($userGame->deuterium)}}</span>
-                            <span>{{$userGame->deuterium_storage}}</span>
+                            <span id="deuterium" title="{{ number_format(intval($userGame->deuterium), 0, ',', '.') }}">
+                                {{ formatNumber(intval($userGame->deuterium)) }}
+                            </span>
+                            <span title="{{ number_format($userGame->deuterium_storage, 0, ',', '.') }}">
+                                {{ formatNumber($userGame->deuterium_storage) }}
+                            </span>
                         </div>
                         <div class="resource">
                             <img src="{{ asset('images/resources/energy.gif') }}" alt="{{__('energy')}}">
-                            <span id="energy">{{$userGame->energy}}</span>
+                            <span id="energy" title="{{ number_format($userGame->energy, 0, ',', '.') }}">
+                                {{ formatNumber($userGame->energy) }}
+                            </span>
                         </div>
                     </div>
                 </section>
@@ -103,16 +132,16 @@
                 @yield('content')
                 
             </div>
-                <div class="right-sidebar sidebar">
-                    <h2>{{__('planets')}}</h2>
-                    <ul>
-                        <li>
-                            <img src="{{ asset("images/planets/worlds/$planet->biome"."_world ($planet->variation).webp") }}" alt="{{$planet->name}}">
-                            <h4 id="planetListName">{{$planet->name}}</h4>
-                        </li>
-                    </ul>
-                </div>
-                </div>
+            <div class="right-sidebar sidebar">
+                <h2>{{__('planets')}}</h2>
+                <ul>
+                    <li>
+                        <img src="{{ asset("images/planets/worlds/$planet->biome"."_world ($planet->variation).webp") }}" alt="{{$planet->name}}">
+                        <h4 id="planetListName">{{$planet->name}}</h4>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </main>
 
     <footer>

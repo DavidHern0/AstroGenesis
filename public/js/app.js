@@ -22,32 +22,71 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteButtons = document.querySelectorAll('.fas.fa-times');
     const notifications = document.querySelectorAll('.accordion-header.unread');
 
+
+    // --- FUNCIONES AUXILIARES ---
+    function formatValue(value) {
+        if (value < 1000) return value;
+        if (value < 1000000) return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+        return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    
+function applyFormatToElements(selector) {
+    document.querySelectorAll(selector).forEach(item => {
+        const rawText = item.textContent.trim();
+        const rawValue = parseInt(rawText.replace(/\D/g, ''), 10);
+
+        if (/^\d+$/.test(rawText)) {
+            item.setAttribute("title", rawValue.toLocaleString('de-DE'));
+            item.textContent = formatValue(rawValue);
+        } else {
+            item.setAttribute("title", rawText);
+        }
+    });
+}
+    applyFormatToElements(".item-cost");
+    applyFormatToElements(".building-cost");
+
     // --- ACTUALIZACIÓN DE RECURSOS ---
     if (metalElement && crystalElement && deuteriumElement && energyElement) {
         function updateResources() {
             fetch('/update-resources')
                 .then(response => response.json())
                 .then(data => {
-                    const { metal, crystal, deuterium, energy } = data;
-                    metalElement.textContent = Math.floor(metal);
-                    crystalElement.textContent = Math.floor(crystal);
-                    deuteriumElement.textContent = Math.floor(deuterium);
-                    energyElement.textContent = Math.floor(energy);
+                    const { metal, crystal, deuterium, energy, metal_storage, crystal_storage, deuterium_storage } = data;
+
+                    // Actualizamos recursos principales
+                    metalElement.textContent =  Math.floor(metal);
+                    crystalElement.textContent =  Math.floor(crystal);
+                    deuteriumElement.textContent =  Math.floor(deuterium);
+                    energyElement.textContent =  Math.floor(energy);
+
+                    // Actualizamos almacenamiento (segundo span dentro de cada .resource)
+                    const storages = document.querySelectorAll('#resources .resource span:nth-child(3)');
+                    if (storages.length >= 3) {
+                        storages[0].textContent = metal_storage;
+                        storages[1].textContent = crystal_storage;
+                        storages[2].textContent = deuterium_storage;
+                    }
+
+                    // Aplicamos formato (abreviado + tooltip con valor real)
+                    applyFormatToElements("#resources .resource span");
+
+                    // Si la energía es negativa, la pintamos en rojo
+                    const energyValue = parseInt(energyElement.getAttribute("title")) || 0;
+                    energyElement.style.color = (energyValue < 0) ? 'red' : '';
                 })
                 .catch(error => console.log(error));
         }
+
+        // Ejecutar al inicio
+        updateResources();
+
+        // Refrescar cada 5 segundos
         setInterval(updateResources, 5000);
 
-        const energyValue = parseInt(energyElement.textContent);
-        if (energyValue < 0) {
-            energyElement.style.color = 'red';
-        }
-
+        // Ocultar alertas tras 10s
         setTimeout(() => {
-            let alerts = document.getElementsByClassName('alert');
-            for (let i = 0; i < alerts.length; i++) {
-                alerts[i].style.display = 'none';
-            }
+            document.querySelectorAll('.alert').forEach(alert => alert.style.display = 'none');
         }, 10000);
     }
 
@@ -246,21 +285,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setInterval(updateSpy, 1000);
     }
-
-    // --- FORMATO DE COSTOS ---
-    let itemCosts = document.querySelectorAll('.item-cost');
-    itemCosts.forEach(function (element) {
-        let value = parseInt(element.innerText);
-        let newValue;
-        if (value < 1000) {
-            newValue = value;
-        } else if (value < 1000000) {
-            newValue = (value / 1000) + 'K';
-        } else {
-            newValue = (value / 1000000) + 'M';
-        }
-        element.innerText = newValue;
-    });
 
     // --- VALIDACIÓN Y ACTUALIZACIÓN DE INPUTS NÚMERICOS ---
     const selectedCargoDisplay = document.getElementById('selectedCargo');
