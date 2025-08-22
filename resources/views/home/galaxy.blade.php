@@ -7,7 +7,7 @@
         <div class="galaxy_selector">
             <a href="{{ route('home.galaxy', ['galaxy_position' => $galaxy_position - 1]) }}"
                 @if ($galaxy_position == 1) class="disabled_galaxy_selector" @endif>
-                << /a>
+                <</a>
                     <input type="number" name="galaxy_position" value="{{ $galaxy_position }}" readonly />
                     <a href="{{ route('home.galaxy', ['galaxy_position' => $galaxy_position + 1]) }}"
                         @if ($galaxy_position == env('MAX_GALAXY_POS')) class="disabled_galaxy_selector" @endif>></a>
