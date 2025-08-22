@@ -1,113 +1,118 @@
-const metalElement = document.getElementById('metal');
-const crystalElement = document.getElementById('crystal');
-const deuteriumElement = document.getElementById('deuterium');
-const energyElement = document.getElementById('energy');
+document.addEventListener("DOMContentLoaded", () => {
+    // --- ELEMENTOS PRINCIPALES ---
+    const metalElement = document.getElementById('metal');
+    const crystalElement = document.getElementById('crystal');
+    const deuteriumElement = document.getElementById('deuterium');
+    const energyElement = document.getElementById('energy');
 
-const planetListName = document.getElementById('planetListName');
-const planetName = document.getElementById('planetName');
-const editIcon = document.getElementById('editIcon');
-const editInput = document.getElementById('editInput');
-
-const defenseNumberInputs = document.querySelectorAll('input[name="defense_number"]');
-const numberInputs = document.querySelectorAll('input[type="number"]');
-
-let spyArrival = document.getElementById('spy_arrival');
-let arrivalCoordinates = document.getElementById('arrival_coordinates');
-
-let arrivalType = document.getElementById('arrival_type');
-const accordionItems = document.querySelectorAll('.accordion-item');
-const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-const deleteButtons = document.querySelectorAll('.fas.fa-times');
-const notifications = document.querySelectorAll('.accordion-header.unread');
-
-if (metalElement && crystalElement && deuteriumElement && energyElement) {   
-    function updateResources() {
-        fetch('/update-resources')
-        .then(response => response.json())
-        .then(data => {
-            const { metal, crystal, deuterium, energy } = data;
-            metalElement.textContent = Math.floor(metal);
-            crystalElement.textContent = Math.floor(crystal);
-            deuteriumElement.textContent = Math.floor(deuterium);
-            energyElement.textContent = Math.floor(energy);
-        })
-        .catch(error => console.log(error));
-    }   
-    setInterval(updateResources, 5000);
-
-const energyValue = parseInt(energyElement.textContent);
-if (energyValue < 0) {
-    energyElement.style.color = 'red';
-}
-
-setTimeout(() => {
-    let alerts = document.getElementsByClassName('alert');
-    for (let i = 0; i < alerts.length; i++) {
-        alerts[i].style.display = 'none';
-    }
-}, 10000);
-
-document.addEventListener('DOMContentLoaded', () => {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    editIcon.addEventListener('click', () => {
-        editInput.value = planetName.innerText;
-        planetName.style.display = 'none';
-        editInput.style.display = 'inline-block';
-        editInput.focus();
-    });
-
-    editInput.addEventListener('keypress', event => {
-        if (event.key === 'Enter') {
-            const newPlanetName = editInput.value;
-
-            fetch('/update-planetname', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    planetName: newPlanetName
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    planetName.innerText = newPlanetName;
-                    planetListName.innerText = newPlanetName;
-                    planetName.style.display = 'inline-block';
-                    editInput.style.display = 'none';
-                })
-                .catch(error => console.error(error));
-        }
-    });
+    const planetListName = document.getElementById('planetListName');
+    const planetName = document.getElementById('planetName');
+    const editIcon = document.getElementById('editIcon');
+    const editInput = document.getElementById('editInput');
 
     const defenseNumberInputs = document.querySelectorAll('input[name="defense_number"]');
+    const numberInputs = document.querySelectorAll('input[type="number"]');
 
+    let spyArrival = document.getElementById('spy_arrival');
+    let arrivalCoordinates = document.getElementById('arrival_coordinates');
+    let arrivalType = document.getElementById('arrival_type');
+
+    const accordionItems = document.querySelectorAll('.accordion-item');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const deleteButtons = document.querySelectorAll('.fas.fa-times');
+    const notifications = document.querySelectorAll('.accordion-header.unread');
+
+    // --- ACTUALIZACIÓN DE RECURSOS ---
+    if (metalElement && crystalElement && deuteriumElement && energyElement) {
+        function updateResources() {
+            fetch('/update-resources')
+                .then(response => response.json())
+                .then(data => {
+                    const { metal, crystal, deuterium, energy } = data;
+                    metalElement.textContent = Math.floor(metal);
+                    crystalElement.textContent = Math.floor(crystal);
+                    deuteriumElement.textContent = Math.floor(deuterium);
+                    energyElement.textContent = Math.floor(energy);
+                })
+                .catch(error => console.log(error));
+        }
+        setInterval(updateResources, 5000);
+
+        const energyValue = parseInt(energyElement.textContent);
+        if (energyValue < 0) {
+            energyElement.style.color = 'red';
+        }
+
+        setTimeout(() => {
+            let alerts = document.getElementsByClassName('alert');
+            for (let i = 0; i < alerts.length; i++) {
+                alerts[i].style.display = 'none';
+            }
+        }, 10000);
+    }
+
+    // --- EDICIÓN DEL NOMBRE DEL PLANETA ---
+    if (editIcon && editInput && planetName) {
+        editIcon.addEventListener('click', () => {
+            editInput.value = planetName.innerText;
+            planetName.style.display = 'none';
+            editInput.style.display = 'inline-block';
+            editInput.focus();
+        });
+
+        editInput.addEventListener('keypress', event => {
+            if (event.key === 'Enter') {
+                const newPlanetName = editInput.value;
+
+                fetch('/update-planetname', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        planetName: newPlanetName
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        planetName.innerText = newPlanetName;
+                        if (planetListName) planetListName.innerText = newPlanetName;
+                        planetName.style.display = 'inline-block';
+                        editInput.style.display = 'none';
+                    })
+                    .catch(error => console.error(error));
+            }
+        });
+    }
+
+    // --- VALIDACIÓN DEFENSAS ---
     defenseNumberInputs.forEach((defenseNumberInput) => {
         defenseNumberInput.addEventListener('input', () => {
             let defenseNumber = parseInt(defenseNumberInput.value);
-
             if (defenseNumber <= 0) {
                 defenseNumberInput.value = 1;
             }
         });
     });
 
+    // --- ACORDEÓN ---
     accordionItems.forEach(item => {
         const header = item.querySelector('.accordion-header h3');
         const content = item.querySelector('.accordion-content');
-
-        header.addEventListener('click', () => {
-            item.classList.toggle('active');
-            if (item.classList.contains('active')) {
-                content.style.maxHeight = content.scrollHeight + 'px';
-            } else {
-                content.style.maxHeight = '0';
-            }
-        });
+        if (header && content) {
+            header.addEventListener('click', () => {
+                item.classList.toggle('active');
+                if (item.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = '0';
+                }
+            });
+        }
     });
 
+    // --- ELIMINAR NOTIFICACIONES ---
     deleteButtons.forEach(button => {
         button.addEventListener('click', () => {
             const notificationId = button.getAttribute('data-notification-id');
@@ -133,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- MARCAR NOTIFICACIÓN COMO LEÍDA ---
     notifications.forEach(notification => {
         notification.addEventListener('click', () => {
             const notificationId = notification.getAttribute('data-notification-id');
@@ -149,110 +155,102 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     });
-});
 
-//UPDATE NOTIFICACIONES (SOLO VISUAL)
-document.querySelectorAll('.spy_arrival').forEach((spyArrival, index) => {
-    let arrivalCoordinates = document.querySelectorAll('#arrival_coordinates')[index];
+    // --- ACTUALIZACIÓN VISUAL DE NOTIFICACIONES ---
+    document.querySelectorAll('.spy_arrival').forEach((spyArrival, index) => {
+        let arrivalCoordinates = document.querySelectorAll('#arrival_coordinates')[index];
+        if (spyArrival && arrivalCoordinates) {
+            arrivalCoordinates = arrivalCoordinates.innerText.match(/\d+/g);
+            const arrival_time = spyArrival.innerText;
+
+            const intervalID = setInterval(() => {
+                const now = new Date();
+                const timeDifference = -(now - new Date(arrival_time)) / 1000;
+
+                if (timeDifference > 0) {
+                    const hoursDiff = Math.floor(timeDifference / 3600);
+                    const minutesDiff = Math.floor((timeDifference % 3600) / 60);
+                    const secondsDiff = Math.floor(timeDifference % 60);
+
+                    spyArrival.style.display = "initial";
+                    spyArrival.innerText = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
+                } else {
+                    clearInterval(intervalID);
+                    const parentP = spyArrival.closest('p');
+                    if (parentP) parentP.remove();
+                }
+            }, 1000);
+        }
+    });
+
+    // --- ACTUALIZACIÓN DE SPY Y FLEETS ---
     if (spyArrival && arrivalCoordinates) {
-        arrivalCoordinates = arrivalCoordinates.innerText.match(/\d+/g);
+        arrivalCoordinates = arrivalCoordinates.innerText;
+        arrivalCoordinates = arrivalCoordinates.match(/\d+/g);
         const arrival_time = spyArrival.innerText;
 
-        const intervalID = setInterval(() => {
-            const now = new Date();
-            const timeDifference = -(now - new Date(arrival_time)) / 1000;
+        const updateSpy = () => {
+            let fechaActual = new Date();
+            let year = fechaActual.getFullYear();
+            let month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+            let day = fechaActual.getDate().toString().padStart(2, '0');
+            let hours = fechaActual.getHours().toString().padStart(2, '0');
+            let minutes = fechaActual.getMinutes().toString().padStart(2, '0');
+            let seconds = fechaActual.getSeconds().toString().padStart(2, '0');
+            let now = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-            if (timeDifference > 0) {
-                const hoursDiff = Math.floor(timeDifference / 3600);
-                const minutesDiff = Math.floor((timeDifference % 3600) / 60);
-                const secondsDiff = Math.floor(timeDifference % 60);
+            let timeDifference = -(new Date(now) - new Date(arrival_time)) / 1000;
 
-                spyArrival.style.display = "initial";
-                spyArrival.innerText = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
-            } else {
-                // DETENER EL INTERVALO (sale de la "iteración")
-                clearInterval(intervalID);
-                const parentP = spyArrival.closest('p');
-                if (parentP) parentP.remove();
-            }
-        }, 1000);
-    }
-});
+            let hoursDiff = Math.floor(timeDifference / 3600);
+            let minutesDiff = Math.floor((timeDifference % 3600) / 60);
+            let secondsDiff = Math.floor(timeDifference % 60);
+            spyArrival.style.display = "initial";
+            spyArrival.innerText = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
 
-//UPDATE NOTIFICACIONES
-if (spyArrival && arrivalCoordinates) {
-    arrivalCoordinates = arrivalCoordinates.innerText;
-    arrivalCoordinates = arrivalCoordinates.match(/\d+/g);
-
-    const arrival_time = spyArrival.innerText;
-
-    const updateSpy = () => {
-        let fechaActual = new Date();
-
-        let year = fechaActual.getFullYear();
-        let month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
-        let day = fechaActual.getDate().toString().padStart(2, '0');
-        let hours = fechaActual.getHours().toString().padStart(2, '0');
-        let minutes = fechaActual.getMinutes().toString().padStart(2, '0');
-        let seconds = fechaActual.getSeconds().toString().padStart(2, '0');
-
-        let now = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
-        let timeDifference = -(new Date(now) - new Date(arrival_time)) / 1000; // Convertir a segundos
-
-        let hoursDiff = Math.floor(timeDifference / 3600);
-        let minutesDiff = Math.floor((timeDifference % 3600) / 60);
-        let secondsDiff = Math.floor(timeDifference % 60);
-        spyArrival.style.display = "initial";
-        spyArrival.innerText = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
-        
-        if (timeDifference <= 0) {
-            if (arrivalType.innerText.trim() === "spy") {
-                $.ajax({
-                    url: '/notification-spy',
-                    type: 'POST',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        ssp_otherPlanet: arrivalCoordinates[1],
-                        gp_otherPlanet: arrivalCoordinates[0],
-                    },
-                success: function (response) {
-                    console.log(response);
-                },
-                error: function (xhr) {
-                    console.error(xhr);
+            if (timeDifference <= 0) {
+                if (arrivalType.innerText.trim() === "spy") {
+                    $.ajax({
+                        url: '/notification-spy',
+                        type: 'POST',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            ssp_otherPlanet: arrivalCoordinates[1],
+                            gp_otherPlanet: arrivalCoordinates[0],
+                        },
+                        success: function (response) {
+                            console.log(response);
+                        },
+                        error: function (xhr) {
+                            console.error(xhr);
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: '/notification-fleet',
+                        type: 'POST',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            type: "fleet",
+                        },
+                        success: function (response) {
+                            console.log(response);
+                        },
+                        error: function (xhr) {
+                            console.error(xhr);
+                        }
+                    });
                 }
-            });
-        } else {
-            $.ajax({
-                url: '/notification-fleet',
-                type: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    type: "fleet",
-                },
-            success: function (response) {
-                console.log(response);
-            },
-            error: function (xhr) {
-                console.error(xhr);
+                location.reload();
             }
-        });
-            
-        }
-        location.reload();
-        }
-    };
+        };
 
-    setInterval(updateSpy, 1000);
-}
+        setInterval(updateSpy, 1000);
+    }
 
-document.addEventListener('DOMContentLoaded', function () {
-    let  itemCosts = document.querySelectorAll('.item-cost');
-
+    // --- FORMATO DE COSTOS ---
+    let itemCosts = document.querySelectorAll('.item-cost');
     itemCosts.forEach(function (element) {
         let value = parseInt(element.innerText);
-
         let newValue;
         if (value < 1000) {
             newValue = value;
@@ -261,19 +259,13 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             newValue = (value / 1000000) + 'M';
         }
-
         element.innerText = newValue;
     });
-});
-}
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Seleccionamos todos los inputs type="number"
-    const numberInputs = document.querySelectorAll('input[type="number"]');
+    // --- VALIDACIÓN Y ACTUALIZACIÓN DE INPUTS NÚMERICOS ---
     const selectedCargoDisplay = document.getElementById('selectedCargo');
     const selectedconstructionTimeDisplay = document.getElementById('constructionTime');
 
-    // Funciones de actualización de Cargo y ConstructionTime
     function updateSelectedCargo() {
         let total = 0;
         document.querySelectorAll('.ship-number').forEach(input => {
@@ -294,7 +286,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectedconstructionTimeDisplay) selectedconstructionTimeDisplay.textContent = total;
     }
 
-    // Función genérica para forzar min y max
     function enforceMinMax(input) {
         const min = parseInt(input.min);
         const max = parseInt(input.max);
@@ -304,12 +295,9 @@ document.addEventListener('DOMContentLoaded', function() {
         input.value = value;
     }
 
-    // Aplicar validación a todos los inputs type="number"
     numberInputs.forEach(input => {
         input.addEventListener('input', () => {
             enforceMinMax(input);
-
-            // Solo actualizar cargo y construcción si es ship-number
             if (input.classList.contains('ship-number')) {
                 updateSelectedCargo();
                 updateConstructionTime();
@@ -318,7 +306,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         input.addEventListener('blur', () => {
             enforceMinMax(input);
-
             if (input.classList.contains('ship-number')) {
                 updateSelectedCargo();
                 updateConstructionTime();
@@ -326,20 +313,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Inicializamos los valores
     updateSelectedCargo();
     updateConstructionTime();
-});
 
-
-document.addEventListener("DOMContentLoaded", () => {
+    // --- MOSTRAR MÁS NAVES ---
     const showMoreBtn = document.querySelector(".show-more");
     if (showMoreBtn) {
         showMoreBtn.addEventListener("click", () => {
             document.querySelectorAll(".hidden-fleet").forEach(el => {
-                el.style.display = "block"; // mostrar las ocultas
+                el.style.display = "block";
             });
-            showMoreBtn.remove(); // quitar los "..."
+            showMoreBtn.remove();
         });
     }
 });
