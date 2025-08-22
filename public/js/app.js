@@ -26,23 +26,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- FUNCIONES AUXILIARES ---
     function formatValue(value) {
         if (value < 1000) return value;
-        if (value < 1000000) return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-        return (value / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-    }
-    
-function applyFormatToElements(selector) {
-    document.querySelectorAll(selector).forEach(item => {
-        const rawText = item.textContent.trim();
-        const rawValue = parseInt(rawText.replace(/\D/g, ''), 10);
-
-        if (/^\d+$/.test(rawText)) {
-            item.setAttribute("title", rawValue.toLocaleString('de-DE'));
-            item.textContent = formatValue(rawValue);
-        } else {
-            item.setAttribute("title", rawText);
+        if (value < 1000000) {
+            let formatVal = value / 1000;
+            formatVal = Math.floor(formatVal * 10) / 10;
+            return formatVal + 'K';
         }
-    });
-}
+        let formatVal = value / 1000000;
+        formatVal = Math.floor(formatVal * 10) / 10;
+        return formatVal + 'M';
+    }
+
+    function applyFormatToElements(selector) {
+        document.querySelectorAll(selector).forEach(item => {
+            const rawText = item.textContent.trim();
+            const rawValue = parseInt(rawText.replace(/\D/g, ''), 10);
+
+            if (/^\d+$/.test(rawText)) {
+                item.setAttribute("title", rawValue.toLocaleString('de-DE'));
+                item.textContent = formatValue(rawValue);
+            } else {
+                item.setAttribute("title", rawText);
+            }
+        });
+    }
     applyFormatToElements(".item-cost");
     applyFormatToElements(".building-cost");
 
@@ -55,10 +61,10 @@ function applyFormatToElements(selector) {
                     const { metal, crystal, deuterium, energy, metal_storage, crystal_storage, deuterium_storage } = data;
 
                     // Actualizamos recursos principales
-                    metalElement.textContent =  Math.floor(metal);
-                    crystalElement.textContent =  Math.floor(crystal);
-                    deuteriumElement.textContent =  Math.floor(deuterium);
-                    energyElement.textContent =  Math.floor(energy);
+                    metalElement.textContent = Math.floor(metal);
+                    crystalElement.textContent = Math.floor(crystal);
+                    deuteriumElement.textContent = Math.floor(deuterium);
+                    energyElement.textContent = Math.floor(energy);
 
                     // Actualizamos almacenamiento (segundo span dentro de cada .resource)
                     const storages = document.querySelectorAll('#resources .resource span:nth-child(3)');

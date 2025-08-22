@@ -9,19 +9,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    @php
-        function formatNumber($number) {
-            if($number >= 1000000) {
-                $formatted = $number / 1000000;
-                return ($formatted == intval($formatted) ? intval($formatted) : round($formatted, 1)) . 'M';
-            } elseif($number >= 1000) {
-                $formatted = $number / 1000;
-                return ($formatted == intval($formatted) ? intval($formatted) : round($formatted, 1)) . 'K';
-            } else {
-                return $number;
-            }
+@php
+    function formatNumber($number) {
+        if ($number >= 1000000) {
+            $formatVal = floor($number / 100000) / 10;
+            return $formatVal . 'M';
+        } elseif ($number >= 1000) {
+            $formatVal = floor($number / 100) / 10; 
+            return $formatVal . 'K';
+        } else {
+            return $number;
         }
-    @endphp
+    }
+@endphp
 
     <header>
         <nav>
