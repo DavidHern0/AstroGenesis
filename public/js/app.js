@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
             spyArrival.innerText = `${hoursDiff}h ${minutesDiff}m ${secondsDiff}s`;
 
             if (timeDifference <= 0) {
-                if (arrivalType.innerText.trim() === "spy") {
+                if (arrivalType.title === "spy") {
                     $.ajax({
                         url: '/notification-spy',
                         type: 'POST',

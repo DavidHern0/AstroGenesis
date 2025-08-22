@@ -20,7 +20,12 @@
         } else {
             return $number;
         }
-    }
+    }   
+    $emojis = [
+        'spy' => '👁️',
+        'attack' => '⚔️',
+        'expedition' => '🌌'
+    ];
 @endphp
 
     <header>
@@ -34,8 +39,7 @@
                 </li>
             </ul>
         </nav>
-
-        <h1 class="game-title">{{__('web.title')}}</h1>
+        <h1 class="game-title"><a href="{{route('home.resources')}}">{{__('web.title')}}</a></h1>
 
         <form action="{{ route('logout') }}" method="POST">
             @csrf
@@ -73,11 +77,11 @@
                             @if($fleets->count() > 0)
                                 @foreach($fleets as $index => $fleet)
                                     <p class="fleet_p {{ $index >= 3 ? 'hidden-fleet' : '' }}">
-                                        &#128065; {{ __('movement_fleet') }} 
+                                        {{ __('movement_fleet') }} 
                                         <span id="arrival_coordinates">
-                                            [{{ $fleet->galaxy_position_arrival }}:{{ $fleet->solar_system_position_arrival }}]
+                                            [{{ $fleet->galaxy_position_arrival ?? '?'}}:{{ $fleet->solar_system_position_arrival ?? '?'}}]
                                         </span>
-                                        (<span id="arrival_type">{{ $fleet->type }}</span>): 
+                                        (<span id="arrival_type" title={{$fleet->type}}>{{ $emojis[$fleet->type] }}</span>): 
                                         <span id="spy_arrival" class="spy_arrival">{{ $fleet->arrival }}</span>
                                     </p>
                                 @endforeach
@@ -135,10 +139,12 @@
             <div class="right-sidebar sidebar">
                 <h2>{{__('planets')}}</h2>
                 <ul>
-                    <li>
-                        <img src="{{ asset("images/planets/worlds/$planet->biome"."_world ($planet->variation).webp") }}" alt="{{$planet->name}}">
-                        <h4 id="planetListName">{{$planet->name}}</h4>
-                    </li>
+                    <a href="{{route('home.resources')}}">
+                        <li>
+                            <img src="{{ asset("images/planets/worlds/$planet->biome"."_world ($planet->variation).webp") }}" alt="{{$planet->name}}">
+                            <h4 id="planetListName">{{$planet->name}}</h4>
+                        </li>
+                    </a>
                 </ul>
             </div>
         </div>
