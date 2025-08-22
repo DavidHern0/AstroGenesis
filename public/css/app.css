@@ -630,4 +630,19 @@ input[type=number]:focus {
   box-shadow: 0 0 5px #00a2ff;
 }
 
+
+.ship-item,
+.defense-item {
+    -webkit-user-select: none; /* Chrome, Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE/Edge */
+    user-select: none;         /* Standard */
+    cursor: pointer;
+}
+
+.ship-item img,
+.defense-item img {
+    -webkit-user-drag: none; /* Evita que la imagen se arrastre */
+    user-drag: none;
+}
 /*# sourceMappingURL=app.css.map */

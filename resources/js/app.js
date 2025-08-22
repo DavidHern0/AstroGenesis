@@ -356,4 +356,27 @@ document.addEventListener("DOMContentLoaded", () => {
             showMoreBtn.remove();
         });
     }
+
+    // --- INCREMENTAR INPUT AL HACER CLICK EN ITEMS (Ships y Defenses) ---
+    function setupIncrementOnClick(itemSelector, inputName) {
+        document.querySelectorAll(itemSelector).forEach(item => {
+            item.addEventListener('click', (event) => {
+                if (event.target.tagName.toLowerCase() === 'input') return;
+
+                const input = item.querySelector(`input[name="${inputName}"]`);
+                if (input) {
+                    let currentValue = parseInt(input.value) || 0;
+                    const max = parseInt(input.max) || 99;
+                    if (currentValue < max) {
+                        input.value = currentValue + 1;
+                        input.dispatchEvent(new Event('input'));
+                    }
+                }
+            });
+        });
+    }
+
+    // Inicializamos para ships y defenses
+    setupIncrementOnClick('.ship-item', 'ship_number[]');
+    setupIncrementOnClick('.defense-item', 'defense_number[]');
 });
