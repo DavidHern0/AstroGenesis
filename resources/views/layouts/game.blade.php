@@ -32,10 +32,10 @@
         <nav>
             <ul>
                 <li>
-                    <a href="{{ route('locale', 'en') }}">EN</a>
+                    <a href="{{ route('locale', 'en') }}"><img src="https://flagcdn.com/gb.svg" alt="UK Flag" width="24" height="18"></a>
                 </li>
                 <li>
-                    <a href="{{ route('locale', 'es') }}">ES</a>
+                    <a href="{{ route('locale', 'es') }}"><img src="https://flagcdn.com/es.svg" alt="ES Flag" width="24" height="18"></a>
                 </li>
             </ul>
         </nav>

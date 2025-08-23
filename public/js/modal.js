@@ -54,9 +54,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.querySelector('.attack-modal-close').addEventListener('click', function () {
-        document.querySelector('.attack-modal').style.display = 'none';
-    });
+    if (document.querySelector('.attack-modal-close')) {
+        document.querySelector('.attack-modal-close').addEventListener('click', function () {
+            document.querySelector('.attack-modal').style.display = 'none';
+        });
+    }
 
     window.addEventListener('click', function (e) {
         const modal = document.querySelector('.attack-modal');

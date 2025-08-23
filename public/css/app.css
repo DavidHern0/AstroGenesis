@@ -17,6 +17,9 @@ p, button {
 body {
   color: #ffffff;
   background-image: url("/images/space-bg.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 img {
@@ -101,6 +104,7 @@ img {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-weight: bold;
+  margin-top: 10px;
 }
 
 .user-button:hover,
@@ -124,12 +128,10 @@ img {
   flex: 0.5;
 }
 
-.sidebar ul a,
 .sidebar ul li a h4 {
   transition: transform 0.3s ease;
 }
 
-.sidebar ul a:hover,
 .sidebar ul li a h4:hover {
   transform: scale(1.05);
 }
