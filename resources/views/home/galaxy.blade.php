@@ -6,8 +6,7 @@
     <section class="planets_container">
         <div class="galaxy_selector">
             <a href="{{ route('home.galaxy', ['galaxy_position' => $galaxy_position - 1]) }}"
-                @if ($galaxy_position == 1) class="disabled_galaxy_selector" @endif>
-                <</a>
+                @if ($galaxy_position == 1) class="disabled_galaxy_selector" @endif><</a>
                     <input type="number" name="galaxy_position" value="{{ $galaxy_position }}" readonly />
                     <a href="{{ route('home.galaxy', ['galaxy_position' => $galaxy_position + 1]) }}"
                         @if ($galaxy_position == env('MAX_GALAXY_POS')) class="disabled_galaxy_selector" @endif>></a>
@@ -80,26 +79,24 @@
                     @csrf
                     <div class="attack-item-grid">
                         @foreach ($shipPlanets as $shipPlanet)
-                            @if ($shipPlanet->quantity > 0)
-                                <div class="ship-item">
-                                    <h4 class="item-name">
-                                        {{ $shipPlanet->ship->getTranslation('name', config('app.locale')) }}
-                                    </h4>
-                                    <p class="attack-item-quantity">{{ __('quantity') }}: {{ $shipPlanet->quantity }}
-                                    </p>
-                                    @foreach ($shipLevels as $shipLevel)
-                                        @if ($shipLevel->ship_id === $shipPlanet->ship->id)
-                                            <img class="attack-item-image" src="{{ asset($shipPlanet->ship->image) }}"
-                                                alt="{{ $shipPlanet->ship->getTranslation('name', config('app.locale')) }}">
-                                        @endif
-                                    @endforeach
-                                    <input type="hidden" name="shipPlanet_id[]" value="{{ $shipPlanet->ship_id }}">
-                                    <input type="number" class="ship-number" name="ship_number[]" value="0"
-                                        min="0" max="{{ $shipPlanet->quantity }}"
-                                        data-cargo="{{ $shipPlanet->shipLevel->cargo_capacity }}"
-                                        data-constructiontime="{{ $shipPlanet->shipLevel->construction_time }}" />
-                                </div>
-                            @endif
+                            <div class="ship-item">
+                                <h4 class="item-name">
+                                    {{ $shipPlanet->ship->getTranslation('name', config('app.locale')) }}
+                                </h4>
+                                <p class="attack-item-quantity">{{ __('quantity') }}: {{ $shipPlanet->quantity }}
+                                </p>
+                                @foreach ($shipLevels as $shipLevel)
+                                    @if ($shipLevel->ship_id === $shipPlanet->ship->id)
+                                        <img class="attack-item-image" src="{{ asset($shipPlanet->ship->image) }}"
+                                            alt="{{ $shipPlanet->ship->getTranslation('name', config('app.locale')) }}">
+                                    @endif
+                                @endforeach
+                                <input type="hidden" name="shipPlanet_id[]" value="{{ $shipPlanet->ship_id }}">
+                                <input type="number" class="ship-number" name="ship_number[]" value="0" min="0"
+                                    max="{{ $shipPlanet->quantity }}"
+                                    data-cargo="{{ $shipPlanet->shipLevel->cargo_capacity }}"
+                                    data-constructiontime="{{ $shipPlanet->shipLevel->construction_time }}" />
+                            </div>
                         @endforeach
                     </div>
 

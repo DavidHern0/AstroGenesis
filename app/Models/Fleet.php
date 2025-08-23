@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Models\ShipLevel;
 use App\Models\ShipPlanet;
 
 class fleet extends Model
@@ -45,6 +46,10 @@ class fleet extends Model
         $arrayShips = [];
         array_push($arrayShips, $shipPlanet_ids, $ship_numbers);
 
+        // $arrayShips = ShipLevel::whereNotIn('id', [11, 12, 13, 14])
+        //     ->pluck('id')
+        //     ->toArray();
+        
         return self::create([
             'user_id' => $userID,
             'arrival' => $arrival,
@@ -75,20 +80,19 @@ class fleet extends Model
         ]);
     }
 
-    public static function recoverFromExpedition()
+    public static function recoverFromExpedition($fleetID)
     {
         $userID = auth()->id();
 
         $userPlanet = Planet::where('user_id', $userID)->first();
 
-        $lastFleet = Fleet::where('user_id', $userID)
-            ->latest('created_at')
-            ->first();
+        $usedFleet = Fleet::where('user_id', $userID)
+        ->where('id', $fleetID)
+        ->first();
+        $shipsData = json_decode($usedFleet->shipsSent, true);
 
-        $ships = json_decode($lastFleet->shipsSent);
-
-        $shipsId = array_shift($ships);
-        $quantity = array_pop($ships);
+        $shipsId = $shipsData[0];
+        $quantity = $shipsData[1];
 
         foreach ($shipsId as $i => $shipId) {
             $ship = ShipPlanet::where('ship_id', $shipId)
@@ -131,7 +135,7 @@ class fleet extends Model
         return $totalDefense;
     }
 
-    public static function attackPlanet($shipPlanet_ids, $ship_numbers, $otherPlanet)
+    public static function attackPlanet($Request, $shipPlanet_ids, $ship_numbers, $otherPlanet, $fleetID)
     {
         $userID = auth()->id();
         $userPlanet = Planet::where('user_id', $userID)->first();
@@ -202,7 +206,7 @@ class fleet extends Model
         // Destruir defensas
         $defenses = DefensePlanet::where('planet_id', $otherPlanet->id)->get();
         $destroyedDefenses = [];
-
+        
         foreach ($defenses as $defense) {
             $destroyedQuantity = 0;
             if ($defense->quantity > 0) {
@@ -216,55 +220,63 @@ class fleet extends Model
             }
             $destroyedDefenses[] = $destroyedQuantity;
         }
-
+        
         //Destruir naves
-        $userFleet = Fleet::where('user_id', $userID)
-            ->latest('created_at')
-            ->first();
-        if ($userFleet) {
-            $newQuantities = $ship_numbers;
-            $totalLost = 0;
-
-            foreach ($newQuantities as $i => $qty) {
-                $lost = $qty * $lossRatio;
-                $totalLost += $lost;
-                $newQuantities[$i] = round(max(0, $qty - $lost));
-                if ($lost > 0) {
-                    $shipLevel = ShipLevel::where('ship_id', $shipPlanet_ids[$i])->first();
-
-                    $shipValue = round($lost) * (0.01 + mt_rand() / mt_getrandmax() * (0.05 - 0.01)); //random entre 0,01 y 0,05
-                    $otherUserGame->metal += $shipValue * $shipLevel->metal_cost;
-                    $otherUserGame->crystal += $shipValue * $shipLevel->crystal_cost;
-                    $otherUserGame->deuterium += $shipValue * $shipLevel->deuterium_cost;
+        if ($planetDefense != 0) {
+            $userFleet = $fleetID;
+            if ($userFleet) {
+                $newQuantities = $ship_numbers;
+                $totalLost = 0;
+                
+                foreach ($newQuantities as $i => $qty) {
+                    $lost = $qty * $lossRatio;
+                    $totalLost += $lost;
+                    $newQuantities[$i] = round(max(0, $qty - $lost));
+                    if ($lost > 0) {
+                        $shipLevel = ShipLevel::where('ship_id', $shipPlanet_ids[$i])->first();
+                        
+                        $shipValue = round($lost) * (0.01 + mt_rand() / mt_getrandmax() * (0.05 - 0.01)); //random entre 0,01 y 0,05
+                        $otherUserGame->metal += $shipValue * $shipLevel->metal_cost;
+                        $otherUserGame->crystal += $shipValue * $shipLevel->crystal_cost;
+                        $otherUserGame->deuterium += $shipValue * $shipLevel->deuterium_cost;
+                    }
                 }
+                $otherUserGame->save();
+                if ($totalLost == 0) {
+                    $status = 'none';
+                } elseif (round($totalLost) >= array_sum($ship_numbers)) {
+                    $status = 'all';
+                } else {
+                    $status = 'partial';
+                }
+                // Guardar cantidades actualizadas
+                $userFleet->shipsSent = json_encode([$shipPlanet_ids, $newQuantities]);
+                $userFleet->save();
+                $ship_numbers = $newQuantities;
             }
-            $otherUserGame->save();
-             if ($totalLost == 0) {
-                $status = 'none';
-            } elseif (round($totalLost) >= array_sum($ship_numbers)) {
-                $status = 'all';
-            } else {
-                $status = 'partial';
-            }
-            // Guardar cantidades actualizadas
-            $userFleet->shipsSent = json_encode([$shipPlanet_ids, $newQuantities]);
-            $userFleet->save();
-            $ship_numbers = $newQuantities;
         }
         // Guardar info en session
-        session([
+
+        $attack_result_data = [
             'resourcesLooted' => $resourcesLooted,
             'destroyedDefenses' => $destroyedDefenses,
             'otherPlanetID' => $otherPlanet->user_id,
             'fleetAttack' => $fleetAttack,
             'planetDefense' => $planetDefense,
             'totalLost' => $status
-        ]);
+        ];
+
+        $Request->session()->put("attack_result_$fleetID", $attack_result_data);
+
         // Crear registro de flota
         $ssp_difference = abs($userPlanet->solar_system_position - $otherPlanet->solar_system_position);
         $gp_difference = abs($userPlanet->galaxy_position - $otherPlanet->galaxy_position);
         $seconds_diff = $ssp_difference * 5 + $gp_difference * 30;
         $arrival = Carbon::now()->addSeconds($seconds_diff);
+
+        $arrayShips = ShipLevel::whereNotIn('id', [11, 12, 13, 14])
+            ->pluck('id')
+            ->toArray();
 
         return self::create([
             'user_id' => $userID,
@@ -274,7 +286,7 @@ class fleet extends Model
             'galaxy_position_arrival' => $otherPlanet->galaxy_position,
             'solar_system_position_departure' => $userPlanet->solar_system_position,
             'galaxy_position_departure' => $userPlanet->galaxy_position,
-            'shipsSent' => json_encode([$shipPlanet_ids, $ship_numbers]),
+            'shipsSent' => json_encode([$arrayShips, $ship_numbers]),
             'success' => $attackSuccess ? 100 : 0
         ]);
     }

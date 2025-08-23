@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Lang;
 
 class FleetController extends Controller
 {
-    public function attack(Request $Request, $adjustedNumbers)
+    public function attack(Request $Request, $adjustedNumbers, $fleetID)
     {
         $planetID = $Request->input('planet-id');
         $galaxyID = $Request->input('galaxy-id');
@@ -56,16 +56,21 @@ class FleetController extends Controller
                 $shipPlanet_ids = $userShips->pluck('id')->toArray();
                 $ship_numbers = $adjustedNumbers;
 
-                session([
-                    'attack_fleet_data' => [
+                $attack_fleet_data = [
                         'resources' => $resources,
                         'defenses' => $defense,
                         'coordinates' => $coordinates,
                         'shipPlanet_ids' => $shipPlanet_ids,
-                        'ship_numbers' => $ship_numbers,
-                    ]
-                ]);
-                Fleet::attackPlanet($shipPlanet_ids, $ship_numbers, $otherPlanet);
+                        'ship_numbers' => $ship_numbers
+                ];
+
+                foreach (session()->all() as $key => $value) {
+                    if (str_starts_with($key, 'attack-')) {
+                        session()->forget($key);
+                    }
+                }
+                $Request->session()->put("attack_fleet_$fleetID", $attack_fleet_data);
+                Fleet::attackPlanet($Request, $shipPlanet_ids, $ship_numbers, $otherPlanet, $fleetID);
                 return;
             }
     }
@@ -96,6 +101,14 @@ class FleetController extends Controller
 
     public function send(Request $Request)
     {
+        $userID = auth()->id();
+
+        $lastFleet = Fleet::where('user_id', $userID)->orderBy('id', 'desc')->first();
+        if ($lastFleet) {
+        $fleetID = ($lastFleet->id)+1;
+        } else {
+         $fleetID = 1;   
+        }
         $galaxyID = $Request->input('galaxy-id');
         $typeSend = $Request->input('type');
         $shipPlanet_ids = $Request->input('shipPlanet_id');
@@ -114,7 +127,6 @@ class FleetController extends Controller
 
             switch ($typeSend) {
                 case 'expedition':
-                    session(['fleet_type' => 'expedition']);
                     $expedition_hours = $Request->input('expedition_hours');
                     Fleet::expedition($shipPlanet_ids, $adjustedNumbers, $expedition_hours);
 
@@ -156,7 +168,7 @@ class FleetController extends Controller
                     break;
 
                 case 'attack':
-                    self::attack($Request, $adjustedNumbers);
+                    self::attack($Request, $adjustedNumbers, $fleetID);
                     ShipPlanet::subtractShipsSent($shipPlanet_ids, $adjustedNumbers);
                     return redirect()->route("home.galaxy", $galaxyID)->with('success', __("attack_succes"));
                     break;

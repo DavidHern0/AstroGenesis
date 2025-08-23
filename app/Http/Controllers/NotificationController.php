@@ -41,59 +41,67 @@ class NotificationController extends Controller
 
     public function fleet(Request $Request)
     {
-        $attack_fleet_data = $Request->session()->get('attack_fleet_data');
-        $resources = $Request->session()->get('exp_resources');
-        
-        if ($attack_fleet_data) {
-            session(['fleet_type' => 'attack']);
-            
+        $resources         = $Request->session()->get('exp_resources');
+        $fleetID           = $Request->input('fleetID');
+        $fleetType         = $Request->input('fleetType');
+        $attack_fleet_data = $Request->session()->get("attack_fleet_$fleetID");
+        $attack_result_data = $Request->session()->get("attack_result_$fleetID");
+
+        if ($fleetType == 'attack') {
             $userID = auth()->id();
             $UserUserGame = userGame::where('user_id', $userID)->first();
-            $resourcesLooted = $Request->session()->get('resourcesLooted');
-            $destroyedDefenses = $Request->session()->get('destroyedDefenses');
-            $otherPlanetID = $Request->session()->get('otherPlanetID');
-            $totalLost = $Request->session()->get('totalLost');
-            $userPlanet = Planet::where('id', $otherPlanetID)->first();
-            $otherUserGame = userGame::where('user_id', $userPlanet->user_id)->first();
-            
+
+            $resourcesLooted   = $attack_result_data['resourcesLooted'];
+            $destroyedDefenses = $attack_result_data['destroyedDefenses'];
+            $otherPlanetID     = $attack_result_data['otherPlanetID'];
+            $totalLost         = $attack_result_data['totalLost'];
+
+            $userPlanet    = $otherPlanetID ? Planet::where('id', $otherPlanetID)->first() : null;
+            $otherUserGame = $userPlanet ? userGame::where('user_id', $userPlanet->user_id)->first() : null;
+
             Notification::notificationAttack(
-                array_values($resourcesLooted),
-                array_values($destroyedDefenses),
-                $attack_fleet_data['coordinates'],
+                array_values($resourcesLooted ?? []),
+                array_values($destroyedDefenses ?? []),
+                $attack_fleet_data['coordinates'] ?? [],
                 $totalLost
-            );
+            );    
 
-            $Request->session()->forget('attack_fleet_data');
+            if ($otherUserGame && !empty($resourcesLooted)) {
+                $otherUserGame->metal -= $resourcesLooted['metal'] ?? 0;
+                $otherUserGame->crystal -= $resourcesLooted['crystal'] ?? 0;
+                $otherUserGame->deuterium -= $resourcesLooted['deuterium'] ?? 0;
+                $otherUserGame->save();
+            }
 
-            $otherUserGame->metal -= $resourcesLooted['metal'];
-            $otherUserGame->crystal -= $resourcesLooted['crystal'];
-            $otherUserGame->deuterium -= $resourcesLooted['deuterium'];
-            $otherUserGame->save();
-
-            // Restar recursos del planeta atacado
-            $UserUserGame->metal += $resourcesLooted['metal'];
-            $UserUserGame->crystal += $resourcesLooted['crystal'];
-            $UserUserGame->deuterium += $resourcesLooted['deuterium'];
-            $UserUserGame->save();
+            if ($UserUserGame && !empty($resourcesLooted)) {
+                $UserUserGame->metal     += ($resourcesLooted['metal'] ?? 0);
+                $UserUserGame->crystal   += ($resourcesLooted['crystal'] ?? 0);
+                $UserUserGame->deuterium += ($resourcesLooted['deuterium'] ?? 0);
+                $UserUserGame->save();
+            }
 
             $Request->session()->forget('resourcesLooted');
-            $Request->session()->forget('otherPlanetID');
             $Request->session()->forget('destroyedDefenses');
+            $Request->session()->forget('otherPlanetID');
             $Request->session()->forget('totalLost');
+            
+            $Request->session()->forget("attack_fleet_$fleetID");
+            $Request->session()->forget("attack_result_$fleetID");
         }
-        
-        
-        if (session('fleet_type') != 'attack') {
-            Notification::notificationExpedition($resources);
+        // Expedición
+        if ($fleetType == 'expedition') {
+            if ($resources) {
+                Notification::notificationExpedition($resources);
+            }
             $Request->session()->forget('expedition');
             $Request->session()->forget('exp_resources');
-            $Request->session()->forget('fleet_type');
-            
-            session(['fleet_type' => 'expedition']);
         } 
 
-        Fleet::recoverFromExpedition();
+        if ($fleetID) {
+            Fleet::recoverFromExpedition($fleetID);
+        }
     }
+
 
     public function read($id)
     {

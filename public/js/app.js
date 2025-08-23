@@ -230,6 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- ACTUALIZACIÓN DE SPY Y FLEETS ---
     if (spyArrival && arrivalCoordinates) {
+        let arrivalID = document.getElementById('arrival_id');
         arrivalCoordinates = arrivalCoordinates.innerText;
         arrivalCoordinates = arrivalCoordinates.match(/\d+/g);
         const arrival_time = spyArrival.innerText;
@@ -276,6 +277,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         data: {
                             _token: $('meta[name="csrf-token"]').attr('content'),
                             type: "fleet",
+                            fleetID: arrivalID.textContent.trim(),
+                            fleetType: arrivalType.title
                         },
                         success: function (response) {
                             console.log(response);

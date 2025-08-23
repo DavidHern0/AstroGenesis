@@ -77,6 +77,7 @@
                             @if($fleets->count() > 0)
                                 @foreach($fleets as $index => $fleet)
                                     <p class="fleet_p {{ $index >= 3 ? 'hidden-fleet' : '' }}">
+                                        <span id="arrival_id" style="display: none">{{$fleet->id}}</span>
                                         {{ __('movement_fleet') }} 
                                         <span id="arrival_coordinates">
                                             [{{ $fleet->galaxy_position_arrival ?? '?'}}:{{ $fleet->solar_system_position_arrival ?? '?'}}]
