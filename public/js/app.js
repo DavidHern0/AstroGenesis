@@ -190,11 +190,14 @@ document.addEventListener("DOMContentLoaded", () => {
             notification.style.backgroundColor = "#2c2c2c";
             const notificationId = notification.getAttribute('data-notification-id');
             let notificationNumber = notificationCount.textContent;
-            notificationNumber--;
-            if (notificationNumber === 0) {
-                notificationCount.style.display = "none";
-            } else {
-                notificationCount.textContent = notificationNumber;
+            if (notification.classList.contains("unread")) { 
+                notification.classList.remove("unread");
+                notificationNumber--;
+                if (notificationNumber === 0) {
+                    notificationCount.style.display = "none";
+                } else {
+                    notificationCount.textContent = notificationNumber;
+                }
             }
 
             fetch('/notification-read/' + notificationId, {
