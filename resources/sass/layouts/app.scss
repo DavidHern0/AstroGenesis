@@ -31,18 +31,20 @@ form input[type="email"] {
   border-radius: 4px;
 }
 
-.session-button{
-  padding: 10px 20px;
-  color: $space-background;
-  background-color: $space-text;
+.session-button {
+  padding: 12px 25px;
+  color: #000;
+  background-color: #007ac0;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   font-weight: bold;
-
+  font-size: 1rem;
   &:hover {
     background-color: $neutral-color;
+    background-color: rgb(0, 111, 175);
+    transform: scale(1.05);
   }
 }
 
