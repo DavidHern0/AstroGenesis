@@ -21,8 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const deleteButtons = document.querySelectorAll('.fas.fa-times');
     const notifications = document.querySelectorAll('.accordion-header.unread');
+    let notificationCount = document.getElementById('notification-count');
 
-
+    
     // --- FUNCIONES AUXILIARES ---
     function formatValue(value) {
         if (value < 1000) return value;
@@ -186,7 +187,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- MARCAR NOTIFICACIÓN COMO LEÍDA ---
     notifications.forEach(notification => {
         notification.addEventListener('click', () => {
+            notification.style.backgroundColor = "#2c2c2c";
             const notificationId = notification.getAttribute('data-notification-id');
+            let notificationNumber = notificationCount.textContent;
+            notificationNumber--;
+            if (notificationNumber === 0) {
+                notificationCount.style.display = "none";
+            } else {
+                notificationCount.textContent = notificationNumber;
+            }
 
             fetch('/notification-read/' + notificationId, {
                 method: 'POST',

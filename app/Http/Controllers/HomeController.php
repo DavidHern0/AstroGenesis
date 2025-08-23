@@ -28,15 +28,20 @@ class HomeController extends Controller
             
             $userGame = userGame::where('user_id', $userID)->first();
             $planet = Planet::where('user_id', $userID)->first();
-            $fleets = Fleet::where('user_id', $userID)
+                        $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
             ->get();
+            $unreadNotification = Notification::where('user_id', $userID)
+            ->where('read', '0')
+            ->orderBy('arrival', 'ASC')
+            ->count();
 
             return view('home.index', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'fleets' => $fleets,
+                'unreadNotification' => $unreadNotification,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -52,16 +57,21 @@ class HomeController extends Controller
             $planet = Planet::where('user_id', $userID)->first();
             $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->where('type', "resources")->get();
             $buildingLevels = BuildingLevel::all();
-            $fleets = Fleet::where('user_id', $userID)
+                        $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
             ->get();
+            $unreadNotification = Notification::where('user_id', $userID)
+            ->where('read', '0')
+            ->orderBy('arrival', 'ASC')
+            ->count();
             return view('home.resources', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
                 'buildingLevels' => $buildingLevels,
                 'fleets' => $fleets,
+                'unreadNotification' => $unreadNotification,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -78,16 +88,21 @@ class HomeController extends Controller
             $buildingPlanets = BuildingPlanet::where('planet_id', $planet->id)->where('type', "facilities")->get();
             $buildingLevels = BuildingLevel::all();
 
-            $fleets = Fleet::where('user_id', $userID)
+                        $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
             ->get();
+            $unreadNotification = Notification::where('user_id', $userID)
+            ->where('read', '0')
+            ->orderBy('arrival', 'ASC')
+            ->count();
             return view('home.facilities', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'buildingPlanets' => $buildingPlanets,
                 'buildingLevels' => $buildingLevels,
                 'fleets' => $fleets,
+                'unreadNotification' => $unreadNotification,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -104,16 +119,21 @@ class HomeController extends Controller
             $shipPlanets = ShipPlanet::where('planet_id', $planet->id)->get();
             $shipLevels = ShipLevel::all();
             
-            $fleets = Fleet::where('user_id', $userID)
+                        $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
             ->get();
+            $unreadNotification = Notification::where('user_id', $userID)
+            ->where('read', '0')
+            ->orderBy('arrival', 'ASC')
+            ->count();
             return view('home.shipyard', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'shipPlanets' => $shipPlanets,
                 'shipLevels' => $shipLevels,
                 'fleets' => $fleets,
+                'unreadNotification' => $unreadNotification,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -131,15 +151,20 @@ class HomeController extends Controller
             $defenseLevels = DefenseLevel::all();
             
             $fleets = Fleet::where('user_id', $userID)
-            ->where('arrival', '>', Carbon::now()->addSeconds(1))
+                ->where('arrival', '>', Carbon::now()->addSeconds(1))
+                ->orderBy('arrival', 'ASC')
+                ->get();
+            $unreadNotification = Notification::where('user_id', $userID)
+            ->where('read', '0')
             ->orderBy('arrival', 'ASC')
-            ->get();
+            ->count();
             return view('home.defenses', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'defensePlanets' => $defensePlanets,
                 'defenseLevels' => $defenseLevels,
                 'fleets' => $fleets,
+                'unreadNotification' => $unreadNotification,
             ]);
         } catch(\Exception $e) {
             Log::info('The home page failed to load.', ["error" => $e->getMessage()]);
@@ -182,16 +207,21 @@ class HomeController extends Controller
 
             $totalAttackFleet = self::totalAttackFleet($planet->id);
 
-            $fleets = Fleet::where('user_id', $userID)
+                        $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
             ->get();
+            $unreadNotification = Notification::where('user_id', $userID)
+            ->where('read', '0')
+            ->orderBy('arrival', 'ASC')
+            ->count();
             return view('home.fleet', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'shipPlanets' => $shipPlanets,
                 'shipLevels' => $shipLevels,
                 'fleets' => $fleets,
+                'unreadNotification' => $unreadNotification,
                 'totalCargo' => $totalAttackFleet['cargo'],
                 'totalConstructionTime' => $totalAttackFleet['constructionTime']
             ]);
@@ -218,16 +248,21 @@ class HomeController extends Controller
             
             $totalAttackFleet = self::totalAttackFleet($planet->id);
                 
-            $fleets = Fleet::where('user_id', $userID)
+                        $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
             ->get();
+            $unreadNotification = Notification::where('user_id', $userID)
+            ->where('read', '0')
+            ->orderBy('arrival', 'ASC')
+            ->count();
             return view('home.galaxy', [
                 'planet' => $planet,
                 'planets' => $planets,
                 'userGame' => $userGame,
                 'galaxy_position' => $galaxy_position,
                 'fleets' => $fleets,
+                'unreadNotification' => $unreadNotification,
                 'hasShip' => $hasShip,
                 
                 'shipPlanets' => $shipPlanets,
@@ -250,14 +285,19 @@ class HomeController extends Controller
             $planet = Planet::where('user_id', $userID)->first();
             $defensePlanets = DefensePlanet::where('planet_id', $planet->id)->get();
                 
-            $fleets = Fleet::where('user_id', $userID)
+                        $fleets = Fleet::where('user_id', $userID)
             ->where('arrival', '>', Carbon::now()->addSeconds(1))
             ->orderBy('arrival', 'ASC')
             ->get();
+            $unreadNotification = Notification::where('user_id', $userID)
+            ->where('read', '0')
+            ->orderBy('arrival', 'ASC')
+            ->count();
             return view('home.notification', [
                 'planet' => $planet,
                 'userGame' => $userGame,
                 'fleets' => $fleets,
+                'unreadNotification' => $unreadNotification,
                 'notifications' => $notifications,
                 'defensePlanets' => $defensePlanets
             ]);

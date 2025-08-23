@@ -93,7 +93,9 @@
                             @else
                                 <p>{{ __('movement_no') }}</p>
                             @endif
-                            <a class="fas fa-bell" href="{{route('home.notification')}}"></a>
+                            <a class="fas fa-bell notification-bell" href="{{route('home.notification')}}">
+                                @if($unreadNotification)<span id="notification-count" class="notification-count">{{$unreadNotification}}</span>@endif
+                            </a>
                         </div>
                     </section>
 
