@@ -22,15 +22,21 @@ body {
   background-size: cover;
 }
 
-img,
-.building-item,
-.defense-item,
-.ship-item {
+img {
   pointer-events: none;
   -webkit-user-drag: none;
   -khtml-user-drag: none;
   -moz-user-drag: none;
   -o-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.building-item,
+.defense-item,
+.ship-item {
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
