@@ -6,7 +6,10 @@ body {
   background-size: cover;
 }
 
-img {
+img,
+.building-item,
+.defense-item,
+.ship-item {
   pointer-events: none;
   -webkit-user-drag: none;
   -khtml-user-drag: none;
