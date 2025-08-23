@@ -10,19 +10,19 @@ AstroGenesis is an ongoing development project that aims to provide a similar ex
 Manage your planet:
 - Upgrade mining facilities to earn more resources (/)
 - Build logistics buildings (WIP)
-- Build defenses (WIP)
+- Build defenses (/)
 
 Fleet:
 - Build your fleet (/)
 - Send your fleets on resource expeditions (/)
 - Spy on other planets (/)
-- Attack other planets (WIP)
+- Attack other planets (/)
 - Collaborate with other planets (WIP)
 
 Other:
-- Implement functional AI (WIP)
+- Implement functional AI (/)
 - Improve expeditions (WIP)
-- Improve HUD (WIP)
+- Improve HUD (/)
 
 ## Technologies used
 
