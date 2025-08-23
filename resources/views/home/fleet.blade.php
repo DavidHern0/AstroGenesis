@@ -14,8 +14,9 @@
     }
     @endphp
     
-    <div class="principal_image">
+    <div class="principal_image image-title-container">
         <img src="{{ asset("images/planets/Fleet (3).jpg") }}" alt="{{__('shipyard')}}">
+    <h2 class="title">{{ __(request()->segment(2)) }}</h2>
     </div>
     <hr class="separator">
     <section class="section_items">

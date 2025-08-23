@@ -8,6 +8,14 @@ body {
 
 img {
   pointer-events: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .game-title {
@@ -235,6 +243,37 @@ img {
   from { opacity: 0; transform: translateX(50px)  scale(0.8); }
   to { opacity: 1; transform: translateX(0)  scale(1); }
 }
+
+
+.image-title-container {
+  position: relative;
+  display: inline-block;
+    -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.image-title-container img {
+  display: block;
+  height: auto;
+  border-radius: 8px;
+}
+
+.image-title-container .title {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffffff;
+  font-size: 1.5rem;
+  text-shadow: 0 0 6px #000000, 0 0 10px #002629;
+  margin: 0;
+  white-space: nowrap;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
 .principal_image {
   display: flex;
   justify-content: center;
