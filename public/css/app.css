@@ -910,4 +910,26 @@ input[type=number]:focus {
   pointer-events: none;
 }
 
+.no-ship {
+  opacity: 0.6;
+  filter: grayscale(65%);
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.no-ship h4,
+.no-ship p {
+  color: #ff6565 !important;
+}
+
+.no-ship img {
+  filter: grayscale(80%) brightness(1 );
+}
+
+.ship-no-selectable {
+  pointer-events: none;
+  cursor: not-allowed;
+  filter: grayscale(40%) brightness(0.9);
+}
+
 /*# sourceMappingURL=app.css.map */

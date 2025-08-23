@@ -25,8 +25,8 @@
         <div class="item-container">
                 @csrf
                 @foreach ($shipPlanets as $shipPlanet)
-                    @if($shipPlanet->quantity > 0)
-                        <div class="ship-item">
+                        <div class="ship-item @if($shipPlanet->quantity <= 0) no-ship @endif @if(in_array($shipPlanet->ship_id, [11, 12, 13, 14])) ship-no-selectable @endif">
+                                            
                             <h4 class="item-name">{{ $shipPlanet->ship->getTranslation('name', config('app.locale')) }}</h4>
                             <p>{{__('quantity')}}: {{$shipPlanet->quantity}}</p>                    
                                 
@@ -36,11 +36,10 @@
                                 @endif
                             @endforeach
                             <input type="hidden" name="shipPlanet_id[]" value="{{$shipPlanet->ship_id}}">
-                            <input type="number" class="ship-number" name="ship_number[]" value="{{$shipPlanet->quantity}}" min="0" max="{{$shipPlanet->quantity}}" data-cargo="{{$shipPlanet->shipLevel->cargo_capacity}}" data-constructiontime="{{$shipPlanet->shipLevel->construction_time}}"/>
+                            <input type="number" class="ship-number" name="ship_number[]" value=@if(in_array($shipPlanet->ship_id, [11, 12, 13, 14])) {{0}} @else {{$shipPlanet->quantity}} @endif min="0" max="{{$shipPlanet->quantity}}" data-cargo="{{$shipPlanet->shipLevel->cargo_capacity}}" data-constructiontime="{{$shipPlanet->shipLevel->construction_time}}"/>
 
                             
                         </div>
-                    @endif
                 @endforeach
             </div>
                 <hr>

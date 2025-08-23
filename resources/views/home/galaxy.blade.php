@@ -79,7 +79,8 @@
                     @csrf
                     <div class="attack-item-grid">
                         @foreach ($shipPlanets as $shipPlanet)
-                            <div class="ship-item">
+                        
+                            <div class="ship-item @if($shipPlanet->quantity <= 0) no-ship @endif">
                                 <h4 class="item-name">
                                     {{ $shipPlanet->ship->getTranslation('name', config('app.locale')) }}
                                 </h4>
